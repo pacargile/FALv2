@@ -13,7 +13,7 @@ class readkurucz(object):
     def __init__(self, *args, **kwargs):
         super(readkurucz, self).__init__()
 
-        solib_path = kwargs.get('solib','./readfort.so')
+        solib_path = kwargs.get('solib','../lib/readfort.so')
         self.rfort = cdll.LoadLibrary(solib_path)
 
     def readfiles(self,f12path='./fort.12',f14path='./fort.14',f19path='./fort.19',f20path='./fort.20',f93path='./fort.93'):
