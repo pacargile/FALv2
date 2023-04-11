@@ -16,7 +16,8 @@ class readkurucz(object):
         solib_path = kwargs.get('solib','../lib/readfort.so')
         self.rfort = cdll.LoadLibrary(solib_path)
 
-    def readfiles(self,f12path='./fort.12',f14path='./fort.14',f19path='./fort.19',f20path='./fort.20',f93path='./fort.93'):
+    def readfiles(self,f12path='./fort.12',f14path='./fort.14',
+                  f19path='./fort.19',f20path='./fort.20',f93path='./fort.93'):
 
         
         # read fort.93 to grab needed line information
