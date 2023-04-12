@@ -1,6 +1,7 @@
 from ctypes import cdll, CDLL, POINTER, ARRAY, c_int, c_double, c_char_p, c_char, c_void_p, c_float, c_long
 import numpy as np
 import os
+import fal
 
 c_double_p = POINTER(c_double)
 c_float_p = POINTER(c_float)
@@ -13,7 +14,7 @@ class readkurucz(object):
     def __init__(self, *args, **kwargs):
         super(readkurucz, self).__init__()
 
-        solib_path = kwargs.get('solib','../lib/readfort.so')
+        solib_path = kwargs.get('solib',fal.__abspath__+'/lib/readfort.so')
         self.rfort = cdll.LoadLibrary(solib_path)
 
     def readfiles(self,f12path='./fort.12',f14path='./fort.14',
@@ -894,6 +895,122 @@ class readkurucz(object):
             c_void_p(ISOSHIFTi.ctypes.data),
             c_void_p(EXTRA3i.ctypes.data),
             )
+
+    def readspecbin_init(self,specbinpath):
+        # turn path string into bytes
+        s_i     = '{0}'.format(specbinpath)
+        sb_i    = bytes(s_i,encoding='ascii')
+        
+        TEFFi    = np.zeros_like(0.0,dtype=np.float64)
+        GLOGi    = np.zeros_like(0.0,dtype=np.float64)
+        WBEGINi  = np.zeros_like(0.0,dtype=np.float64)
+        RESOLUi  = np.zeros_like(0.0,dtype=np.float64)
+        NWLi     = np.zeros_like(0.0,dtype=np.int32)
+        IFSURFi  = np.zeros_like(0.0,dtype=np.float64)
+        NMUi     = np.zeros_like(0.0,dtype=np.float64)
+        NEDGEi   = np.zeros_like(0.0,dtype=np.float64)
+        WLEDGEi  = np.zeros_like(0.0,dtype=np.float64)
+        NLINESi = np.zeros_like(0.0,dtype=np.int32)
+
+        self.rfort.readspecbin_init(
+            c_char_p(sb_i), 
+            TEFFi.ctypes.data_as(c_double_p),
+            GLOGi.ctypes.data_as(c_double_p),
+            WBEGINi.ctypes.data_as(c_double_p),
+            RESOLUi.ctypes.data_as(c_double_p),
+            NWLi.ctypes.data_as(c_int_p),
+            IFSURFi.ctypes.data_as(c_double_p),
+            NMUi.ctypes.data_as(c_double_p),
+            NEDGEi.ctypes.data_as(c_double_p),
+            WLEDGEi.ctypes.data_as(c_double_p),
+            NLINESi.ctypes.data_as(c_int_p),
+        )
+
+        output = ({
+            'teff':TEFFi,
+            'logg':GLOGi,
+            'wbegin':WBEGINi,
+            'resolu':RESOLUi,
+            'nwl':NWLi,
+            'ifsurf':IFSURFi,
+            'nmu':NMUi,
+            'nedge':NEDGEi,
+            'wledge':WLEDGEi,
+            'nlines':NLINESi,
+        })
+        
+        return output
+
+    def readspecbin(self,specbinpath):
+        # first run the initializer to grab important info
+        
+        rsb_in = self.readspecbin_init(specbinpath)
+
+        # turn path string into bytes
+        s_i     = '{0}'.format(specbinpath)
+        sb_i    = bytes(s_i,encoding='ascii')
+
+        # initialize variables for ctypes to fill 
+        NWLi      = np.int32(rsb_in['nwl'])
+        NLINESi   = np.int32(rsb_in['nlines'])
+        wavei     = np.zeros(rsb_in['nwl'],dtype=np.float64)    
+        qmu1i     = np.zeros(rsb_in['nwl'],dtype=np.float64)
+        qmu2i     = np.zeros(rsb_in['nwl'],dtype=np.float64)
+        WLi       = np.zeros(rsb_in['nlines'],dtype=np.float64)   
+        DWLi      = np.zeros(rsb_in['nlines'],dtype=np.float32)   
+        CODEi     = np.zeros(rsb_in['nlines'],dtype=np.float32)
+        GFLOGi    = np.zeros(rsb_in['nlines'],dtype=np.float32)   
+        DGFLOGi   = np.zeros(rsb_in['nlines'],dtype=np.float32)   
+        GRi       = np.zeros(rsb_in['nlines'],dtype=np.float32)   
+        DGAMMARi  = np.zeros(rsb_in['nlines'],dtype=np.float32)   
+        GSi       = np.zeros(rsb_in['nlines'],dtype=np.float32)   
+        DGAMMASi  = np.zeros(rsb_in['nlines'],dtype=np.float32)   
+        GWi       = np.zeros(rsb_in['nlines'],dtype=np.float32)   
+        DGAMMAWi  = np.zeros(rsb_in['nlines'],dtype=np.float32)   
+        RESIDi   = np.zeros(rsb_in['nlines'],dtype=np.float64)   
+
+
+        self.rfort.readspecbin(
+            c_char_p(sb_i), 
+            c_int(NWLi),
+            c_int(NLINESi),
+            wavei.ctypes.data_as(c_double_p),    
+            qmu1i.ctypes.data_as(c_double_p),    
+            qmu2i.ctypes.data_as(c_double_p),    
+            WLi.ctypes.data_as(c_double_p), 
+            DWLi.ctypes.data_as(c_float_p), 
+            GFLOGi.ctypes.data_as(c_float_p), 
+            DGFLOGi.ctypes.data_as(c_float_p),
+            CODEi.ctypes.data_as(c_float_p),
+            GRi.ctypes.data_as(c_float_p),    
+            DGAMMARi.ctypes.data_as(c_float_p),    
+            GSi.ctypes.data_as(c_float_p),    
+            DGAMMASi.ctypes.data_as(c_float_p),    
+            GWi.ctypes.data_as(c_float_p),    
+            DGAMMAWi.ctypes.data_as(c_float_p),    
+            RESIDi.ctypes.data_as(c_double_p),    
+        )
+
+        output = ({
+            'wave':wavei, 
+            'qmu1':qmu1i, 
+            'qmu2':qmu2i,
+            'code':CODEi,
+            'wl':WLi,
+            'dwl':DWLi,
+            'loggf':GFLOGi,
+            'dloggf':DGFLOGi,
+            'gammar':GRi,
+            'dgammar':DGAMMARi, 
+            'gammas':GSi,
+            'dgammas':DGAMMASi, 
+            'gammaw':GWi,
+            'dgammaw':DGAMMAWi, 
+            'resid':RESIDi,
+        })
+
+        return output
+
         
 if __name__ == '__main__':
     RK = readkurucz()
