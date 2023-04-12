@@ -130,7 +130,7 @@ class Synthe(object):
             fort.9
         """
         # make mod atm link to fort.5 and spectrv.input as fort.25
-        self._makesym(self.atmomod,'fort.5')
+        self._makesym(self.atmmod,'fort.5')
         self._makesym(self.spectrv_infile,'fort.25')
         
         # write in information into input string
