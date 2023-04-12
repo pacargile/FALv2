@@ -172,7 +172,12 @@ class Synthe(object):
         if self.verbose:
             starttime_rot = datetime.now()
             print("Running rotate... [{0}]".format(starttime_rot))
-        rotatestr = self.rotatevar.format(NROT=1,NRADIUS=0,VROT=vrot)
+        if np.abs(vrot) > 0.0:
+            rotatestr = self.rotatevar.format(NROT=1,NRADIUS=0,VROT=vrot)
+        else:
+            print('... No rotation, just copying output file')
+            self._makesym('fort.1','ROT1')
+            
         self.rotateout = self._callpro("rotate",rotatestr,verbose=verbose_rot)
         if self.verbose:
             endtime_rot = datetime.now()
