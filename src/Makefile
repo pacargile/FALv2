@@ -36,7 +36,7 @@ synthe:
 	$(FC) $(LDFLAGS)  -o syntoascanga.exe syntoascanga.o
 
 testing:
-	$(FC) $(FFLAGS)  -o synthe.o synthe_fast.for
+	$(FC) $(FFLAGS)  -o synthe.o synthe.for
 	$(FC) $(LDFLAGS) -o synthe.exe synthe.o
 
 install:
