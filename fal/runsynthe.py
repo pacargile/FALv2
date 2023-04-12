@@ -102,10 +102,6 @@ class Synthe(object):
 
         """
         
-        # write in information into input string
-        self.synout = self._callpro("synthe",verbose=verbose_syn)
-        # print("Finished Synthe")
-
         if self.verbose:
             starttime_syn = datetime.now()
             print("Running synthe... [{0}]".format(starttime_syn))
