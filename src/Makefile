@@ -36,11 +36,7 @@ synthe:
 	$(FC) $(LDFLAGS)  -o syntoascanga.exe syntoascanga.o
 
 testing:
-	$(FC) $(FFLAGS)  -o rgfall.o  rgfall.for
-	$(FC) $(LDFLAGS)  -o rgfall.exe  rgfall.o
-	$(FC) $(FFLAGS) -o rpredict.o rpredict.for
-	$(FC) $(LDFLAGS) -o rpredict.exe rpredict.o
-	$(FC) $(FFLAGS)  -o synthe.o synthe.for
+	$(FC) $(FFLAGS)  -o synthe.o synthe_fast.for
 	$(FC) $(LDFLAGS) -o synthe.exe synthe.o
 
 install:
