@@ -5,6 +5,7 @@ import subprocess
 import shutil
 from scipy import io as spIO
 import numpy as np
+import fal
 
 class Synthe(object):
     """ 
@@ -19,7 +20,7 @@ class Synthe(object):
         self.verbose = self.kwargs.get('verbose',True)
 
         # determine path to fortran exe files
-        self.exedir = self.kwargs.get('exedir','../bin/')
+        self.exedir = self.kwargs.get('exedir',fal.__abspath__+'/bin/')
 
         # define some general files
         self.molecules = self.kwargs.get('molecules','./data/molecules.dat')
