@@ -37,7 +37,7 @@ class Synthe(object):
         self.rotatevar = ("{NROT:5d}{NRADIUS:5d}\n{VROT:10.1f}\n")
 
 
-    def xnfpelsyn(self,verbose_xnf=None):
+    def xnfpelsyn(self,verbose_xnf=True):
         """
         Run XNFPELSYN code
         
