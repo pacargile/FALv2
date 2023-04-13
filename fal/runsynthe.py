@@ -47,8 +47,9 @@ class Synthe(object):
 
         self.xnfpelsyn(verbose_xnf=verbose)
         self.synthe(verbose_syn=verbose)
-        # self.spectrv(verbose_sprv=verbose)
-        # self.rotate(vrot=vrot,verbose_rot=verbose)
+        self.spectrv(verbose_sprv=verbose)
+        self.rotate(vrot=vrot,verbose_rot=verbose)
+        self.broaden(verbose_bro=verbose)
 
 
 
@@ -198,7 +199,7 @@ class Synthe(object):
             endtime_rot = datetime.now()
             print("... Finished rotate [{0}: {1}]".format(endtime_rot,endtime_rot-starttime_rot))
 
-    def broaden(self,):
+    def broaden(self,verbose_bro=True):
         pass
 
     def _callpro(self,function,inputstr=None,inpipe=None,verbose=None):
