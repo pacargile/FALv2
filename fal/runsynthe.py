@@ -47,8 +47,8 @@ class Synthe(object):
 
         self.xnfpelsyn(verbose_xnf=verbose)
         self.synthe(verbose_syn=verbose)
-        self.spectrv(verbose_sprv=verbose)
-        self.rotate(vrot=vrot,verbose_rot=verbose)
+        # self.spectrv(verbose_sprv=verbose)
+        # self.rotate(vrot=vrot,verbose_rot=verbose)
 
 
 
