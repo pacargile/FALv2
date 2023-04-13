@@ -257,7 +257,7 @@ class Synthe(object):
         """
         os.symlink(src,outname)
 
-    def _reset(self,fpath='./fortfile/'):
+    def _reset(self,fpath='./fortfiles/'):
         fortlist = glob.glob('./fort.*') + glob.glob('./ROT*')
         for ff in fortlist:
             if os.path.exists(ff):
