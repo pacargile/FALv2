@@ -36,6 +36,21 @@ class Synthe(object):
         # string for rotate
         self.rotatevar = ("{NROT:5d}{NRADIUS:5d}\n{VROT:10.1f}\n")
 
+    def run(self,indict={},verbose=False):
+        
+        # pull some useful info
+        vrot = indict.get('vrot':0.0)
+        filepath = indict.get('fortfilepath','./fortfile/')
+
+        # reset the directory to make sure files are in place
+        self._reset(fpath=filepath)
+
+        self.xnfpelsyn(verbose_xnf=verbose)
+        self.synthe(verbose_syn=verbose)
+        self.spectrv(verbose_sprv=verbose)
+        self.rotate(vrot=0.0,verbose_rot=verbose)
+
+
 
     def xnfpelsyn(self,verbose_xnf=True):
         """
@@ -240,3 +255,14 @@ class Synthe(object):
         Function that takes a file, copies to memory, and sets up a symlink
         """
         os.symlink(src,outname)
+
+    def _reset(self,fpath='./fortfile/'):
+        fortlist = glob.glob('./fort.*') + glob.glob('./ROT*')
+        for ff in fortlist:
+            os.remove(ff)
+
+        self._makesym('{}/fort.12'.format(fpath),'./fort.12')
+        self._makesym('{}/fort.14'.format(fpath),'./fort.14')
+        self._makesym('{}/fort.19'.format(fpath),'./fort.19')
+        self._makesym('{}/fort.20'.format(fpath),'./fort.20')
+        self._makesym('{}/fort.93'.format(fpath),'./fort.93')                                
