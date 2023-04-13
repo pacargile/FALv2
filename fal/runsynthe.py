@@ -39,7 +39,7 @@ class Synthe(object):
     def run(self,indict={},verbose=False):
         
         # pull some useful info
-        vrot = indict.get('vrot':0.0)
+        vrot = indict.get('vrot',0.0)
         filepath = indict.get('fortfilepath','./fortfile/')
 
         # reset the directory to make sure files are in place
