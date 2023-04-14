@@ -6,6 +6,7 @@ import shutil
 from scipy import io as spIO
 import numpy as np
 import fal
+from readkurucz import readkurucz
 
 class Synthe(object):
     """ 
@@ -36,6 +37,9 @@ class Synthe(object):
         # string for rotate
         self.rotatevar = ("{NROT:5d}{NRADIUS:5d}\n{VROT:10.1f}\n")
 
+        # initialize readkurucz
+        self.RK = readkurucz()
+
     def run(self,indict={},verbose=False):
         
         # pull some useful info
@@ -51,7 +55,8 @@ class Synthe(object):
         self.rotate(vrot=vrot,verbose_rot=verbose)
         self.broaden(verbose_bro=verbose)
 
-
+        outdat = self.RK.readspecbin('./ROT1')
+        return outdat
 
     def xnfpelsyn(self,verbose_xnf=True):
         """
