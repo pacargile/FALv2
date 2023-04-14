@@ -261,8 +261,7 @@ class Synthe(object):
         fortlist = glob.glob('./fort.*') + glob.glob('./ROT*')
         for ff in fortlist:
             print(ff)
-            if os.path.exists(ff):
-                os.remove(ff)
+            os.remove(ff)
 
         self._makesym('{}/fort.12'.format(fpath),'./fort.12')
         self._makesym('{}/fort.14'.format(fpath),'./fort.14')
