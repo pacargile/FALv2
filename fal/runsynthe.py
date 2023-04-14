@@ -260,7 +260,6 @@ class Synthe(object):
     def _reset(self,fpath='./fortfiles/'):
         fortlist = glob.glob('./fort.*') + glob.glob('./ROT*')
         for ff in fortlist:
-            print(ff)
             os.remove(ff)
 
         self._makesym('{}/fort.12'.format(fpath),'./fort.12')
