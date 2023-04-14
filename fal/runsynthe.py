@@ -38,7 +38,7 @@ class Synthe(object):
         self.rotatevar = ("{NROT:5d}{NRADIUS:5d}\n{VROT:10.1f}\n")
 
         # initialize readkurucz
-        self.RK = readkurucz()
+        self.RK = readkurucz.readkurucz()
 
     def run(self,indict={},verbose=False):
         
