@@ -6,7 +6,7 @@ import shutil
 from scipy import io as spIO
 import numpy as np
 import fal
-from readkurucz import readkurucz
+from . import readkurucz
 
 class Synthe(object):
     """ 
