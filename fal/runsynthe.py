@@ -41,23 +41,48 @@ class Synthe(object):
         # initialize readkurucz
         self.RK = readkurucz.ReadKurucz()
 
+        # initialize pointers for f-paths
+        self.f12path = None
+        self.f14path = None
+        self.f19path = None
+        self.f20path = None
+        self.f93path = None
+        
+    def setfpaths(self,**kwargs):
+        self.f12path=kwargs.get('f12path',None)
+        self.f14path=kwargs.get('f14path',None)
+        self.f19path=kwargs.get('f19path',None)
+        self.f20path=kwargs.get('f20path',None)
+        self.f93path=kwargs.get('f93path',None)
+
     def run(self,**kwargs):
         
-        f12path=kwargs.get('f12path',None)#'./fortfiles/fort.12')
-        f14path=kwargs.get('f14path',None)#'./fortfiles/fort.14')
-        f19path=kwargs.get('f19path',None)#'./fortfiles/fort.19')
-        f20path=kwargs.get('f20path',None)#'./fortfiles/fort.20')
-        f93path=kwargs.get('f93path',None)#'./fortfiles/fort.93')
+        f12path_i=kwargs.get('f12path',None)
+        f14path_i=kwargs.get('f14path',None)
+        f19path_i=kwargs.get('f19path',None)
+        f20path_i=kwargs.get('f20path',None)
+        f93path_i=kwargs.get('f93path',None)
+        
+        if f12path_i != None:
+            self.f12path = f12path_i
+        if f14path_i != None:
+            self.f14path = f14path_i
+        if f19path_i != None:
+            self.f19path = f19path_i
+        if f20path_i != None:
+            self.f20path = f20path_i
+        if f93path_i != None:
+            self.f93path = f93path_i
         
         verbose = kwargs.get('verbose',self.verbose)
                 
         # reset the directory to make sure files are in place
         self._reset(
-            f12path=f12path,
-            f14path=f14path,
-            f19path=f19path,
-            f20path=f20path,
-            f93path=f93path,
+            f12path=self.f12path,
+            f14path=self.f14path,
+            f19path=self.f19path,
+            f20path=self.f20path,
+            f93path=self.f93path,
             )
 
         self.xnfpelsyn(verbose_xnf=verbose)
@@ -272,17 +297,17 @@ class Synthe(object):
         Function that takes a file, copies to memory, and sets up a symlink
         """
         os.symlink(src,outname)
-        
+
     def _reset(self,**kwargs):
         fortlist = glob.glob('./fort.*') + glob.glob('./ROT*')
         for ff in fortlist:
             os.remove(ff)
 
-        f12path=kwargs.get('f12path',None)#'./fortfiles/fort.12')
-        f14path=kwargs.get('f14path',None)#'./fortfiles/fort.14')
-        f19path=kwargs.get('f19path',None)#'./fortfiles/fort.19')
-        f20path=kwargs.get('f20path',None)#'./fortfiles/fort.20')
-        f93path=kwargs.get('f93path',None)#'./fortfiles/fort.93')
+        f12path=kwargs.get('f12path',None)
+        f14path=kwargs.get('f14path',None)
+        f19path=kwargs.get('f19path',None)
+        f20path=kwargs.get('f20path',None)
+        f93path=kwargs.get('f93path',None)
 
         self._makesym(f12path,'./fort.12')
         self._makesym(f14path,'./fort.14')
