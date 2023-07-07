@@ -347,22 +347,11 @@ class AdjKurucz(object):
 
         if fort == 12:
             # shift log(gf) by dlog(gf) in terms of gf
-            print(self.RK.f12in['cgf'][linind]    )
-            print(self.RK.f14in['gf'][linind]     )
-            print(self.RK.f14in['gflog'][linind]  )
-            print(self.RK.f14in['dgflog'][linind] )
-
-
             self.RK.f12in['cgf'][linind]    = self.RK.f12in['cgf'][linind] * dgf
 
             self.RK.f14in['gf'][linind]     = self.RK.f14in['gf'][linind] * dgf
             self.RK.f14in['gflog'][linind]  = self.RK.f14in['gflog'][linind] + dloggf
             self.RK.f14in['dgflog'][linind] = dloggf
-
-            print(self.RK.f12in['cgf'][linind]    )
-            print(self.RK.f14in['gf'][linind]     )
-            print(self.RK.f14in['gflog'][linind]  )
-            print(self.RK.f14in['dgflog'][linind] )
 
         if fort == 19:
             self.RK.f19in['gf'][linind]     = self.RK.f19['gf'][linind] * dgf

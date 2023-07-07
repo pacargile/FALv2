@@ -273,6 +273,9 @@ class Synthe(object):
         """
         os.symlink(src,outname)
 
+        import subprocess
+        print(subprocess.check_output(['ls', '-lh']).decode('utf-8'))
+
     def _reset(self,**kwargs):
         fortlist = glob.glob('./fort.*') + glob.glob('./ROT*')
         for ff in fortlist:
