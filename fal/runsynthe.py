@@ -272,10 +272,7 @@ class Synthe(object):
         Function that takes a file, copies to memory, and sets up a symlink
         """
         os.symlink(src,outname)
-
-        import subprocess
-        print(subprocess.check_output(['ls', '-lh']).decode('utf-8'))
-
+        
     def _reset(self,**kwargs):
         fortlist = glob.glob('./fort.*') + glob.glob('./ROT*')
         for ff in fortlist:
