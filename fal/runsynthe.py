@@ -7,6 +7,7 @@ from scipy import io as spIO
 import numpy as np
 import fal
 from . import readkurucz
+import jax
 
 class Synthe(object):
     """ 
@@ -94,6 +95,7 @@ class Synthe(object):
         outdat = self.RK.readspecbin('./ROT1')
         return outdat
 
+    @jax.jit
     def xnfpelsyn(self,verbose_xnf=True):
         """
         Run XNFPELSYN code
@@ -125,6 +127,7 @@ class Synthe(object):
         
         return
     
+    @jax.jit
     def synthe(self,verbose_syn=True):
         """
         Run SYNTHE code
@@ -169,6 +172,7 @@ class Synthe(object):
                 
         return
     
+    @jax.jit
     def spectrv(self,tau=False,verbose_sprv=True):
         """
         Run SPECTRV code
@@ -210,6 +214,7 @@ class Synthe(object):
 
         return
     
+    @jax.jit
     def rotate(self,vrot=0.0,verbose_rot=True):
         """
         Run ROTATE code
@@ -240,9 +245,11 @@ class Synthe(object):
             endtime_rot = datetime.now()
             print("... Finished rotate [{0}: {1}]".format(endtime_rot,endtime_rot-starttime_rot))
 
+    @jax.jit
     def broaden(self,verbose_bro=True):
         pass
 
+    @jax.jit
     def _callpro(self,function,inputstr=None,inpipe=None,verbose=None):
         """
         general function to call fortran code
