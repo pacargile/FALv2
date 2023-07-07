@@ -86,7 +86,7 @@ class Synthe(object):
             f93path=self.f93path,
             )
 
-        Jxnfpelsyn = jit(self.xnfpelsyn)
+        Jxnfpelsyn = jax.jit(self.xnfpelsyn)
 
         # self.xnfpelsyn(verbose_xnf=verbose)
         Jxnfpelsyn()
