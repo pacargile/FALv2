@@ -245,9 +245,9 @@ class AdjKurucz(object):
                 
         if 'lineind' in lindict.keys():
             # user is using line indices to id lines
-            if len(lindict['lineind']) == 1:
+            if isinstance(lindict['lineind'],int):
                 
-                ind = int(lindict['lineind'])
+                ind = lindict['lineind']
 
                 fortfile = 12
                 if 'rlte' in lindict.keys():
