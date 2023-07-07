@@ -7,7 +7,6 @@ from scipy import io as spIO
 import numpy as np
 import fal
 from . import readkurucz
-import jax
 
 class Synthe(object):
     """ 
@@ -86,17 +85,9 @@ class Synthe(object):
             f93path=self.f93path,
             )
 
-        Jxnfpelsyn = jax.jit(self.xnfpelsyn)
-        Jsynthe = jax.jit(self.synthe)
-        Jspectrv = jax.jit(self.spectrv)
-
-        Jxnfpelsyn()
-        Jsynthe() 
-        Jspectrv() 
-
-        # self.xnfpelsyn(verbose_xnf=verbose)
-        # self.synthe(verbose_syn=verbose)
-        # self.spectrv(verbose_sprv=verbose)
+        self.xnfpelsyn(verbose_xnf=verbose)
+        self.synthe(verbose_syn=verbose)
+        self.spectrv(verbose_sprv=verbose)
         self.rotate(vrot=self.vrot,verbose_rot=verbose)
         self.broaden(verbose_bro=verbose)
 
