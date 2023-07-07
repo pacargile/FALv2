@@ -17,7 +17,7 @@ class AdjKurucz(object):
         self.f20path=self.kwargs.get('f20path','./fort.20')
         self.f93path=self.kwargs.get('f93path','./fort.93')
 
-        self.RK = readkurucz.readkurucz()
+        self.RK = readkurucz.ReadKurucz()
         
         self.RK.readfiles(
             f12path=self.f12path,
