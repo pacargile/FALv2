@@ -26,6 +26,10 @@ class AdjKurucz(object):
             f20path=self.f20path,
             f93path=self.f93path)
 
+        for kk in self.RK.f12in.keys():
+            print(kk,self.RK.f12in[kk][67])
+
+        print('')
     def wfort(self,*args,**kwargs):
         outf12path=kwargs.get('f12path','./fort_new.12')
         outf14path=kwargs.get('f14path','./fort_new.14')
