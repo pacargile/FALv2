@@ -26,13 +26,8 @@ class AdjKurucz(object):
             f20path=self.f20path,
             f93path=self.f93path)
 
-        for kk in self.RK.f14in.keys():
-            try:
-                print(kk,self.RK.f14in[kk][67])
-            except:
-                pass
-
-        print('')
+        print(len(self.RK.f12in['nbuff']))
+        print(len(self.RK.f14in['wl']))
     def wfort(self,*args,**kwargs):
         outf12path=kwargs.get('f12path','./fort_new.12')
         outf14path=kwargs.get('f14path','./fort_new.14')
@@ -40,12 +35,6 @@ class AdjKurucz(object):
         outf20path=kwargs.get('f20path','./fort_new.20')
         outf93path=kwargs.get('f93path','./fort_new.93')
 
-        for kk in self.RK.f14in.keys():
-            try:
-                print(kk,self.RK.f14in[kk][67])
-            except:
-                pass
-        
         self.RK.writefiles(            
             f12outpath=outf12path,
             f14outpath=outf14path,
