@@ -51,6 +51,8 @@ class Synthe(object):
         
         verbose = kwargs.get('verbose',self.verbose)
         
+        print(f12path)
+        
         # reset the directory to make sure files are in place
         self._reset(
             f12path=f12path,
