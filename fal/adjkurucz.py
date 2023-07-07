@@ -26,8 +26,14 @@ class AdjKurucz(object):
             f20path=self.f20path,
             f93path=self.f93path)
 
-        print(len(self.RK.f12in['nbuff']))
-        print(len(self.RK.f14in['wl']))
+        print(self.RK.f12in['cgf'][:10])
+        print(self.RK.f12in['nelion'][:10])
+        print(self.RK.f12in['elo'][:10])
+
+        print(self.RK.f14in['gf'][:10])
+        print(self.RK.f14in['nelion'][:10])
+        print(self.RK.f14in['elo'][:10])
+
     def wfort(self,*args,**kwargs):
         outf12path=kwargs.get('f12path','./fort_new.12')
         outf14path=kwargs.get('f14path','./fort_new.14')
