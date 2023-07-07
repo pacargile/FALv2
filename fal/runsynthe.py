@@ -43,11 +43,11 @@ class Synthe(object):
 
     def run(self,**kwargs):
         
-        f12path=kwargs.get('f12path','./fortfiles/fort.12')
-        f14path=kwargs.get('f14path','./fortfiles/fort.14')
-        f19path=kwargs.get('f19path','./fortfiles/fort.19')
-        f20path=kwargs.get('f20path','./fortfiles/fort.20')
-        f93path=kwargs.get('f93path','./fortfiles/fort.93')
+        f12path=kwargs.get('f12path',None)#'./fortfiles/fort.12')
+        f14path=kwargs.get('f14path',None)#'./fortfiles/fort.14')
+        f19path=kwargs.get('f19path',None)#'./fortfiles/fort.19')
+        f20path=kwargs.get('f20path',None)#'./fortfiles/fort.20')
+        f93path=kwargs.get('f93path',None)#'./fortfiles/fort.93')
         
         verbose = kwargs.get('verbose',self.verbose)
         
@@ -278,11 +278,11 @@ class Synthe(object):
         for ff in fortlist:
             os.remove(ff)
 
-        f12path=kwargs.get('f12path','./fortfiles/fort.12')
-        f14path=kwargs.get('f14path','./fortfiles/fort.14')
-        f19path=kwargs.get('f19path','./fortfiles/fort.19')
-        f20path=kwargs.get('f20path','./fortfiles/fort.20')
-        f93path=kwargs.get('f93path','./fortfiles/fort.93')
+        f12path=kwargs.get('f12path',None)#'./fortfiles/fort.12')
+        f14path=kwargs.get('f14path',None)#'./fortfiles/fort.14')
+        f19path=kwargs.get('f19path',None)#'./fortfiles/fort.19')
+        f20path=kwargs.get('f20path',None)#'./fortfiles/fort.20')
+        f93path=kwargs.get('f93path',None)#'./fortfiles/fort.93')
 
         self._makesym(f12path,'./fort.12')
         self._makesym(f14path,'./fort.14')

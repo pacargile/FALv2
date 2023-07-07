@@ -344,24 +344,14 @@ class AdjKurucz(object):
         # construct a dlog(gf) -> 10^dlog(gf) as gf's are stored 
         # instead of log(gf)
         dgf = 10.0**dloggf
-        print(linind)
-        print(dloggf)
 
         if fort == 12:
             # shift log(gf) by dlog(gf) in terms of gf
             self.RK.f12in['cgf'][linind]    = self.RK.f12in['cgf'][linind] * dgf
 
-            print(self.RK.f14in['gf'][linind])
-            print(self.RK.f14in['gflog'][linind])
-            print(self.RK.f14in['dgflog'][linind])
-
             self.RK.f14in['gf'][linind]     = self.RK.f14in['gf'][linind] * dgf
             self.RK.f14in['gflog'][linind]  = self.RK.f14in['gflog'][linind] + dloggf
             self.RK.f14in['dgflog'][linind] = dloggf
-
-            print(self.RK.f14in['gf'][linind])
-            print(self.RK.f14in['gflog'][linind])
-            print(self.RK.f14in['dgflog'][linind])
 
         if fort == 19:
             self.RK.f19in['gf'][linind]     = self.RK.f19['gf'][linind] * dgf
