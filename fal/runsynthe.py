@@ -86,7 +86,10 @@ class Synthe(object):
             f93path=self.f93path,
             )
 
-        self.xnfpelsyn(verbose_xnf=verbose)
+        Jxnfpelsyn = jit(self.xnfpelsyn)
+
+        # self.xnfpelsyn(verbose_xnf=verbose)
+        Jxnfpelsyn()
         self.synthe(verbose_syn=verbose)
         self.spectrv(verbose_sprv=verbose)
         self.rotate(vrot=self.vrot,verbose_rot=verbose)
@@ -95,8 +98,7 @@ class Synthe(object):
         outdat = self.RK.readspecbin('./ROT1')
         return outdat
 
-    @jax.jit
-    def xnfpelsyn(self,verbose_xnf=True):
+    def xnfpelsyn(self,verbose_xnf=False):
         """
         Run XNFPELSYN code
         
@@ -127,8 +129,7 @@ class Synthe(object):
         
         return
     
-    @jax.jit
-    def synthe(self,verbose_syn=True):
+    def synthe(self,verbose_syn=False):
         """
         Run SYNTHE code
 
@@ -172,8 +173,7 @@ class Synthe(object):
                 
         return
     
-    @jax.jit
-    def spectrv(self,tau=False,verbose_sprv=True):
+    def spectrv(self,tau=False,verbose_sprv=False):
         """
         Run SPECTRV code
 
@@ -214,8 +214,7 @@ class Synthe(object):
 
         return
     
-    @jax.jit
-    def rotate(self,vrot=0.0,verbose_rot=True):
+    def rotate(self,vrot=0.0,verbose_rot=False):
         """
         Run ROTATE code
 
@@ -245,11 +244,9 @@ class Synthe(object):
             endtime_rot = datetime.now()
             print("... Finished rotate [{0}: {1}]".format(endtime_rot,endtime_rot-starttime_rot))
 
-    @jax.jit
-    def broaden(self,verbose_bro=True):
+    def broaden(self,verbose_bro=False):
         pass
 
-    @jax.jit
     def _callpro(self,function,inputstr=None,inpipe=None,verbose=None):
         """
         general function to call fortran code
