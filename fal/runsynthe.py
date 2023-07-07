@@ -50,9 +50,7 @@ class Synthe(object):
         f93path=kwargs.get('f93path',None)#'./fortfiles/fort.93')
         
         verbose = kwargs.get('verbose',self.verbose)
-        
-        print(f12path)
-        
+                
         # reset the directory to make sure files are in place
         self._reset(
             f12path=f12path,

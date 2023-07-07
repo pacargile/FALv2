@@ -32,6 +32,9 @@ class AdjKurucz(object):
         outf19path=kwargs.get('f19path','./fort_new.19')
         outf20path=kwargs.get('f20path','./fort_new.20')
         outf93path=kwargs.get('f93path','./fort_new.93')
+
+        for kk in self.RK.f12in.keys():
+            print(kk,self.RK.f12in[kk][67])
         
         self.RK.writefiles(            
             f12outpath=outf12path,
