@@ -36,23 +36,34 @@ class Synthe(object):
 
         # string for rotate
         self.rotatevar = ("{NROT:5d}{NRADIUS:5d}\n{VROT:10.1f}\n")
+        self.vrot = kwargs.get('rotvel',0.0)
 
         # initialize readkurucz
-        self.RK = readkurucz.readkurucz()
+        self.RK = readkurucz.ReadKurucz()
 
-    def run(self,indict={},verbose=False):
+    def run(self,**kwargs):
         
-        # pull some useful info
-        vrot = indict.get('vrot',0.0)
-        filepath = indict.get('fortfilepath','./fortfiles/')
-
+        f12path=kwargs.get('f12path','./fortfiles/fort.12')
+        f14path=kwargs.get('f14path','./fortfiles/fort.14')
+        f19path=kwargs.get('f19path','./fortfiles/fort.19')
+        f20path=kwargs.get('f20path','./fortfiles/fort.20')
+        f93path=kwargs.get('f93path','./fortfiles/fort.93')
+        
+        verbose = kwargs.get('verbose',self.verbose)
+        
         # reset the directory to make sure files are in place
-        self._reset(fpath=filepath)
+        self._reset(
+            f12path=f12path,
+            f14path=f14path,
+            f19path=f19path,
+            f20path=f20path,
+            f93path=f93path,
+            )
 
         self.xnfpelsyn(verbose_xnf=verbose)
         self.synthe(verbose_syn=verbose)
         self.spectrv(verbose_sprv=verbose)
-        self.rotate(vrot=vrot,verbose_rot=verbose)
+        self.rotate(vrot=self.vrot,verbose_rot=verbose)
         self.broaden(verbose_bro=verbose)
 
         outdat = self.RK.readspecbin('./ROT1')
@@ -262,13 +273,19 @@ class Synthe(object):
         """
         os.symlink(src,outname)
 
-    def _reset(self,fpath='./fortfiles/'):
+    def _reset(self,**kwargs):
         fortlist = glob.glob('./fort.*') + glob.glob('./ROT*')
         for ff in fortlist:
             os.remove(ff)
 
-        self._makesym('{}/fort.12'.format(fpath),'./fort.12')
-        self._makesym('{}/fort.14'.format(fpath),'./fort.14')
-        self._makesym('{}/fort.19'.format(fpath),'./fort.19')
-        self._makesym('{}/fort.20'.format(fpath),'./fort.20')
-        self._makesym('{}/fort.93'.format(fpath),'./fort.93')                                
+        f12path=kwargs.get('f12path','./fortfiles/fort.12')
+        f14path=kwargs.get('f14path','./fortfiles/fort.14')
+        f19path=kwargs.get('f19path','./fortfiles/fort.19')
+        f20path=kwargs.get('f20path','./fortfiles/fort.20')
+        f93path=kwargs.get('f93path','./fortfiles/fort.93')
+
+        self._makesym(f12path,'./fort.12')
+        self._makesym(f14path,'./fort.14')
+        self._makesym(f19path,'./fort.19')
+        self._makesym(f20path,'./fort.20')
+        self._makesym(f93path,'./fort.93')                                

@@ -10,9 +10,9 @@ c_long_p = POINTER(c_long)
 c_char_array = ARRAY(c_char,11)
 c_char_array_p = POINTER(c_char_array)
 
-class readkurucz(object):
+class ReadKurucz(object):
     def __init__(self, *args, **kwargs):
-        super(readkurucz, self).__init__()
+        super(ReadKurucz, self).__init__()
 
         solib_path = kwargs.get('solib',fal.__abspath__+'/lib/readfort.so')
         self.rfort = cdll.LoadLibrary(solib_path)

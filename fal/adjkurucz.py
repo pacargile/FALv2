@@ -1,13 +1,15 @@
-from readkurucz import readkurucz
+from . import readkurucz
 import numpy as np
 from collections import Counter
 
-class adjkurucz(object):
+class AdjKurucz(object):
     def __init__(self, *args, **kwargs):
-        super(adjkurucz, self).__init__()
+        super(AdjKurucz, self).__init__()
 
         self.args = args
         self.kwargs = kwargs
+
+        self.verbose = kwargs.get('verbose',False)
 
         self.f12path=self.kwargs.get('f12path','./fort.12')
         self.f14path=self.kwargs.get('f14path','./fort.14')
@@ -15,8 +17,7 @@ class adjkurucz(object):
         self.f20path=self.kwargs.get('f20path','./fort.20')
         self.f93path=self.kwargs.get('f93path','./fort.93')
 
-
-        self.RK = readkurucz()
+        self.RK = readkurucz.readkurucz()
         
         self.RK.readfiles(
             f12path=self.f12path,
@@ -192,47 +193,61 @@ class adjkurucz(object):
         if lindict == {}:
             return
         
-        if ('pars' in lindict.keys()) and not ('linind' in lindict.keys()):
-            lindict['linind'] = np.array([])
+        if ('pars' in lindict.keys()) and not ('lineind' in lindict.keys()):
+            # index within synthe line files (fort.12,14,etc.)
+            lindict['lineind'] = np.array([])    
             lindict['rlte'] = []
 
             # user wants to match line using its parameters
             cond14 = np.ones(len(self.RK.f14in['wl']),dtype=bool)
             for kk in lindict['pars'].keys():
-                cond14 *= np.in1d(self.RK.f14in[kk],lindict['pars'][kk])
-        
+                if self.verbose:
+                    print('Matching fort.14 on {}'.format(kk))
+                cond14_i = np.in1d(self.RK.f14in[kk],lindict['pars'][kk])
+                cond14 *= cond14_i
+                if self.verbose:
+                    print('Found {} matches'.format(cond14_i.sum()))
+
             if cond14.sum() == 1:
                 lindict['rlte'] = lindict['rlte']+[False]
-                lindict['linind'] = np.append(lindict['linind'],np.flatnonzero(cond14))
+                lindict['lineind'] = np.append(lindict['lineind'],np.flatnonzero(cond14))
             elif cond14.sum() > 1:
                 lindict['rlte'] = lindict['rlte']+[False for _ in range(cond14.sum())]
-                lindict['linind'] = np.append(lindict['linind'],np.flatnonzero(cond14))
+                lindict['lineind'] = np.append(lindict['lineind'],np.flatnonzero(cond14))
             else:
                 pass
 
             cond20 = np.ones(len(self.RK.f20in['wl']),dtype=bool)
             for kk in lindict['pars'].keys():
-                cond20 *= np.in1d(self.RK.f20in[kk],lindict['pars'][kk])
+                if self.verbose:
+                    print('Matching fort.20 on {}'.format(kk))
+                cond20_i = np.in1d(self.RK.f20in[kk],lindict['pars'][kk])
+                cond20 *= cond20_i
+                if self.verbose:
+                    print('Found {} matches'.format(cond20_i.sum()))
 
             if cond20.sum() == 1:
                 lindict['rlte'] = lindict['rlte']+[True]
-                lindict['linind'] = np.append(lindict['linind'],np.flatnonzero(cond20))
+                lindict['lineind'] = np.append(lindict['lineind'],np.flatnonzero(cond20))
             elif cond20.sum() > 1:
                 lindict['rlte'] = lindict['rlte']+[True for _ in range(cond20.sum())]
-                lindict['linind'] = np.append(lindict['linind'],np.flatnonzero(cond20))
+                lindict['lineind'] = np.append(lindict['lineind'],np.flatnonzero(cond20))
             else:
                 pass
 
             if cond14.sum() + cond20.sum() == 0:                
-                print('! DID NOT FIND ANY LINES BASED ON USER PARS !')
-                print('! NOT ADJUSTING ANYTHING !')
+                if self.verbose:
+                    print('! DID NOT FIND ANY LINES BASED ON USER PARS !')
+                    print('! NOT ADJUSTING ANYTHING !')
                 return
+            if self.verbose:
+                print('Found a total of {} matches'.format(cond14.sum() + cond20.sum()))
                 
-        if 'linind' in lindict.keys():
+        if 'lineind' in lindict.keys():
             # user is using line indices to id lines
-            if len(lindict['linind']) == 1:
+            if len(lindict['lineind']) == 1:
                 
-                ind = int(lindict['linind'])
+                ind = int(lindict['lineind'])
 
                 fortfile = 12
                 if 'rlte' in lindict.keys():
@@ -251,7 +266,7 @@ class adjkurucz(object):
                     self.adjgammas(ind,lindict['dgammas'],fort=fortfile)
             else:
                 # MAY WANT TO VECTORIZE THIS STEP
-                for ii,ind in enumerate(lindict['linind']):
+                for ii,ind in enumerate(lindict['lineind']):
                     # make sure ind is int
                     ind = int(ind)
                     
@@ -265,7 +280,7 @@ class adjkurucz(object):
                             if isinstance(lindict[pp],float):
                                 # global shift
                                 deltapar[pp] = lindict[pp]
-                            elif len(lindict[pp]) == len(lindict['linind']):
+                            elif len(lindict[pp]) == len(lindict['lineind']):
                                 deltapar[pp] = lindict[pp][ii]
                             else:
                                 print('! NUMBER OF LINE SHIFTS MUST BE 1 (GLOBAL) OR EQUAL TO NUMBER OF LINES SELECTED !')
