@@ -26,28 +26,12 @@ class AdjKurucz(object):
             f20path=self.f20path,
             f93path=self.f93path)
 
-        print(self.RK.f12in['cgf'][67])
-        print(self.RK.f12in['nelion'][67])
-        print(self.RK.f12in['elo'][67])
-
-        print(self.RK.f14in['gf'][67])
-        print(self.RK.f14in['nelion'][67])
-        print(self.RK.f14in['elo'][67])
-
     def wfort(self,*args,**kwargs):
         outf12path=kwargs.get('f12path','./fort_new.12')
         outf14path=kwargs.get('f14path','./fort_new.14')
         outf19path=kwargs.get('f19path','./fort_new.19')
         outf20path=kwargs.get('f20path','./fort_new.20')
         outf93path=kwargs.get('f93path','./fort_new.93')
-
-        print(self.RK.f12in['cgf'][67])
-        print(self.RK.f12in['nelion'][67])
-        print(self.RK.f12in['elo'][67])
-
-        print(self.RK.f14in['gf'][67])
-        print(self.RK.f14in['nelion'][67])
-        print(self.RK.f14in['elo'][67])
 
         self.RK.writefiles(            
             f12outpath=outf12path,
@@ -363,11 +347,22 @@ class AdjKurucz(object):
 
         if fort == 12:
             # shift log(gf) by dlog(gf) in terms of gf
+            print(self.RK.f12in['cgf'][linind]    )
+            print(self.RK.f14in['gf'][linind]     )
+            print(self.RK.f14in['gflog'][linind]  )
+            print(self.RK.f14in['dgflog'][linind] )
+
+
             self.RK.f12in['cgf'][linind]    = self.RK.f12in['cgf'][linind] * dgf
 
             self.RK.f14in['gf'][linind]     = self.RK.f14in['gf'][linind] * dgf
             self.RK.f14in['gflog'][linind]  = self.RK.f14in['gflog'][linind] + dloggf
             self.RK.f14in['dgflog'][linind] = dloggf
+
+            print(self.RK.f12in['cgf'][linind]    )
+            print(self.RK.f14in['gf'][linind]     )
+            print(self.RK.f14in['gflog'][linind]  )
+            print(self.RK.f14in['dgflog'][linind] )
 
         if fort == 19:
             self.RK.f19in['gf'][linind]     = self.RK.f19['gf'][linind] * dgf
