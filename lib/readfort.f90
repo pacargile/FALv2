@@ -112,9 +112,11 @@ module readfort
         EQUIVALENCE (COTHER1,OTHER1(1)),(COTHER2,OTHER2(1))
         EQUIVALENCE (GAMMAS,ASHORE),(GAMMAW,BSHORE)
         EQUIVALENCE (GF,G,CGF),(TYPE,NLAST),(GAMMAR,XSECT,GAUNT)
+        INTEGER I
 
         open(UNIT=1,FILE=c_to_f_string(s),STATUS='NEW',FORM='UNFORMATTED')
         do I=1,NLINESi
+            WRITE(6,*) NBUFFi(I), CGFi(I), NELIONi(I), ELOi(I), GAMMAWi(I)
             NBUFF = NBUFFi(I)
             CGF = CGFi(I)
             NELION = NELIONi(I)
