@@ -116,7 +116,6 @@ module readfort
 
         open(UNIT=1,FILE=c_to_f_string(s),STATUS='NEW',FORM='UNFORMATTED')
         do I=1,NLINESi
-            WRITE(6,*) NBUFFi(I), CGFi(I), NELIONi(I), ELOi(I), GAMMAWi(I)
             NBUFF = NBUFFi(I)
             CGF = CGFi(I)
             NELION = NELIONi(I)
@@ -124,6 +123,7 @@ module readfort
             GAMMAR = GAMMARi(I)
             GAMMAS = GAMMASi(I)
             GAMMAW = GAMMAWi(I)
+            WRITE(6,*) NBUFF, CGF, NELION, ELO, GAMMAW
             ! IF(I.GE.NLINESi-100) WRITE(6,*)  NBUFF,CGF,NELION,ELO,GAMMAR,GAMMAS,GAMMAW
             write(1) NBUFF,CGF,NELION,ELO,GAMMAR,GAMMAS,GAMMAW
         end do
