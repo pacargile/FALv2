@@ -414,7 +414,7 @@ class AdjKurucz(object):
             self.RK.f20in['dgammar'][linind] = dgammar
     
 if __name__ == '__main__':
-    AK = adjkurucz()
+    AK = AdjKurucz()
 
     linprt = 25
 

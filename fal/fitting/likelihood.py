@@ -3,8 +3,8 @@ from jax import jit
 from scipy import constants
 speedoflight = constants.c / 1000.0
 
-from ..runsynthe import Synthe
-from ..adjkurucz import AdjKurucz
+from ..utils.runsynthe import Synthe
+from ..utils.adjkurucz import AdjKurucz
 
 class Like(object):
     """ 

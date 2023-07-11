@@ -17,25 +17,37 @@ class ReadKurucz(object):
         solib_path = kwargs.get('solib',fal.__abspath__+'/lib/readfort.so')
         self.rfort = cdll.LoadLibrary(solib_path)
 
-    def readfiles(self,f12path='./fort.12',f14path='./fort.14',
-                  f19path='./fort.19',f20path='./fort.20',f93path='./fort.93'):
+    def readfiles(self,
+                  f12path='./fort.12',f14path='./fort.14',
+                  f19path='./fort.19',f20path='./fort.20',
+                  f93path='./fort.93',verbose=False):
 
         
         # read fort.93 to grab needed line information
+        if verbose:
+            print('... reading in fort.93')
         self.f93in = self.readfort93(f93path)
         self.nlines12 = self.f93in['nlines']
         self.nlines19 = self.f93in['n19']
 
         # read fort.12
+        if verbose:
+            print('... reading in fort.12')
         self.f12in = self.readfort12(f12path)
 
         # read fort.14
+        if verbose:
+            print('... reading in fort.14')
         self.f14in = self.readfort14(f14path)
 
         # read fort.19
+        if verbose:
+            print('... reading in fort.19')
         self.f19in = self.readfort19(f19path)
 
         # read fort.20
+        if verbose:
+            print('... reading in fort.20')
         self.f20in = self.readfort20(f20path)
         
 
@@ -1013,7 +1025,7 @@ class ReadKurucz(object):
 
         
 if __name__ == '__main__':
-    RK = readkurucz()
+    RK = ReadKurucz()
     print('1')
     RK.readfiles()
     print('2')
