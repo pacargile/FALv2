@@ -693,6 +693,8 @@ class ReadKurucz(object):
         GAMMASi  = self.f12in['gammas']
         GAMMAWi  = self.f12in['gammaw']
 
+        print(self.nlines12,len(NBUFFi))
+        
         self.rfort.writefile12(
             c_char_p(sb_o), 
             c_int(self.nlines12),
