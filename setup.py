@@ -41,7 +41,7 @@ except(ImportError):
 """
 )
 
-with open('fal/__init__.py','w') as ff:
-  ff.write(toplevelstr)
-  ff.write('\n')
-  ff.write("""__abspath__ = '{0}/'\n""".format(os.getcwd()))
+# with open('fal/__init__.py','w') as ff:
+#   ff.write(toplevelstr)
+#   ff.write('\n')
+#   ff.write("""__abspath__ = '{0}/'\n""".format(os.getcwd()))
