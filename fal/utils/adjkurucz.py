@@ -101,6 +101,10 @@ class AdjKurucz(object):
             # calculate NLINES
             self.RK.f93in['nlines'] = np.array(cond14.sum(),dtype=np.int32)
 
+            print(self.RK.f93in)
+            print(self.RK.nlines12)
+            print(self.RK.nlines19)
+
             # parse the fort.12/14 lines
             for kk in self.RK.f12in.keys():
                 self.RK.f12in[kk] = self.RK.f12in[kk][cond14]
