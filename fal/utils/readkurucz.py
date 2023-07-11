@@ -53,8 +53,10 @@ class ReadKurucz(object):
         self.f20in = self.readfort20(f20path)
         
 
-    def writefiles(self,f12outpath='./fort_NEW.12',f14outpath='./fort_NEW.14',
-                   f19outpath='./fort_NEW.19',f20outpath='./fort_NEW.20',f93outpath='./fort_NEW.93'):
+    def writefiles(self,
+                   f12outpath='./fort_NEW.12',f14outpath='./fort_NEW.14',
+                   f19outpath='./fort_NEW.19',f20outpath='./fort_NEW.20',
+                   f93outpath='./fort_NEW.93'):
 
         # check if output file exisits, if so delete
         for ff in [f93outpath,f12outpath,f14outpath,f19outpath,f20outpath]:
@@ -62,16 +64,26 @@ class ReadKurucz(object):
                 os.remove(ff)
 
         # write new fort.93
+        if self.verbose:
+            print('... writing fort.93')
         self.writefort93(f93outpath)
     
         # write new fort.12 and fort.14
+        if self.verbose:
+            print('... writing fort.12')
         self.writefort12(f12outpath)
 
+        if self.verbose:
+            print('... writing fort.14')
         self.writefort14(f14outpath)
 
         # write new fort.19 fort.20
+        if self.verbose:
+            print('... writing fort.19')
         self.writefort19(f19outpath)
 
+        if self.verbose:
+            print('... writing fort.20')
         self.writefort20(f20outpath)
         
     
