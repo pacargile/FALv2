@@ -259,10 +259,7 @@ module readfort
     subroutine readfile14_20(&
         s, NLINESi,&
         WLi,Ei,EPi,&
-        ! LABELi,&
-        LABELx,&
-        ! LABELPi,&
-        LABELPx,&
+        LABELi,LABELx,LABELPi,LABELPx,&
         ISHIFTi,ISHIFTPi,IXFIXFPi,LINESIZEi,AUTOi,OTHER1x,OTHER2x,&
         WLVACi,CENTERi,CONCENi,NELIONi,GAMMARi,GAMMASi,GAMMAWi,REFi,REFx,&
         NBLOi,NBUPi,ISO1i,X1i,ISO2i,X2i,GFLOGi,XJi,XJPi,CODEi,ELOi,GFi,GSi,GRi,GWi,&
