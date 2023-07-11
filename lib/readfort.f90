@@ -123,7 +123,6 @@ module readfort
             GAMMAR = GAMMARi(I)
             GAMMAS = GAMMASi(I)
             GAMMAW = GAMMAWi(I)
-            WRITE(6,*) NBUFF, CGF, NELION, ELO, GAMMAW
             ! IF(I.GE.NLINESi-100) WRITE(6,*)  NBUFF,CGF,NELION,ELO,GAMMAR,GAMMAS,GAMMAW
             write(1) NBUFF,CGF,NELION,ELO,GAMMAR,GAMMAS,GAMMAW
         end do
