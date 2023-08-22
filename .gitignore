@@ -26,6 +26,9 @@ share/python-wheels/
 *.egg
 MANIFEST
 
+# fal init file (is built when pip install)
+fal/__init__.py
+
 lib/*.mod
 lib/*.so
 
