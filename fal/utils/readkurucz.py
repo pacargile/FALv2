@@ -15,7 +15,12 @@ class ReadKurucz(object):
         super(ReadKurucz, self).__init__()
 
         solib_path = kwargs.get('solib',fal.__abspath__+'/lib/readfort.so')
-        self.rfort = cdll.LoadLibrary(solib_path)
+
+        try:
+            self.rfort = cdll.LoadLibrary(solib_path)
+        except IOError:
+            print(f'ISSUE WITH READING IN SHARED OBJECT: {solib_path}')
+            raise
 
         self.verbose = kwargs.get('verbose',False)
 
