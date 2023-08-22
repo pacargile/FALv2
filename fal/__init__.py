@@ -3,6 +3,5 @@ try:
 except(ImportError):
     pass
 
-from . import fitting
-from . import prep
-from . import utils
+
+__abspath__ = '/Users/pcargile/Astro/gitrepos/FALv2/'

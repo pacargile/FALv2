@@ -29,7 +29,7 @@ setup(
     long_description=open("README.md").read(),
     package_data={"": ["README.md", "LICENSE"]},
     include_package_data=True,
-    install_requires=["numpy", "scipy"],
+    install_requires=["numpy", "scipy", "h5py"],
 )
 
 # write top level __init__.py file with the correct absolute path to package repo
@@ -41,7 +41,7 @@ except(ImportError):
 """
 )
 
-# with open('fal/__init__.py','w') as ff:
-#   ff.write(toplevelstr)
-#   ff.write('\n')
-#   ff.write("""__abspath__ = '{0}/'\n""".format(os.getcwd()))
+with open('fal/__init__.py','w') as ff:
+  ff.write(toplevelstr)
+  ff.write('\n')
+  ff.write("""__abspath__ = '{0}/'\n""".format(os.getcwd()))

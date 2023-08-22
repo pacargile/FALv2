@@ -28,12 +28,12 @@ class Synthe(object):
         self.continuua = self.kwargs.get('continuua','./data/continuua.dat')
         self.he1tables = self.kwargs.get('he1tables','./data/he1tables.dat')
 
-        # define atm file
-        self.atmmod = self.kwargs.get('atmmod','./data/atmmod_sol.dat')
-        
         # define spectrv input file
         self.spectrv_infile = self.kwargs.get('spectrv_infile','./data/spectrv.input')
 
+        # define atm file
+        self.atmmod = self.kwargs.get('atmmod','./data/atmmod_sol.dat')
+        
         # string for rotate
         self.rotatevar = ("{NROT:5d}{NRADIUS:5d}\n{VROT:10.1f}\n")
         self.vrot = kwargs.get('rotvel',0.0)
@@ -85,13 +85,16 @@ class Synthe(object):
             f93path=self.f93path,
             )
 
+        # run synthe
         self.xnfpelsyn(verbose_xnf=verbose)
         self.synthe(verbose_syn=verbose)
         self.spectrv(verbose_sprv=verbose)
         self.rotate(vrot=self.vrot,verbose_rot=verbose)
         self.broaden(verbose_bro=verbose)
 
+        # read in binary output
         outdat = self.RK.readspecbin('./ROT1')
+
         return outdat
 
     def xnfpelsyn(self,verbose_xnf=False):
