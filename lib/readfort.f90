@@ -351,6 +351,7 @@ module readfort
         DO WHILE (1.eq.1)
           READ(1,end=100)LINDAT8,LINDAT4
             ! IF(I.LE.10) WRITE(6,'(A6,A4)') OTHER2
+            WRITE(6,*) I, WL, E, EP, LABEL(1), LABEL(2)
             WLi(I) = WL
             Ei(I) = E
             EPi(I) = EP
@@ -448,8 +449,6 @@ module readfort
             ! END DO
             OTHER2x(1,I) = OTHER2(1)
             OTHER2x(2,I) = OTHER2(2)
-
-            WRITE(6,*) "HERE"
 
             WLVACi(I) = WLVAC
             CENTERi(I) = CENTER
