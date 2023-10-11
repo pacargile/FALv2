@@ -449,6 +449,8 @@ module readfort
             OTHER2x(1,I) = OTHER2(1)
             OTHER2x(2,I) = OTHER2(2)
 
+            WRITE(6,*) "HERE"
+
             WLVACi(I) = WLVAC
             CENTERi(I) = CENTER
             CONCENi(I) = CONCEN
