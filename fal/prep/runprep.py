@@ -26,6 +26,9 @@ class RunPrep(object):
         # to consider.
         self.atmflist = self.kwargs.get('atmlist',['./data/atmmod_sol.dat'])
 
+        # define path to SYNTHE exe binaries
+        self.masterbinpath = self.kwargs.get('masterbin',None)
+
         # set the masterll file paths
         self.masterf12path=self.masterllfdir+'/fort.12'
         self.masterf14path=self.masterllfdir+'/fort.14'
@@ -60,8 +63,22 @@ class RunPrep(object):
             if not os.path.exists(dstfile):
                 shutil.copyfile(srcfile, dstfile)
 
-        # define path to SYNTHE exe binaries
-        self.masterbinpath = self.kwargs.get('masterbin',None)
+
+    def readseg(self,segfile):
+        # function that reads in list of segments, the ascii file format is:
+        # segnum, starting wl, ending wl
+        
+        seginfo = np.loadtxt(segfile,
+                             dtype={'names':('segnum','start_wl','end_wl'),
+                                    'formats':(int,float,float)})
+        segdict = {}
+        for ii in range(len(seginfo)):
+            segdict[seginfo['segnum'][ii]] = ({'segnum':seginfo['segnum'][ii],
+                                               'startwl':seginfo['start_wl'][ii],
+                                               'endwl':seginfo['end_wl'][ii]
+                                              })
+
+        return segdict
 
     def buildtree(self,segdict=None):
         # function to build directory tree for segment, copies in all necessary files
@@ -83,13 +100,13 @@ class RunPrep(object):
         # loop through segs 
         for kk in segdict.keys():
             # build seg dir
-            segdir = 'seg_{segnum}'.format(**segdict)
+            segdir = 'seg_{segnum}'.format(**segdict[kk])
             if not os.path.exists(segdir):
                 os.makedirs(segdir)
 
             # write wl info into text file in seg dir
             with open(f'{segdir}/wlinfo.txt','w') as wlf:
-                wlf.write('segnum={segnum},startwl={startwl:.4f},endwl={endwl:.4f}'.format(**segdict))
+                wlf.write('segnum={segnum},startwl={startwl:.4f},endwl={endwl:.4f}'.format(**segdict[kk]))
 
             # build seg subdir
             for ff in ['data','samples','lineinfo','mod','bin','ff']:
@@ -118,6 +135,7 @@ class RunPrep(object):
                 dstfile = '{0}/mod/{1}'.format(segdir,fname)
                 if not os.path.exists(dstfile):
                     shutil.copyfile(aa, dstfile)
+
 
     def indexmasterll(self,):
         # function that takes the master LL fort.14 and fort.20, and builds an HDF5 files
@@ -161,14 +179,6 @@ class RunPrep(object):
                     dataset_name = f'{ii}/{kk}'
                     h5file.create_dataset(dataset_name,data=mLL[kk][ii])
 
-    def readseg(self,segfile):
-        # function that reads in list of segments, the ascii file format is:
-        # segnum, starting wl, ending wl
-        
-        segfile = np.loadtxt(segfile,
-                             dtype={'names':('segnum','start_wl','end_wl'),
-                                    'formats':(int,float,float)})
-        return segfile
     
     def refactorll(self,segnum=0,startwl=0.0,endwl=np.inf):
         # function that takes masterll, parses it down to the specific wavelengths,
