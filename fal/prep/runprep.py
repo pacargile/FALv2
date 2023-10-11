@@ -227,18 +227,18 @@ class RunPrep(object):
         # read the segll files
         RK = readkurucz.ReadKurucz()
         RK.readfiles(
-            f12path='seg_{segnum}/ff/fort.12'.format(segnum),
-            f14path='seg_{segnum}/ff/fort.14'.format(segnum),
-            f19path='seg_{segnum}/ff/fort.19'.format(segnum),
-            f20path='seg_{segnum}/ff/fort.20'.format(segnum),
-            f93path='seg_{segnum}/ff/fort.93'.format(segnum),
+            f12path=f'seg_{segnum}/ff/fort.12',
+            f14path=f'seg_{segnum}/ff/fort.14',
+            f19path=f'seg_{segnum}/ff/fort.19',
+            f20path=f'seg_{segnum}/ff/fort.20',
+            f93path=f'seg_{segnum}/ff/fort.93',
         )
 
         # index the lines in just this segment
         # first stack f14 and f20 info
         sLL = {}
         for kk in RK.f14in.keys():
-            sLL[kk] = np.hstack([RK.f14in[kk],RK.f20in[kk]])
+            sLL[kk] = np.append(RK.f14in[kk],RK.f20in[kk])
 
         sLL['linsrc'] = np.array(
             [14 for _ in range(len(RK.f14in['wl']))] + 
