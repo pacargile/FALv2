@@ -181,7 +181,11 @@ class RunPrep(object):
             for ii in ind:
                 for kk in mLL.keys():
                     dataset_name = f'{ii}/{kk}'
-                    h5file.create_dataset(dataset_name,data=mLL[kk][ii])
+                    try:
+                        h5file.create_dataset(dataset_name,data=mLL[kk][ii])
+                    except TypeError:
+                        print(mLL[kk][ii])
+                        raise
 
     
     def refactorll(self,segnum=0,startwl=0.0,endwl=np.inf):
