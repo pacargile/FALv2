@@ -144,6 +144,7 @@ class RunPrep(object):
         # with a master index
 
         # read the masterll files
+        print('... Read in Master LL',flush=True)
         RK = readkurucz.ReadKurucz()
         RK.readfiles(
             f12path=self.masterf12path,
@@ -155,7 +156,7 @@ class RunPrep(object):
         # first stack f14 and f20 info
         mLL = {}
         for kk in RK.f14in.keys():
-            mLL[kk] = np.hstack([RK.f14in[kk],RK.f20in[kk]])
+            mLL[kk] = np.append(RK.f14in[kk],RK.f20in[kk])
 
         mLL['linsrc'] = np.array(
             [14 for _ in range(len(RK.f14in['wl']))] + 
@@ -169,6 +170,7 @@ class RunPrep(object):
         # define index array based on length of mLL
         ind = range(len(mLL['wl']))
         
+        print('... Create Master HDF5 file',flush=True)
         # create HDF5 file and fill it with info
         with h5py.File('./masterinfo/masterll.h5','w') as h5file:
             # first write a index table to simplify look-ups
