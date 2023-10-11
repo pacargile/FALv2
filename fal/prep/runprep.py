@@ -194,6 +194,7 @@ class RunPrep(object):
         
         # initialize AdjKurucz
         print('... Read Fort Files')
+        print(self.masterf93path)
         AK = adjkurucz.AdjKurucz()
         AK.readfiles(
             f12path=self.masterf12path,
