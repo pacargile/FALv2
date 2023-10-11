@@ -350,7 +350,7 @@ module readfort
         I = 1
         DO WHILE (1.eq.1)
           READ(1,end=100)LINDAT8,LINDAT4
-            IF(I.LE.300.AND.I.GE.295) WRITE(6,*)LINDAT4
+            IF(I.LE.300.AND.I.GE.295) WRITE(6,*)I,WL,E,EP
             WLi(I) = WL
             Ei(I) = E
             EPi(I) = EP
