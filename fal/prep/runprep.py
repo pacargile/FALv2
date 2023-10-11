@@ -193,10 +193,8 @@ class RunPrep(object):
         # fort files out to segll subdirectory.
         
         # initialize AdjKurucz
-        print('... Init AK')
-        AK = adjkurucz.AdjKurucz()
         print('... Read Fort Files')
-        AK.readfiles(
+        AK = adjkurucz.AdjKurucz(
             f12path=self.masterf12path,
             f14path=self.masterf14path,
             f19path=self.masterf19path,
