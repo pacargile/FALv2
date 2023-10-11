@@ -193,6 +193,7 @@ class RunPrep(object):
         # fort files out to segll subdirectory.
         
         # initialize AdjKurucz
+        print('... Read Fort Files')
         AK = adjkurucz.AdjKurucz()
         AK.readfiles(
             f12path=self.masterf12path,
@@ -201,9 +202,11 @@ class RunPrep(object):
             f20path=self.masterf20path,
             f93path=self.masterf93path)
 
+        print('... Adj the starting and ending wavelengths')
         AK.adj93(newdict={'wl':[startwl,endwl]})
     
         # write new fort files to segll directory
+        print('... Write out new fort files to seg dir')
         AK.wfort(        
             f12path='seg_{segnum}/ff/fort.12'.format(segnum),
             f14path='seg_{segnum}/ff/fort.14'.format(segnum),
