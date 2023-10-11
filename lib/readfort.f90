@@ -354,7 +354,6 @@ module readfort
             WLi(I) = WL
             Ei(I) = E
             EPi(I) = EP
-            IF(I.LE.300.AND.I.GE.295) WRITE(6,*)'A'
 
             ! Craete label strings
             ! WRITE(SLABEL,'(A8)') LABEL(1)
@@ -373,7 +372,6 @@ module readfort
             ! END DO
             LABELx(1,I) = LABEL(1)
             LABELx(2,I) = LABEL(2)
-            IF(I.LE.300.AND.I.GE.295) WRITE(6,*)'B'
 
 
             ! Craete label strings
@@ -393,12 +391,13 @@ module readfort
             ! END DO
             LABELPx(1,I) = LABELP(1)
             LABELPx(2,I) = LABELP(2)
-            IF(I.LE.300.AND.I.GE.295) WRITE(6,*)'C'
 
             
+            IF(I.LE.300.AND.I.GE.295) WRITE(6,*)'A'
             READ(COTHER1,'(2I5)')ISHIFT,ISHIFTP
+            IF(I.LE.300.AND.I.GE.295) WRITE(6,*)'B'
             READ(COTHER2,'(A6,I1,A3)')IXFIXFP,LINESIZE,AUTO
-            IF(I.LE.300.AND.I.GE.295) WRITE(6,*)'D'
+            IF(I.LE.300.AND.I.GE.295) WRITE(6,*)'C'
 
             ! IF(I.LE.10) WRITE(6,'(I5,I5,A6,I5,A3)') ISHIFT,ISHIFTP,IXFIXFP,LINESIZE,AUTO
 
