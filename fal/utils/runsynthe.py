@@ -30,9 +30,6 @@ class Synthe(object):
 
         # define spectrv input file
         self.spectrv_infile = self.kwargs.get('spectrv_infile','./data/spectrv.input')
-
-        # define atm file
-        self.atmmod = self.kwargs.get('atmmod','./data/atmmod_sol.dat')
         
         # string for rotate
         self.rotatevar = ("{NROT:5d}{NRADIUS:5d}\n{VROT:10.1f}\n")
@@ -55,6 +52,9 @@ class Synthe(object):
         self.f20path=kwargs.get('f20path',None)
         self.f93path=kwargs.get('f93path',None)
 
+    def setatmpath(self,**kwargs):
+        self.atmmod = self.kwargs.get('atmmod','./data/atmmod_sol.dat')
+
     def run(self,**kwargs):
         
         f12path_i=kwargs.get('f12path',None)
@@ -73,6 +73,10 @@ class Synthe(object):
             self.f20path = f20path_i
         if f93path_i != None:
             self.f93path = f93path_i
+        
+        atmmod_i = self.kwargs.get('atmmod','./data/atmmod_sol.dat')
+        if atmmod_i != None:
+            self.atmmod = atmmod_i
         
         verbose = kwargs.get('verbose',self.verbose)
                 
