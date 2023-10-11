@@ -73,7 +73,7 @@ class RunPrep(object):
                                     'formats':(int,float,float)})
         segdict = {}
         for ii in range(len(seginfo)):
-            segdict[seginfo['segnum'][ii]] = ({'segnum':seginfo['segnum'][ii],
+            segdict[ii] = ({'segnum':seginfo['segnum'][ii],
                                                'startwl':seginfo['start_wl'][ii],
                                                'endwl':seginfo['end_wl'][ii]
                                               })
