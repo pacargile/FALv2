@@ -162,8 +162,6 @@ class RunPrep(object):
             [14 for _ in range(len(RK.f14in['wl']))] + 
             [20 for _ in range(len(RK.f20in['wl']))],dtype=int)
 
-        print(mLL['wl'].min(),mLL['wl'].max())
-
         # sort mLL based on wavelengths
         sort_ind = np.argsort(mLL['wl'])
         for kk in RK.f14in.keys():
@@ -227,6 +225,7 @@ class RunPrep(object):
         mindarr = mLL['index'][()]
 
         # read the segll files
+        print('... Read Seg fort files')
         RK = readkurucz.ReadKurucz()
         RK.readfiles(
             f12path=f'seg_{segnum}/ff/fort.12',
