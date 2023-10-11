@@ -101,6 +101,8 @@ class RunPrep(object):
         for kk in segdict.keys():
             # build seg dir
             segdir = 'seg_{segnum}'.format(**segdict[kk])
+            print(f'... Building Tree {segdir}',flush=True)
+
             if not os.path.exists(segdir):
                 os.makedirs(segdir)
 
