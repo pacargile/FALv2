@@ -220,10 +220,12 @@ class RunPrep(object):
         # lineindex also includes the translation from masterll to segll.
         
         # open masterindex HDF5 file
+        print('READ IN MASTER LL')
         mLL = h5py.File('./masterinfo/masterll.h5','r')
         # read in index array
         mindarr = mLL['index'][()]
 
+        print('READING IN SEG FORTS')
         # read the segll files
         RK = readkurucz.ReadKurucz()
         RK.readfiles(
@@ -252,6 +254,9 @@ class RunPrep(object):
         # define index array based on length of sLL
         sLL['index'] = range(len(sLL['wl']))
         
+        print(f'SEG LL LEN {len(sLL)}')
+        
+        print('FINDING MASTER LL MATCHES')
         # first find seg index and match with master index
         # Try using the index array first, maybe we'll get lucky and there is only one match
         lineindexarr = []
@@ -282,8 +287,7 @@ class RunPrep(object):
             lif.write('segind masterind\n')
             for x,y in zip(sLL['index'],lineindexarr):
                 lif.write(f'{x} {y}\n')
-    
-    
+
         # set up initial SYNTHE runs for different atm files.
         # This is to determine which lines need to be included
         # as fit parameters.
