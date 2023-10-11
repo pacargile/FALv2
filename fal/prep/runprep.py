@@ -15,6 +15,17 @@ class RunPrep(object):
         # user input dir where master ll fort files are kept
         self.masterllfdir = self.args[0]
 
+        # define line threshold for including as a fitted line, default 1% depth
+        self.threshold = self.kwargs.get('threshold',0.01)
+
+        # define path for files that are the same for all SYNTHE
+        self.commonfilespath = self.kwargs.get('commonfiles',None)
+
+        # define the list of atm files to generate fitted lines
+        # the number of atm files here define how many different stars
+        # to consider.
+        self.atmflist = self.kwargs.get('atmlist',['./data/atmmod_sol.dat'])
+
         # set the masterll file paths
         self.masterf12path=self.masterllfdir+'/fort.12'
         self.masterf14path=self.masterllfdir+'/fort.14'
@@ -22,11 +33,6 @@ class RunPrep(object):
         self.masterf20path=self.masterllfdir+'/fort.20'
         self.masterf93path=self.masterllfdir+'/fort.93'
         
-        # define the list of atm files to generate fitted lines
-        # the number of atm files here define how many different stars
-        # to consider.
-        self.atmflist = self.kwargs.get('atmlist',['./data/atmmod_sol.dat'])
-
         # set up a master info directory to store bulk data for masterLL
         if not os.path.exists('./masterinfo'):
             os.makedirs('./masterinfo/')
@@ -43,12 +49,6 @@ class RunPrep(object):
             if not os.path.exists(dstfile):
                 shutil.copyfile(srcfile, dstfile)
         
-        # define line threshold for including as a fitted line, default 1% depth
-        self.threshold = self.kwargs.get('threshold',0.01)
-
-        # define path for files that are the same for all SYNTHE
-        self.commonfilespath = self.kwargs.get('commonfiles',None)
-
         # copy commonfiles into masterinfo
         if not os.path.exists('./masterinfo/data'):
             os.makedirs('./masterinfo/data')
