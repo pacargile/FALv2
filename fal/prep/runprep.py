@@ -184,8 +184,7 @@ class RunPrep(object):
                     try:
                         h5file.create_dataset(dataset_name,data=mLL[kk][ii])
                     except TypeError:
-                        print(mLL[kk][ii])
-                        raise
+                        h5file.create_dataset(dataset_name,data=mLL[kk][ii].astype('S1'))
 
     
     def refactorll(self,segnum=0,startwl=0.0,endwl=np.inf):
