@@ -226,7 +226,7 @@ class RunPrep(object):
 
         # read the segll files
         print('... Read Seg fort files')
-        RK = readkurucz.ReadKurucz()
+        RK = readkurucz.ReadKurucz(verbose=True)
         RK.readfiles(
             f12path=f'seg_{segnum}/ff/fort.12',
             f14path=f'seg_{segnum}/ff/fort.14',
