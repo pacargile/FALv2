@@ -448,6 +448,7 @@ module readfort
             ! END DO
             OTHER2x(1,I) = OTHER2(1)
             OTHER2x(2,I) = OTHER2(2)
+            IF(I.LE.300.AND.I.GE.295) WRITE(6,*)'SHIFTS'
 
             WLVACi(I) = WLVAC
             CENTERi(I) = CENTER
@@ -456,6 +457,7 @@ module readfort
             GAMMARi(I) = GAMMAR
             GAMMASi(I) = GAMMAS
             GAMMAWi(I) = GAMMAW
+            IF(I.LE.300.AND.I.GE.295) WRITE(6,*)'PARS'
             ! WRITE(SLABEL,'(A5)') REF
             ! SLABEL = SLABEL//c_null_char
             ! DO J=1,5
@@ -485,6 +487,7 @@ module readfort
             DWLISOi(I) = DWLISO
             ISOSHIFTi(I) = ISOSHIFT
             EXTRA3i(I) = EXTRA3
+            IF(I.LE.300.AND.I.GE.295) WRITE(6,*)'FINISHED'
 
             ! IF(I.LE.10) WRITE(6,'(A8,A2)')LABELx(:,I)
             I = I + 1
