@@ -220,12 +220,10 @@ class RunPrep(object):
         # lineindex also includes the translation from masterll to segll.
         
         # open masterindex HDF5 file
-        print('READ IN MASTER LL')
         mLL = h5py.File('./masterinfo/masterll.h5','r')
         # read in index array
         mindarr = mLL['index'][()]
 
-        print('READING IN SEG FORTS')
         # read the segll files
         RK = readkurucz.ReadKurucz()
         RK.readfiles(
@@ -246,8 +244,10 @@ class RunPrep(object):
             [14 for _ in range(len(RK.f14in['wl']))] + 
             [20 for _ in range(len(RK.f20in['wl']))],dtype=int)
 
+        print(sLL)
         # sort sLL based on wavelengths
         sort_ind = np.argsort(sLL['wl'])
+        print(sort_ind)
         for kk in RK.f14in.keys():
             sLL[kk] = sLL[kk][sort_ind]
         
