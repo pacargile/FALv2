@@ -32,7 +32,7 @@ class AdjKurucz(object):
             try:
                 print(kk,self.RK.f14in[kk][cond])
             except:
-                print(kk,self.RK.f14in[kk][:,cond])
+                print(kk,self.RK.f14in[kk])
 
 
     def wfort(self,*args,**kwargs):
