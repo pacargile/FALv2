@@ -218,8 +218,8 @@ class ReadKurucz(object):
         LINESIZEi = np.zeros(self.nlines12,dtype=np.int32)
         AUTOi     = np.zeros(self.nlines12,dtype='str')
 
-        OTHER1x   = np.zeros((2,self.nlines12),dtype=np.float32)
-        OTHER2x   = np.zeros((2,self.nlines12),dtype=np.float32)
+        OTHER1x   = np.zeros((2,self.nlines12),dtype=np.float64)
+        OTHER2x   = np.zeros((2,self.nlines12),dtype=np.float64)
 
         WLVACi    = np.zeros(self.nlines12,dtype=np.float64)
         CENTERi   = np.zeros(self.nlines12,dtype=np.float64)
@@ -274,8 +274,8 @@ class ReadKurucz(object):
             LINESIZEi.ctypes.data_as(c_int_p),
             AUTOi.ctypes.data_as(c_char_p),
 
-            OTHER1x.ctypes.data_as(c_double_p),    
-            OTHER2x.ctypes.data_as(c_double_p),    
+            OTHER1x.ctypes.data_as(c_float_p),    
+            OTHER2x.ctypes.data_as(c_float_p),    
             WLVACi.ctypes.data_as(c_double_p),    
             CENTERi.ctypes.data_as(c_double_p),    
             CONCENi.ctypes.data_as(c_double_p),    
