@@ -342,7 +342,7 @@ class ReadKurucz(object):
         #     print(OTHER2i[ii])
 
 
-        OTHER1x = np.array([[x.tobytes('C') for x in OTHER1x[0,:]],[x.tobytes('C') for x in OTHER1x[1,:]]])
+        OTHER1x = np.array([[x.tobytes('F') for x in ISHIFTi],[x.tobytes('F') for x in ISHIFTPi]])
 
         output = ({
             'wl':WLi, # input wavelength
