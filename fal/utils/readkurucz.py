@@ -594,8 +594,6 @@ class ReadKurucz(object):
         # x = ''.join(x)
         # OTHER2i = np.array(list(map(''.join, zip(*[iter(x)]*10))))
 
-        OTHER1x = OTHER1x.tobytes('F')
-
         output = ({
             'wl':WLi, # input wavelength
             'e':Ei, # first energy level
