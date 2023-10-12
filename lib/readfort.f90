@@ -393,11 +393,10 @@ module readfort
             LABELPx(2,I) = LABELP(2)
 
             
-            IF(I.LE.310.AND.I.GE.290) WRITE(6,*) 'R', COTHER1
+            IF(I.LE.310.AND.I.GE.290) WRITE(6,*) 'R A', COTHER1
+            IF(I.LE.310.AND.I.GE.290) WRITE(6,*) 'R B', OTHER1(1), OTHER1(2)
             READ(COTHER1,'(2I5)')ISHIFT,ISHIFTP
-            IF(I.LE.310.AND.I.GE.290) WRITE(6,*) 'R B'
             READ(COTHER2,'(A6,I1,A3)')IXFIXFP,LINESIZE,AUTO
-            IF(I.LE.310.AND.I.GE.290) WRITE(6,*) 'R C'
 
             ! IF(I.LE.10) WRITE(6,'(I5,I5,A6,I5,A3)') ISHIFT,ISHIFTP,IXFIXFP,LINESIZE,AUTO
 
