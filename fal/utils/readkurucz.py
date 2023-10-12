@@ -274,8 +274,8 @@ class ReadKurucz(object):
             LINESIZEi.ctypes.data_as(c_int_p),
             AUTOi.ctypes.data_as(c_char_p),
 
-            OTHER1x.ctypes.data_as(c_float_p),    
-            OTHER2x.ctypes.data_as(c_float_p),    
+            OTHER1x.ctypes.data_as(c_double_p),    
+            OTHER2x.ctypes.data_as(c_double_p),    
             WLVACi.ctypes.data_as(c_double_p),    
             CENTERi.ctypes.data_as(c_double_p),    
             CONCENi.ctypes.data_as(c_double_p),    
