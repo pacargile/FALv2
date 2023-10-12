@@ -340,7 +340,10 @@ class ReadKurucz(object):
 
         # for ii in range(10):
         #     print(OTHER2i[ii])
-        
+
+
+        OTHER1x = np.array([[x for x in ISHIFTi],[x for x in ISHIFTPi]])
+
         output = ({
             'wl':WLi, # input wavelength
             'e':Ei, # first energy level
