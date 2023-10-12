@@ -209,8 +209,8 @@ class ReadKurucz(object):
         LABELx    = np.zeros((2,self.nlines12),dtype=np.float64)
         LABELPx   = np.zeros((2,self.nlines12),dtype=np.float64)
 
-        OTHER1i   = np.zeros((self.nlines12,10),dtype='str')
-        OTHER2i   = np.zeros((self.nlines12,10),dtype='str')
+        # OTHER1i   = np.zeros((self.nlines12,10),dtype='str')
+        # OTHER2i   = np.zeros((self.nlines12,10),dtype='str')
 
         ISHIFTi   = np.zeros(self.nlines12,dtype=np.int32)
         ISHIFTPi  = np.zeros(self.nlines12,dtype=np.int32)
@@ -265,8 +265,8 @@ class ReadKurucz(object):
             LABELPi.ctypes.data_as(c_char_p),
             LABELPx.ctypes.data_as(c_double_p),  
 
-            OTHER1i.ctypes.data_as(c_int_p),
-            OTHER2i.ctypes.data_as(c_char_p),
+            # OTHER1i.ctypes.data_as(c_int_p),
+            # OTHER2i.ctypes.data_as(c_char_p),
 
             ISHIFTi.ctypes.data_as(c_int_p),
             ISHIFTPi.ctypes.data_as(c_int_p),
@@ -348,8 +348,8 @@ class ReadKurucz(object):
             'labelx':LABELx, # unformatted first level label
             'labelp':LABELPi, # second level label
             'labelpx':LABELPx, # unformatted second level label
-            'other1':OTHER1i, # Other1 info
-            'other2':OTHER2i, # Other2 info
+            # 'other1':OTHER1i, # Other1 info
+            # 'other2':OTHER2i, # Other2 info
             'ishift':ISHIFTi,
             'ishiftp':ISHIFTPi,
             'ixfixfp':IXFIXFPi,
