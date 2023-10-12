@@ -342,7 +342,7 @@ class ReadKurucz(object):
         #     print(OTHER2i[ii])
 
 
-        OTHER1x = OTHER1x.tobytes('F')
+        OTHER1x = [[x.tobytes('F') for x in OTHER1x[0,:]],[x.tobytes('F') for x in OTHER1x[1,:]]]
 
         output = ({
             'wl':WLi, # input wavelength
