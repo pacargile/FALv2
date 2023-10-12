@@ -590,6 +590,7 @@ module readfort
             OTHER2(2) = OTHER2i(2,I)
             IF(I.LE.310.AND.I.GE.290) WRITE(6,*) 'W A', COTHER1
             IF(I.LE.310.AND.I.GE.290) WRITE(6,*) 'W B', OTHER1
+            IF(I.LE.310.AND.I.GE.290) WRITE(6,*) 'W C', OTHER1i(1,I), OTHER1i(2,I)
 
             WLVAC = WLVACi(I)
             CENTER = CENTERi(I)
