@@ -29,11 +29,12 @@ class AdjKurucz(object):
         cond = self.RK.f14in['wl'] == 517.1090
 
         for kk in self.RK.f14in.keys():
+            print(kk)
             try:
                 print(kk,self.RK.f14in[kk][cond])
             except:
-                print(kk,self.RK.f14in[kk])
-
+                # print(kk,self.RK.f14in[kk][:,cond])
+                print(self.RK.f14in[kk])
 
     def wfort(self,*args,**kwargs):
         outf12path=kwargs.get('f12path','./fort_new.12')
