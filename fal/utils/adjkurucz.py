@@ -116,7 +116,8 @@ class AdjKurucz(object):
                         if kk == 'other1x':
                             print('2', kk)
                             x = self.RK.f14in[kk][:,np.flatnonzero(cond14)]
-                            print(x[0][279],x[1][279])
+                            xcond = self.RK.f14in['wl'] == 517.1090
+                            print(x[0][xcond],x[1][xcond])
                         self.RK.f14in[kk] = self.RK.f14in[kk][:,np.flatnonzero(cond14)]
                     elif self.RK.f14in[kk].shape[1] == 10:
                         self.RK.f14in[kk] = self.RK.f14in[kk][np.flatnonzero(cond14),:]
