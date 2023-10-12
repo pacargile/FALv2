@@ -350,7 +350,7 @@ module readfort
         I = 1
         DO WHILE (1.eq.1)
           READ(1,end=100)LINDAT8,LINDAT4
-            IF(I.LE.300.AND.I.GE.295) WRITE(6,*)I,WL,E,EP
+            IF(I.LE.310.AND.I.GE.290) WRITE(6,*)I,WL,CODE,E
             WLi(I) = WL
             Ei(I) = E
             EPi(I) = EP
@@ -393,11 +393,11 @@ module readfort
             LABELPx(2,I) = LABELP(2)
 
             
-            IF(I.LE.300.AND.I.GE.295) WRITE(6,*) COTHER1
+            IF(I.LE.310.AND.I.GE.290) WRITE(6,*) COTHER1
             READ(COTHER1,'(2I5)')ISHIFT,ISHIFTP
-            IF(I.LE.300.AND.I.GE.295) WRITE(6,*)'B'
+            IF(I.LE.310.AND.I.GE.290) WRITE(6,*)'B'
             READ(COTHER2,'(A6,I1,A3)')IXFIXFP,LINESIZE,AUTO
-            IF(I.LE.300.AND.I.GE.295) WRITE(6,*)'C'
+            IF(I.LE.310.AND.I.GE.290) WRITE(6,*)'C'
 
             ! IF(I.LE.10) WRITE(6,'(I5,I5,A6,I5,A3)') ISHIFT,ISHIFTP,IXFIXFP,LINESIZE,AUTO
 
