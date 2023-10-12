@@ -113,8 +113,12 @@ class AdjKurucz(object):
                     self.RK.f14in[kk] = self.RK.f14in[kk][cond14]
                 else:
                     if self.RK.f14in[kk].shape[0] == 2:
+                        print('2', kk)
+                        print(self.RK.f14in[kk][:,np.flatnonzero(cond14)])
                         self.RK.f14in[kk] = self.RK.f14in[kk][:,np.flatnonzero(cond14)]
                     elif self.RK.f14in[kk].shape[1] == 10:
+                        print('10', kk)
+                        print(self.RK.f14in[kk][np.flatnonzero(cond14),:])
                         self.RK.f14in[kk] = self.RK.f14in[kk][np.flatnonzero(cond14),:]
                     elif self.RK.f14in[kk].shape[1] == 5:
                         self.RK.f14in[kk] = self.RK.f14in[kk][np.flatnonzero(cond14),:]
