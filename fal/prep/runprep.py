@@ -276,7 +276,7 @@ class RunPrep(object):
 
             if cond.sum() == 0:
                 print(sLL['wl'][ii],sLL['code'][ii],sLL['linsrc'][ii])
-                print(mindarr[:,0])
+                print(mindarr[:,949])
 
 
             if cond.sum() == 1:
