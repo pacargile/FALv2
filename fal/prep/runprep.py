@@ -337,9 +337,10 @@ class RunPrep(object):
 
             # glob all atm in atm/ into list
             atmlist_i = glob.glob('./atm/*')
-            
+
             # Do an inital synthesis for each atm saving resid info
             for ii,atm_i in enumerate(atmlist_i):
+                print(f'... working on {atm_i}')
                 # set atm file path
                 RS.setatmpath(atmmod=atm_i)
                 # run SYNTHE in seg directory
