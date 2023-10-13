@@ -220,7 +220,10 @@ class RunPrep(object):
 
         cond = AK.RK.f14in['wl'] == 516.9056
         for kk in AK.RK.f14in.keys():
-            print(kk,AK.RK.f14in[kk][cond])
+            try:
+                print(kk,AK.RK.f14in[kk][cond])
+            except:
+                continue
 
         # write new fort files to segll directory
         print('... Write out new fort files to seg dir')
