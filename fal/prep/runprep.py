@@ -215,8 +215,24 @@ class RunPrep(object):
             f20path=self.masterf20path,
             f93path=self.masterf93path)
 
+        print('')
+        cond = AK.RK.f14in['wl'] == 516.9056
+        for kk in AK.RK.f14in.keys():
+            try:
+                print(kk,AK.RK.f14in[kk][cond])
+            except:
+                continue
+
         print('... Adj the starting and ending wavelengths')
         AK.adj93(newdict={'wl':[startwl,endwl]})
+
+        print('')
+        cond = AK.RK.f14in['wl'] == 516.9056
+        for kk in AK.RK.f14in.keys():
+            try:
+                print(kk,AK.RK.f14in[kk][cond])
+            except:
+                continue
 
         # write new fort files to segll directory
         print('... Write out new fort files to seg dir')
@@ -249,6 +265,7 @@ class RunPrep(object):
             f93path=f'seg_{segnum}/ff/fort.93',
         )
 
+        print('')
         cond = RK.f14in['wl'] == 516.9056
         for kk in RK.f14in.keys():
             try:
