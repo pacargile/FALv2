@@ -176,10 +176,10 @@ class RunPrep(object):
             [14 for _ in range(len(RK.f14in['wl']))] + 
             [20 for _ in range(len(RK.f20in['wl']))],dtype=int)
 
-        # # sort mLL based on wavelengths
-        # sort_ind = np.argsort(mLL['wl'])
-        # for kk in RK.f14in.keys():
-        #     mLL[kk] = mLL[kk][sort_ind]
+        # sort mLL based on wavelengths
+        sort_ind = np.argsort(mLL['wl'])
+        for kk in RK.f14in.keys():
+            mLL[kk] = mLL[kk][sort_ind]
         
         # define index array based on length of mLL
         ind = range(len(mLL['wl']))
@@ -217,6 +217,10 @@ class RunPrep(object):
 
         print('... Adj the starting and ending wavelengths')
         AK.adj93(newdict={'wl':[startwl,endwl]})
+
+        cond = AK.RK.f14in['wl'] == 516.9056
+        for kk in AK.RK.f14in.keys():
+            print(kk,AK.RK.f14in[kk][cond])
 
         # write new fort files to segll directory
         print('... Write out new fort files to seg dir')
@@ -259,10 +263,10 @@ class RunPrep(object):
             [14 for _ in range(len(RK.f14in['wl']))] + 
             [20 for _ in range(len(RK.f20in['wl']))],dtype=int)
 
-        # # sort sLL based on wavelengths
-        # sort_ind = np.argsort(sLL['wl'])
-        # for kk in RK.f14in.keys():
-        #     sLL[kk] = sLL[kk][sort_ind]
+        # sort sLL based on wavelengths
+        sort_ind = np.argsort(sLL['wl'])
+        for kk in RK.f14in.keys():
+            sLL[kk] = sLL[kk][sort_ind]
         
         # define index array based on length of sLL
         sLL['index'] = np.array(range(len(sLL['wl'])))
