@@ -291,7 +291,7 @@ class RunPrep(object):
                     mLL_i = mLL[f'{int(pp)}']
                     mat = True
                     for kk in sLL.keys():
-                        if kk in ['index','linesrc','ref','auto','ixfixfp','labelp','label']:
+                        if kk in ['index','linesrc','ref','auto','ixfixfp','labelp','label','ishift','ishiftp']:
                             continue
                         mat *= sLL[kk][ii] == mLL_i[kk]
                     if mat:
