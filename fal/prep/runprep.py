@@ -34,7 +34,7 @@ class RunPrep(object):
         # define the list of atm files to generate fitted lines
         # the number of atm files here define how many different stars
         # to consider.
-        self.atmflist = self.kwargs.get('atmlist',['./data/atmmod_sol.dat'])
+        self.atmflist = self.kwargs.get('atmlist',['./atm/atmmod_sol.dat'])
 
         # define path to SYNTHE exe binaries
         self.masterbinpath = self.kwargs.get('masterbin',None)
@@ -144,7 +144,7 @@ class RunPrep(object):
             # copy mod atm into subdir
             for aa in self.atmflist:
                 fname = aa.split('/')[-1]
-                dstfile = '{0}/mod/{1}'.format(segdir,fname)
+                dstfile = '{0}/atm/{1}'.format(segdir,fname)
                 if not os.path.exists(dstfile):
                     shutil.copyfile(aa, dstfile)
 
@@ -333,200 +333,206 @@ class RunPrep(object):
         src     = np.array([],dtype=int) # index for atm that flagged line
         
         
-        # Do an inital synthesis for each atm saving resid info
-        for ii,atm_i in enumerate(self.atmflist):
-            # set atm file path
-            RS.setatmpath(atmmod=atm_i)
-            # run SYNTHE in seg directory
-            with cwd(f'seg_{segnum}/'):
+        # temp change dir to seg_/ so that fortran is run there
+        with cwd(f'seg_{segnum}/'):
+
+            # glob all atm in atm/ into list
+            atmlist_i = glob.glob('./atm/*')
+        
+
+            # Do an inital synthesis for each atm saving resid info
+            for ii,atm_i in enumerate(atmlist_i):
+                # set atm file path
+                RS.setatmpath(atmmod=atm_i)
+                # run SYNTHE in seg directory
                 synout_i = RS.run()
 
-            # filter out lines less than threashold (resid -> continuum = 1.0)
-            theshcond = synout_i['resid'] < (1.0 - self.threshold)
-            
-            # check to make sure there are lines to fit for this atm
-            if theshcond.sum() == 0:
-                continue
-            
-            code_i    = synout_i['code'][theshcond]
-            wl_i      = synout_i['wl'][theshcond]
-            dwl_i     = synout_i['dwl'][theshcond]
-            loggf_i   = synout_i['loggf'][theshcond]
-            dloggf_i  = synout_i['dloggf'][theshcond]
-            gammar_i  = synout_i['gammar'][theshcond]
-            gammas_i  = synout_i['gammas'][theshcond]
-            gammaw_i  = synout_i['gammaw'][theshcond]
-            dgammar_i = synout_i['dgammar'][theshcond]
-            dgammas_i = synout_i['dgammas'][theshcond]
-            dgammaw_i = synout_i['dgammaw'][theshcond]
-            resid_i   = synout_i['resid'][theshcond]
-            
-            # sort by wl
-            sortcond = np.argsort(wl_i)
-            
-            code_i      = code_i[sortcond]
-            wl_i      = wl_i[sortcond]
-            dwl_i     = dwl_i[sortcond]
-            loggf_i   = loggf_i[sortcond]
-            dloggf_i  = dloggf_i[sortcond]
-            gammar_i  = gammar_i[sortcond]
-            gammas_i  = gammas_i[sortcond]
-            gammaw_i  = gammaw_i[sortcond]
-            dgammar_i = dgammar_i[sortcond]
-            dgammas_i = dgammas_i[sortcond]
-            dgammaw_i = dgammaw_i[sortcond]
-            resid_i   = resid_i[sortcond]
-            
-            # check to see if there are repeats
-            x = np.array([wl_i,loggf_i,gammar_i,gammas_i,gammaw_i])
-            y = np.array([wl,loggf,gammar,gammas,gammaw])
-            nonrepeatind = np.nonzero(np.all(~np.isin(y,x).T,axis=1))[0]
-
-            # append the non-repeating to parent lists            
-            code    = np.append(code,code_i[nonrepeatind])
-            wl      = np.append(wl,wl_i[nonrepeatind])
-            dwl     = np.append(dwl,dwl_i[nonrepeatind])
-            loggf   = np.append(loggf,loggf_i[nonrepeatind])
-            dloggf  = np.append(dloggf,dloggf_i[nonrepeatind])
-            gammar  = np.append(gammar,gammar_i[nonrepeatind])
-            gammas  = np.append(gammas,gammas_i[nonrepeatind])
-            gammaw  = np.append(gammaw,gammaw_i[nonrepeatind])
-            dgammar = np.append(dgammar,dgammar_i[nonrepeatind])
-            dgammas = np.append(dgammas,dgammas_i[nonrepeatind])
-            dgammaw = np.append(dgammaw,dgammaw_i[nonrepeatind])
-            resid   = np.append(resid,resid_i[nonrepeatind])
-            src     = np.append(src,[ii])
-
-        # init seg and master index
-        segind    = []
-        masterind = []
-
-        # int free par index for each line in fit line list
-        wlind = []
-        gfind = []
-        gwind = []
-        
-        # init final par columns
-        code_f   = []
-        wl_f     = []
-        loggf_f  = []
-        gammar_f = []
-        gammas_f = []
-        gammaw_f = []
-        resid_f  = []
-        src_f    = []
-
-        wlind_j = 0
-        gfind_j = 0
-        gwind_j = 0
-        
-        for ii in range(len(code)):
-            
-            # figure out the indices
-            wlind_i = wlind_j
-            gfind_i = gfind_j
-            if code[ii] > 99.0:
-                gwind_i = -1
-            else:
-                gwind_i = gwind_j
-                        
-            # figure out segind
-            cond = (
-                (sLL['wl'] == wl[ii]) & 
-                (sLL['code'] == code[ii]) & 
-                (sLL['gflog'] == loggf[ii]) &
-                (sLL['gammar'] == gammar[ii]) &
-                (sLL['gammas'] == gammas[ii]) &
-                (sLL['gammaw'] == gammaw[ii]) 
-                )
-
-            # check to make sure if found the line
-            assert cond.sum() == 1
-            segind_i    = sLL['index'][cond]
-            masterind_i = sLL['masterind'][cond]
-            
-            # book the initial line 
-            segind.append(segind_i)
-            masterind.append(masterind_i)
-            wlind.append(wlind_i)
-            gfind.append(gfind_i)
-            gwind.append(gwind_i)
-            code_f.append(code[ii])
-            wl_f.append(wl[ii])
-            loggf_f.append(loggf[ii])
-            gammar_f.append(gammar[ii])
-            gammas_f.append(gammas[ii])
-            gammaw_f.append(gammaw[ii])
-            resid_f.append(resid[ii])
-            src_f.append(src[ii])
-            
-            # now look for connected line (molecular or HF/ISO)
-            sLL_i = sLL[cond]
-            sLL_m = sLL[~cond]
-            
-            if code[ii] < 99.0:
-                # check for HF/ISO
-                HFISOcond = (
-                    (sLL_m['code']  == sLL_i['code']) & 
-                    (sLL_m['gflog'] == sLL_i['gflog']) & 
-                    (sLL_m['e']  == sLL_i['e']) & 
-                    (sLL_m['ep']  == sLL_i['ep'])
-                )
-
-                if HFISOcond.sum() > 0:
-                    sLL_mm = sLL_m[HFISOcond]
-                    for jj in range(len(sLL_mm)):
-                        segind.append(sLL_mm['index'][jj])
-                        masterind.append(sLL_mm['masterind'][jj])
-                        wlind.append(wlind_i)
-                        gfind.append(gfind_i)
-                        gwind.append(gwind_i)
-                        code_f.append(sLL_mm['code'][jj])
-                        wl_f.append(sLL_mm['wl'][jj])
-                        loggf_f.append(sLL_mm['gflog'][jj])
-                        gammar_f.append(sLL_mm['gr'][jj])
-                        gammas_f.append(sLL_mm['gs'][jj])
-                        gammaw_f.append(sLL_mm['gw'][jj])
-                        resid_f.append(0.0)
-                        src_f.append(src[ii])
-            else:
-                # check for other molecular lines in the same transition
-                MOLcond = (
-                    (sLL_m['code']  == sLL_i['code']) & 
-                    (sLL_m['iso1']  == sLL_i['iso1']) & 
-                    (sLL_m['iso2']  == sLL_i['iso2']) & 
-                    (sLL_m['x1']    == sLL_i['x1']) & 
-                    (sLL_m['x2']    == sLL_i['x2'])  
-                )
-
-                if MOLcond.sum() > 0:
-                    sLL_mm = sLL_m[MOLcond]
-                    for jj in range(len(sLL_mm)):
-                        segind.append(sLL_mm['index'][jj])
-                        masterind.append(sLL_mm['masterind'][jj])
-                        wlind.append(wlind_i)
-                        gfind.append(gfind_i)
-                        gwind.append(gwind_i)
-                        code_f.append(sLL_mm['code'][jj])
-                        wl_f.append(sLL_mm['wl'][jj])
-                        loggf_f.append(sLL_mm['gflog'][jj])
-                        gammar_f.append(sLL_mm['gr'][jj])
-                        gammas_f.append(sLL_mm['gs'][jj])
-                        gammaw_f.append(sLL_mm['gw'][jj])
-                        resid_f.append(0.0)
-                        src_f.append(src[ii])
+                # filter out lines less than threashold (resid -> continuum = 1.0)
+                theshcond = synout_i['resid'] < (1.0 - self.threshold)
                 
+                # check to make sure there are lines to fit for this atm
+                if theshcond.sum() == 0:
+                    continue
+                
+                code_i    = synout_i['code'][theshcond]
+                wl_i      = synout_i['wl'][theshcond]
+                dwl_i     = synout_i['dwl'][theshcond]
+                loggf_i   = synout_i['loggf'][theshcond]
+                dloggf_i  = synout_i['dloggf'][theshcond]
+                gammar_i  = synout_i['gammar'][theshcond]
+                gammas_i  = synout_i['gammas'][theshcond]
+                gammaw_i  = synout_i['gammaw'][theshcond]
+                dgammar_i = synout_i['dgammar'][theshcond]
+                dgammas_i = synout_i['dgammas'][theshcond]
+                dgammaw_i = synout_i['dgammaw'][theshcond]
+                resid_i   = synout_i['resid'][theshcond]
+                
+                # sort by wl
+                sortcond = np.argsort(wl_i)
+                
+                code_i      = code_i[sortcond]
+                wl_i      = wl_i[sortcond]
+                dwl_i     = dwl_i[sortcond]
+                loggf_i   = loggf_i[sortcond]
+                dloggf_i  = dloggf_i[sortcond]
+                gammar_i  = gammar_i[sortcond]
+                gammas_i  = gammas_i[sortcond]
+                gammaw_i  = gammaw_i[sortcond]
+                dgammar_i = dgammar_i[sortcond]
+                dgammas_i = dgammas_i[sortcond]
+                dgammaw_i = dgammaw_i[sortcond]
+                resid_i   = resid_i[sortcond]
+                
+                # check to see if there are repeats
+                x = np.array([wl_i,loggf_i,gammar_i,gammas_i,gammaw_i])
+                y = np.array([wl,loggf,gammar,gammas,gammaw])
+                nonrepeatind = np.nonzero(np.all(~np.isin(y,x).T,axis=1))[0]
+
+                # append the non-repeating to parent lists            
+                code    = np.append(code,code_i[nonrepeatind])
+                wl      = np.append(wl,wl_i[nonrepeatind])
+                dwl     = np.append(dwl,dwl_i[nonrepeatind])
+                loggf   = np.append(loggf,loggf_i[nonrepeatind])
+                dloggf  = np.append(dloggf,dloggf_i[nonrepeatind])
+                gammar  = np.append(gammar,gammar_i[nonrepeatind])
+                gammas  = np.append(gammas,gammas_i[nonrepeatind])
+                gammaw  = np.append(gammaw,gammaw_i[nonrepeatind])
+                dgammar = np.append(dgammar,dgammar_i[nonrepeatind])
+                dgammas = np.append(dgammas,dgammas_i[nonrepeatind])
+                dgammaw = np.append(dgammaw,dgammaw_i[nonrepeatind])
+                resid   = np.append(resid,resid_i[nonrepeatind])
+                src     = np.append(src,[ii])
+
+            # init seg and master index
+            segind    = []
+            masterind = []
+
+            # int free par index for each line in fit line list
+            wlind = []
+            gfind = []
+            gwind = []
             
-            wlind_j += 1
-            gfind_j += 1
-            if gwind_i != -1:
-                gwind_j += 1
-        
-        # write fit pars file out
-        with open('seg_{segnum}/lineinfo/linefitpars.txt','w') as lfp:
-            lfp.write('segind masterind wlind gfind gwind code wl loggf gammar gammas gammaw resid src \n')
-            for ii in range(len(segind)):
-                lfp.write(f'{segind[ii]} {masterind[ii]} {wlind[ii]} {gfind[ii]} {gwind[ii]} {code_f[ii]} {wl_f[ii]} {loggf_f[ii]} {gammar_f[ii]} {gammas_f[ii]} {gammaw_f[ii]} {resid_f[ii]} {src_f[ii]} \n')    
+            # init final par columns
+            code_f   = []
+            wl_f     = []
+            loggf_f  = []
+            gammar_f = []
+            gammas_f = []
+            gammaw_f = []
+            resid_f  = []
+            src_f    = []
+
+            wlind_j = 0
+            gfind_j = 0
+            gwind_j = 0
+            
+            for ii in range(len(code)):
+                
+                # figure out the indices
+                wlind_i = wlind_j
+                gfind_i = gfind_j
+                if code[ii] > 99.0:
+                    gwind_i = -1
+                else:
+                    gwind_i = gwind_j
+                            
+                # figure out segind
+                cond = (
+                    (sLL['wl'] == wl[ii]) & 
+                    (sLL['code'] == code[ii]) & 
+                    (sLL['gflog'] == loggf[ii]) &
+                    (sLL['gammar'] == gammar[ii]) &
+                    (sLL['gammas'] == gammas[ii]) &
+                    (sLL['gammaw'] == gammaw[ii]) 
+                    )
+
+                # check to make sure if found the line
+                assert cond.sum() == 1
+                segind_i    = sLL['index'][cond]
+                masterind_i = sLL['masterind'][cond]
+                
+                # book the initial line 
+                segind.append(segind_i)
+                masterind.append(masterind_i)
+                wlind.append(wlind_i)
+                gfind.append(gfind_i)
+                gwind.append(gwind_i)
+                code_f.append(code[ii])
+                wl_f.append(wl[ii])
+                loggf_f.append(loggf[ii])
+                gammar_f.append(gammar[ii])
+                gammas_f.append(gammas[ii])
+                gammaw_f.append(gammaw[ii])
+                resid_f.append(resid[ii])
+                src_f.append(src[ii])
+                
+                # now look for connected line (molecular or HF/ISO)
+                sLL_i = sLL[cond]
+                sLL_m = sLL[~cond]
+                
+                if code[ii] < 99.0:
+                    # check for HF/ISO
+                    HFISOcond = (
+                        (sLL_m['code']  == sLL_i['code']) & 
+                        (sLL_m['gflog'] == sLL_i['gflog']) & 
+                        (sLL_m['e']  == sLL_i['e']) & 
+                        (sLL_m['ep']  == sLL_i['ep'])
+                    )
+
+                    if HFISOcond.sum() > 0:
+                        sLL_mm = sLL_m[HFISOcond]
+                        for jj in range(len(sLL_mm)):
+                            segind.append(sLL_mm['index'][jj])
+                            masterind.append(sLL_mm['masterind'][jj])
+                            wlind.append(wlind_i)
+                            gfind.append(gfind_i)
+                            gwind.append(gwind_i)
+                            code_f.append(sLL_mm['code'][jj])
+                            wl_f.append(sLL_mm['wl'][jj])
+                            loggf_f.append(sLL_mm['gflog'][jj])
+                            gammar_f.append(sLL_mm['gr'][jj])
+                            gammas_f.append(sLL_mm['gs'][jj])
+                            gammaw_f.append(sLL_mm['gw'][jj])
+                            resid_f.append(0.0)
+                            src_f.append(src[ii])
+                else:
+                    # check for other molecular lines in the same transition
+                    MOLcond = (
+                        (sLL_m['code']  == sLL_i['code']) & 
+                        (sLL_m['iso1']  == sLL_i['iso1']) & 
+                        (sLL_m['iso2']  == sLL_i['iso2']) & 
+                        (sLL_m['x1']    == sLL_i['x1']) & 
+                        (sLL_m['x2']    == sLL_i['x2'])  
+                    )
+
+                    if MOLcond.sum() > 0:
+                        sLL_mm = sLL_m[MOLcond]
+                        for jj in range(len(sLL_mm)):
+                            segind.append(sLL_mm['index'][jj])
+                            masterind.append(sLL_mm['masterind'][jj])
+                            wlind.append(wlind_i)
+                            gfind.append(gfind_i)
+                            gwind.append(gwind_i)
+                            code_f.append(sLL_mm['code'][jj])
+                            wl_f.append(sLL_mm['wl'][jj])
+                            loggf_f.append(sLL_mm['gflog'][jj])
+                            gammar_f.append(sLL_mm['gr'][jj])
+                            gammas_f.append(sLL_mm['gs'][jj])
+                            gammaw_f.append(sLL_mm['gw'][jj])
+                            resid_f.append(0.0)
+                            src_f.append(src[ii])
+                    
+                
+                wlind_j += 1
+                gfind_j += 1
+                if gwind_i != -1:
+                    gwind_j += 1
+            
+            # write fit pars file out
+            with open('./lineinfo/linefitpars.txt','w') as lfp:
+                lfp.write('segind masterind wlind gfind gwind code wl loggf gammar gammas gammaw resid src \n')
+                for ii in range(len(segind)):
+                    lfp.write(f'{segind[ii]} {masterind[ii]} {wlind[ii]} {gfind[ii]} {gwind[ii]} {code_f[ii]} {wl_f[ii]} {loggf_f[ii]} {gammar_f[ii]} {gammas_f[ii]} {gammaw_f[ii]} {resid_f[ii]} {src_f[ii]} \n')    
     
     def defseg(self,):
         # function that defines segll given the masterll based on line density
