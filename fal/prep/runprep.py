@@ -414,6 +414,28 @@ class RunPrep(object):
                 dgammaw_i = dgammaw_i[sortcond]
                 resid_i   = resid_i[sortcond]
                 
+                # filter out lines outside wavelength range
+                wlcond = (synout_i['wl'] > startwl) & (synout_i['wl'] < endwl)
+
+                print(f'     ... After wave cut {wlcond.sum()}.')
+                
+                # check to make sure there are lines to fit for this atm
+                if wlcond.sum() == 0:
+                    continue
+                
+                code_i    = synout_i['code'][wlcond]
+                wl_i      = synout_i['wl'][wlcond]
+                dwl_i     = synout_i['dwl'][wlcond]
+                loggf_i   = synout_i['loggf'][wlcond]
+                dloggf_i  = synout_i['dloggf'][wlcond]
+                gammar_i  = synout_i['gammar'][wlcond]
+                gammas_i  = synout_i['gammas'][wlcond]
+                gammaw_i  = synout_i['gammaw'][wlcond]
+                dgammar_i = synout_i['dgammar'][wlcond]
+                dgammas_i = synout_i['dgammas'][wlcond]
+                dgammaw_i = synout_i['dgammaw'][wlcond]
+                resid_i   = synout_i['resid'][wlcond]
+                
                 # check to see if there are repeats
                 x = np.array([wl_i,loggf_i,gammar_i,gammas_i,gammaw_i])
                 y = np.array([wl,loggf,gammar,gammas,gammaw])
