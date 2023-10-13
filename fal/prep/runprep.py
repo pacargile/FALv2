@@ -271,6 +271,7 @@ class RunPrep(object):
                 # found more than one match, must sort out which one it is
                 # All columns must have matching values
                 potentiallines = mindarr[0,cond]
+                print(mLL.keys())
                 for pp in potentiallines:
                     mLL_i = mLL[f'{int(pp)}']
                     mat = True
