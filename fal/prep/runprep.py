@@ -284,7 +284,7 @@ class RunPrep(object):
         sLL['masterind'] = lineindexarr
         
         # write lineindex arrays to file
-        with open('seg_{segnum}/lineinfo/lineindex.txt','w') as lif:
+        with open(f'seg_{segnum}/lineinfo/lineindex.txt','w') as lif:
             lif.write('segind masterind\n')
             for x,y in zip(sLL['index'],lineindexarr):
                 lif.write(f'{x} {y}\n')
