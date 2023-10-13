@@ -277,7 +277,7 @@ class RunPrep(object):
             if cond.sum() == 1:
                 # found only one match, write line index
                 lineindexarr.append(int(mindarr[0,cond][0]))
-            else:
+            elif cond.sum() > 1:
                 # found more than one match, must sort out which one it is
                 # All columns must have matching values
                 potentiallines = mindarr[0,cond]
@@ -291,6 +291,14 @@ class RunPrep(object):
                     if mat:
                         lineindexarr.append(int(pp[0]))
                         break
+            else:
+                print(f'ISSUE WITH LINE {ii}, COULD NOT FIND MATCH IN MASTERLL')
+                print(f'THIS SHOULD NOT HAPPEN')
+                raise IOError
+        
+        
+        # close the masterLL HDF5 file
+        mLL.close()
 
         # write in the master ll index for future use
         sLL['masterind'] = np.array(lineindexarr)
