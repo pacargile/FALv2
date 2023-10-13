@@ -394,8 +394,6 @@ module readfort
             READ(COTHER1,'(2I5)')ISHIFT,ISHIFTP
             READ(COTHER2,'(A6,I1,A3)')IXFIXFP,LINESIZE,AUTO
 
-            IF(I.EQ.17.OR.I.EQ.18.OR.I.EQ.19) WRITE(6,*) ISHIFT,ISHIFTP
-
             ! IF(I.LE.10) WRITE(6,'(I5,I5,A6,I5,A3)') ISHIFT,ISHIFTP,IXFIXFP,LINESIZE,AUTO
 
             ISHIFTi(I) = ISHIFT
@@ -572,7 +570,7 @@ module readfort
         open(UNIT=1,FILE=c_to_f_string(s),STATUS='NEW',FORM='UNFORMATTED')
         JJ = 0
         do I=1,NLINESi
-            ! WRITE(6,*) 'A',OTHER1i(1,I),OTHER1i(2,I)
+            WRITE(6,*) 'A',OTHER1i(1,I),OTHER1i(2,I)
 
             WL = WLi(I)
             E = Ei(I)
