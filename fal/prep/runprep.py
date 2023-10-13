@@ -139,7 +139,7 @@ class RunPrep(object):
                 fname = bb.split('/')[-1]
                 dstfile = '{0}/bin/{1}'.format(segdir,fname)
                 if not os.path.exists(dstfile):
-                    shutil.copyfile(bb, dstfile)
+                    shutil.copy2(bb, dstfile)
 
             # copy mod atm into subdir
             for aa in self.atmflist:
@@ -343,7 +343,6 @@ class RunPrep(object):
                 print(f'... working on {atm_i}')
                 # set atm file path
                 RS.setatmpath(atmpath=atm_i)
-                print(RS.atmmod)
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
 
