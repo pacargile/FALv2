@@ -245,17 +245,15 @@ class RunPrep(object):
             [14 for _ in range(len(RK.f14in['wl']))] + 
             [20 for _ in range(len(RK.f20in['wl']))],dtype=int)
 
-        print(sLL)
         # sort sLL based on wavelengths
         sort_ind = np.argsort(sLL['wl'])
-        print(sort_ind)
         for kk in RK.f14in.keys():
             sLL[kk] = sLL[kk][sort_ind]
         
         # define index array based on length of sLL
         sLL['index'] = range(len(sLL['wl']))
         
-        print(f'SEG LL LEN {len(sLL)}')
+        print(f'SEG LL length {len(sLL)}')
         
         print('FINDING MASTER LL MATCHES')
         # first find seg index and match with master index
