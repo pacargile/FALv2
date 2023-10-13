@@ -218,18 +218,6 @@ class RunPrep(object):
         print('... Adj the starting and ending wavelengths')
         AK.adj93(newdict={'wl':[startwl,endwl]})
 
-        print('')
-
-        cond = AK.RK.f14in['wl'] == 516.9056
-
-        for kk in AK.RK.f14in.keys():
-            try:
-                print(kk,AK.RK.f14in[kk][cond])
-            except:
-                print(kk,AK.RK.f14in[kk][:,cond])
-                
-        print('')
-
         # write new fort files to segll directory
         print('... Write out new fort files to seg dir')
         AK.wfort(        
@@ -260,7 +248,7 @@ class RunPrep(object):
             f20path=f'seg_{segnum}/ff/fort.20',
             f93path=f'seg_{segnum}/ff/fort.93',
         )
-        
+
         # index the lines in just this segment
         # first stack f14 and f20 info
         sLL = {}
@@ -279,7 +267,7 @@ class RunPrep(object):
         # define index array based on length of sLL
         sLL['index'] = np.array(range(len(sLL['wl'])))
                 
-        print('FINDING MASTER LL MATCHES')
+        print('... Finding Master LL Matches')
         # first find seg index and match with master index
         # Try using the index array first, maybe we'll get lucky and there is only one match
         lineindexarr = []
@@ -306,12 +294,12 @@ class RunPrep(object):
                         foundmat = True
                         break
                 if foundmat == False:
-                    # for kk in sLL.keys():
-                    #     print('A',kk,sLL[kk][ii])
-                    # for pp in potentiallines:
-                    #     print(f'... {pp}')
-                    #     for kk in mLL[f'{int(pp)}'].keys():
-                    #         print(kk,mLL[f'{int(pp)}'][kk][()])
+                    for kk in sLL.keys():
+                        print('A',kk,sLL[kk][ii])
+                    for pp in potentiallines:
+                        print(f'... {pp}')
+                        for kk in mLL[f'{int(pp)}'].keys():
+                            print(kk,mLL[f'{int(pp)}'][kk][()])
 
                     print(f'ISSUE WITH LINE {ii}, LOOKED AT POTENTIAL LINES AND DID NOT FIND MATCH')
                     print(f'THIS SHOULD NOT HAPPEN')
