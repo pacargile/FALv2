@@ -325,19 +325,19 @@ class RunPrep(object):
                 f93path=f'./ff/fort.93',
                 )
 
-            code    = np.array([],dtype=float)
-            wl      = np.array([],dtype=float)
-            dwl     = np.array([],dtype=float)
-            loggf   = np.array([],dtype=float)
-            dloggf  = np.array([],dtype=float)
-            gammar  = np.array([],dtype=float)
-            gammas  = np.array([],dtype=float)
-            gammaw  = np.array([],dtype=float)
-            dgammar = np.array([],dtype=float)
-            dgammas = np.array([],dtype=float)
-            dgammaw = np.array([],dtype=float)
-            resid   = np.array([],dtype=float)
-            src     = np.array([],dtype=int) # index for atm that flagged line
+            code    = []
+            wl      = []
+            dwl     = []
+            loggf   = []
+            dloggf  = []
+            gammar  = []
+            gammas  = []
+            gammaw  = []
+            dgammar = []
+            dgammas = []
+            dgammaw = []
+            resid   = []
+            src     = [] # index for atm that flagged line
 
             # glob all atm in atm/ into list
             atmlist_i = glob.glob('./atm/*')
@@ -355,7 +355,7 @@ class RunPrep(object):
                 # filter out lines less than threashold (resid -> continuum = 1.0)
                 theshcond = synout_i['resid'] < (1.0 - self.threshold)
 
-                print(f'     ... After threshold cut {len(synout_i["resid"])}.')
+                print(f'     ... After threshold cut {theshcond.sum()}.')
                 
                 # check to make sure there are lines to fit for this atm
                 if theshcond.sum() == 0:
@@ -393,9 +393,7 @@ class RunPrep(object):
                 # check to see if there are repeats
                 x = np.array([wl_i,loggf_i,gammar_i,gammas_i,gammaw_i])
                 y = np.array([wl,loggf,gammar,gammas,gammaw])
-                print(x)
-                print(y)
-                nonrepeatind = np.nonzero(np.all(~np.isin(y,x).T,axis=1))[0]
+                nonrepeatind = np.nonzero(np.all(~np.isin(x,y).T,axis=1))[0]
 
                 print(f'     ... Registering {len(nonrepeatind)} lines')
 
