@@ -300,7 +300,10 @@ class RunPrep(object):
                         break
                 if foundmat == False:
                     for kk in sLL.keys():
-                        print('A',kk,sLL[kk][ii],[mLL[f'{int(pp)}'][kk][()] for pp in potentiallines])
+                        testpar = sLL[kk][ii]
+                        matchedlist = [mLL[f'{int(pp)}'][kk][()] for pp in potentiallines]
+                        condtest = matchedlist == testpar
+                        print('A',kk,testpar,matchedlist,'->',matchedlist[condtest])
 
                     print(f'ISSUE WITH LINE {ii}, LOOKED AT POTENTIAL LINES AND DID NOT FIND MATCH')
                     print(f'THIS SHOULD NOT HAPPEN')
