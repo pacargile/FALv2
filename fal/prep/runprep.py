@@ -350,8 +350,12 @@ class RunPrep(object):
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
 
+                print(f'... Found {len(synout_i["resid"])} to consider.')
+
                 # filter out lines less than threashold (resid -> continuum = 1.0)
                 theshcond = synout_i['resid'] < (1.0 - self.threshold)
+
+                print(f'... After threshold cut {len(synout_i["resid"])}.')
                 
                 # check to make sure there are lines to fit for this atm
                 if theshcond.sum() == 0:
@@ -390,6 +394,8 @@ class RunPrep(object):
                 x = np.array([wl_i,loggf_i,gammar_i,gammas_i,gammaw_i])
                 y = np.array([wl,loggf,gammar,gammas,gammaw])
                 nonrepeatind = np.nonzero(np.all(~np.isin(y,x).T,axis=1))[0]
+
+                print(f'... Registering {len(nonrepeatind)} lines')
 
                 # append the non-repeating to parent lists            
                 code    = np.append(code,code_i[nonrepeatind])
