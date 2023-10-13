@@ -107,10 +107,10 @@ class AdjKurucz(object):
 
             # parse the fort.12/14 lines
             for kk in self.RK.f12in.keys():
-                self.RK.f12in[kk] = self.RK.f12in[kk][cond14]
+                self.RK.f12in[kk] = self.RK.f12in[kk][np.flatnonzero(cond14)]
             for kk in self.RK.f14in.keys():
                 if self.RK.f14in[kk].ndim == 1:
-                    self.RK.f14in[kk] = self.RK.f14in[kk][cond14]
+                    self.RK.f14in[kk] = self.RK.f14in[kk][np.flatnonzero(cond14)]
                 else:
                     if self.RK.f14in[kk].shape[0] == 2:
                         self.RK.f14in[kk] = np.array(
