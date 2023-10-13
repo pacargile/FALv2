@@ -278,7 +278,7 @@ class RunPrep(object):
 
             if cond.sum() == 1:
                 # found only one match, write line index
-                lineindexarr.append(mindarr[0,cond])
+                lineindexarr.append(int(mindarr[0,cond][0]))
             else:
                 # found more than one match, must sort out which one it is
                 # All columns must have matching values
@@ -291,7 +291,7 @@ class RunPrep(object):
                             continue
                         mat *= sLL[kk][ii] == mLL_i[kk]
                     if mat:
-                        lineindexarr.append(pp)
+                        lineindexarr.append(int(pp[0]))
                         break
 
         # write in the master ll index for future use
