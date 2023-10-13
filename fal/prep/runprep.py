@@ -458,10 +458,14 @@ class RunPrep(object):
                 try:
                     assert cond.sum() == 1
                 except AssertionError:
+                    print('Could not find a single match to this line: ')
                     print(sLL['wl'][:10],sLL['code'][:10],sLL['gflog'][:10],sLL['gw'][:10])
                     print(wl[ii],code[ii],loggf[ii],gammaw[ii])
                     raise
                     
+                print(len(cond))
+                print(len(sLL['index']))
+                print(len(sLL['masterind']))
                 segind_i    = sLL['index'][cond]
                 masterind_i = sLL['masterind'][cond]
                 
