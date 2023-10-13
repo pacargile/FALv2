@@ -529,6 +529,9 @@ class RunPrep(object):
                 resid_f.append(resid[ii])
                 src_f.append(src[ii])
                 
+                print(segind_i)
+                print(sLL)
+                
                 # now look for connected line (molecular or HF/ISO)
                 sLL_i = {sLL[kk][cond] for kk in sLL.keys()}
                 sLL_m = {sLL[kk][~cond] for kk in sLL.keys()}
