@@ -301,7 +301,7 @@ class RunPrep(object):
                 if foundmat == False:
                     for kk in sLL.keys():
                         testpar = sLL[kk][ii]
-                        matchedlist = [mLL[f'{int(pp)}'][kk][()] for pp in potentiallines]
+                        matchedlist = np.array([mLL[f'{int(pp)}'][kk][()] for pp in potentiallines])
                         condtest = matchedlist == testpar
                         print('A',kk,testpar,matchedlist,'->',matchedlist[condtest])
 
