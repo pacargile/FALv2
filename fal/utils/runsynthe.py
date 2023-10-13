@@ -84,9 +84,15 @@ class Synthe(object):
             print('Must define path to input fort files')
             raise IOError
         
-        atmmod_i = self.kwargs.get('atmmod','./data/atmmod_sol.dat')
+        atmmod_i = self.kwargs.get('atmmod',None)
         if atmmod_i != None:
             self.atmmod = atmmod_i
+        
+        try:
+            assert self.atmmod != None
+        except AssertionError:
+            print('Must define atm file')
+            raise IOError
         
         verbose = kwargs.get('verbose',self.verbose)
                 
