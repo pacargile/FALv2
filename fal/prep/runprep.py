@@ -176,10 +176,10 @@ class RunPrep(object):
             [14 for _ in range(len(RK.f14in['wl']))] + 
             [20 for _ in range(len(RK.f20in['wl']))],dtype=int)
 
-        # sort mLL based on wavelengths
-        sort_ind = np.argsort(mLL['wl'])
-        for kk in RK.f14in.keys():
-            mLL[kk] = mLL[kk][sort_ind]
+        # # sort mLL based on wavelengths
+        # sort_ind = np.argsort(mLL['wl'])
+        # for kk in RK.f14in.keys():
+        #     mLL[kk] = mLL[kk][sort_ind]
         
         # define index array based on length of mLL
         ind = range(len(mLL['wl']))
@@ -259,10 +259,10 @@ class RunPrep(object):
             [14 for _ in range(len(RK.f14in['wl']))] + 
             [20 for _ in range(len(RK.f20in['wl']))],dtype=int)
 
-        # sort sLL based on wavelengths
-        sort_ind = np.argsort(sLL['wl'])
-        for kk in RK.f14in.keys():
-            sLL[kk] = sLL[kk][sort_ind]
+        # # sort sLL based on wavelengths
+        # sort_ind = np.argsort(sLL['wl'])
+        # for kk in RK.f14in.keys():
+        #     sLL[kk] = sLL[kk][sort_ind]
         
         # define index array based on length of sLL
         sLL['index'] = np.array(range(len(sLL['wl'])))
