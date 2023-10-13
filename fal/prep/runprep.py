@@ -293,7 +293,7 @@ class RunPrep(object):
                         break
 
         # write in the master ll index for future use
-        sLL['masterind'] = lineindexarr
+        sLL['masterind'] = np.array(lineindexarr)
         
         # write lineindex arrays to file
         with open(f'seg_{segnum}/lineinfo/lineindex.txt','w') as lif:
