@@ -391,10 +391,7 @@ module readfort
             ! END DO
             LABELPx(1,I) = LABELP(1)
             LABELPx(2,I) = LABELP(2)
-
             
-            IF(I.LE.310.AND.I.GE.290) WRITE(6,*) 'R A', COTHER1
-            IF(I.LE.310.AND.I.GE.290) WRITE(6,*) 'R B', OTHER1(1), OTHER1(2)
             READ(COTHER1,'(2I5)')ISHIFT,ISHIFTP
             READ(COTHER2,'(A6,I1,A3)')IXFIXFP,LINESIZE,AUTO
 
@@ -587,8 +584,6 @@ module readfort
             OTHER1(2) = OTHER1i(2,I)
             OTHER2(1) = OTHER2i(1,I)
             OTHER2(2) = OTHER2i(2,I)
-            IF(I.LE.310.AND.I.GE.290) WRITE(6,*) 'W A', COTHER1
-            IF(I.LE.310.AND.I.GE.290) WRITE(6,*) 'W C', OTHER1i(1,I), OTHER1i(2,I)
 
             WLVAC = WLVACi(I)
             CENTER = CENTERi(I)
