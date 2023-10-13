@@ -295,7 +295,7 @@ class RunPrep(object):
                             continue
                         mat *= sLL[kk][ii] == mLL_i[kk]
                     if mat:
-                        lineindexarr.append(int(pp[0]))
+                        lineindexarr.append(int(pp))
                         foundmat = True
                         break
                 if foundmat == False:
