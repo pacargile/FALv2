@@ -425,6 +425,8 @@ module readfort
             OTHER1x(1,I) = OTHER1(1)
             OTHER1x(2,I) = OTHER1(2)
 
+            IF(I.EQ.17.OR.I.EQ.18.OR.I.EQ.19) WRITE(6,*) 'A',OTHER1x(1,I),OTHER1x(2,I)
+
             ! WRITE(SLABEL,'(A7)') OTHER2(1)
             ! SLABEL = SLABEL//c_null_char
             ! K = 1
