@@ -570,7 +570,7 @@ module readfort
         open(UNIT=1,FILE=c_to_f_string(s),STATUS='NEW',FORM='UNFORMATTED')
         JJ = 0
         do I=1,NLINESi
-            WRITE(6,*) 'A',OTHER1i(1,I),OTHER1i(2,I)
+            IF(I.EQ.17.OR.I.EQ.18.OR.I.EQ.19) WRITE(6,*) 'A',OTHER1i(1,I),OTHER1i(2,I)
 
             WL = WLi(I)
             E = Ei(I)
