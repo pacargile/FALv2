@@ -232,7 +232,7 @@ class RunPrep(object):
             try:
                 print(kk,AK.RK.f14in[kk][cond])
             except:
-                continue
+                print(kk,AK.RK.f14in[kk][:,cond])
 
         # write new fort files to segll directory
         print('... Write out new fort files to seg dir')
