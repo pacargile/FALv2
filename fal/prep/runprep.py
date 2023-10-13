@@ -203,7 +203,7 @@ class RunPrep(object):
 
         print('... Adj the starting and ending wavelengths')
         AK.adj93(newdict={'wl':[startwl,endwl]})
-            
+
         # write new fort files to segll directory
         print('... Write out new fort files to seg dir')
         AK.wfort(        
@@ -272,7 +272,7 @@ class RunPrep(object):
                 # All columns must have matching values
                 potentiallines = mindarr[0,cond]
                 for pp in potentiallines:
-                    mLL_i = mLL[pp]
+                    mLL_i = mLL[f'{pp}']
                     mat = True
                     for kk in sLL.keys():
                         mat *= sLL[kk][ii] == mLL_i[kk]
