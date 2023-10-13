@@ -299,7 +299,7 @@ class RunPrep(object):
                     for pp in potentiallines:
                         print(f'... {pp}')
                         for kk in mLL[f'{int(pp)}'].keys():
-                            print(kk,mLL[f'{int(pp)}'][kk])
+                            print(kk,mLL[f'{int(pp)}'][kk][()])
 
                     print(f'ISSUE WITH LINE {ii}, LOOKED AT POTENTIAL LINES AND DID NOT FIND MATCH')
                     print(f'THIS SHOULD NOT HAPPEN')
