@@ -122,7 +122,11 @@ class AdjKurucz(object):
                 else:
                     if self.RK.f14in[kk].shape[0] == 2:
                         # self.RK.f14in[kk] = self.RK.f14in[kk][:,np.flatnonzero(cond14)]
-                        self.RK.f14in[kk] = self.RK.f14in[kk][:,cond14]
+
+                        self.RK.f14in[kk] = np.array(
+                            [self.RK.f14in[kk][0,np.flatnonzero(cond14)],
+                             self.RK.f14in[kk][1,np.flatnonzero(cond14)]])
+
                     elif self.RK.f14in[kk].shape[1] == 10:
                         self.RK.f14in[kk] = self.RK.f14in[kk][np.flatnonzero(cond14),:]
                     elif self.RK.f14in[kk].shape[1] == 5:
