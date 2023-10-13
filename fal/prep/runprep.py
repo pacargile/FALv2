@@ -274,11 +274,6 @@ class RunPrep(object):
         for ii in sLL['index']:
             cond = (mindarr[1,:] == sLL['wl'][ii]) & (mindarr[2,:] == sLL['code'][ii])
 
-            if cond.sum() == 0:
-                print(sLL['index'][ii],sLL['wl'][ii],sLL['code'][ii],float(sLL['linsrc'][ii]))
-                print(mindarr[:,4219:4223])
-
-
             if cond.sum() == 1:
                 # found only one match, write line index
                 lineindexarr.append(int(mindarr[0,cond][0]))
@@ -286,16 +281,25 @@ class RunPrep(object):
                 # found more than one match, must sort out which one it is
                 # All columns must have matching values
                 potentiallines = mindarr[0,cond]
+                foundmat = False
                 for pp in potentiallines:
                     mLL_i = mLL[f'{int(pp)}']
                     mat = True
                     for kk in sLL.keys():
-                        if kk == 'index':
+                        if (kk == 'index') or (kk == 'linesrc'):
                             continue
                         mat *= sLL[kk][ii] == mLL_i[kk]
                     if mat:
                         lineindexarr.append(int(pp[0]))
+                        foundmat = True
                         break
+                if foundmat == False:
+                    print(mindarr[:,cond])
+                    print(sLL['index'][ii],sLL['wl'][ii],sLL['code'][ii])
+                    print(f'ISSUE WITH LINE {ii}, LOOKED AT POTENTIAL LINES AND DID NOT FIND MATCH')
+                    print(f'THIS SHOULD NOT HAPPEN')
+                    raise IOError
+                    
             else:
                 print(f'ISSUE WITH LINE {ii}, COULD NOT FIND MATCH IN MASTERLL')
                 print(f'THIS SHOULD NOT HAPPEN')
