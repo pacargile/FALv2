@@ -272,7 +272,12 @@ class RunPrep(object):
         # Try using the index array first, maybe we'll get lucky and there is only one match
         lineindexarr = []
         for ii in sLL['index']:
-            cond = (sLL['wl'][ii] == mindarr[1,:]) & (sLL['code'][ii] == mindarr[2,:]) & (sLL['linsrc'][ii] == mindarr[3,:])
+            cond = (mindarr[1,:] == sLL['wl'][ii]) & (mindarr[2,:] == sLL['code'][ii]) & (mindarr[3,:] == sLL['linsrc'][ii])
+
+            if cond.sum() == 0:
+                print(sLL['wl'][ii],sLL['code'][ii],sLL['linsrc'][ii])
+                print(mindarr[:,0])
+
 
             if cond.sum() == 1:
                 # found only one match, write line index
