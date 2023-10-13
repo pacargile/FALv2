@@ -265,13 +265,10 @@ class RunPrep(object):
             sLL[kk] = sLL[kk][sort_ind]
 
         # trim sLL to wavelength range
-        print(sLL['wl'].min(),sLL['wl'].max())
         condwl = (sLL['wl'] > startwl) & (sLL['wl'] < endwl)
         for kk in RK.f14in.keys():
             sLL[kk] = sLL[kk][condwl]
-        
-        print(sLL['wl'].min(),sLL['wl'].max())
-        
+                
         # define index array based on length of sLL
         sLL['index'] = np.array(range(len(sLL['wl'])))
                 
@@ -303,11 +300,7 @@ class RunPrep(object):
                         break
                 if foundmat == False:
                     for kk in sLL.keys():
-                        print('A',kk,sLL[kk][ii])
-                    for pp in potentiallines:
-                        print(f'... {pp}')
-                        for kk in mLL[f'{int(pp)}'].keys():
-                            print(kk,mLL[f'{int(pp)}'][kk][()])
+                        print('A',kk,sLL[kk][ii],[mLL[f'{int(pp)}'][kk][()] for pp in potentiallines])
 
                     print(f'ISSUE WITH LINE {ii}, LOOKED AT POTENTIAL LINES AND DID NOT FIND MATCH')
                     print(f'THIS SHOULD NOT HAPPEN')
