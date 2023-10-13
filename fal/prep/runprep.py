@@ -218,13 +218,6 @@ class RunPrep(object):
         print('... Adj the starting and ending wavelengths')
         AK.adj93(newdict={'wl':[startwl,endwl]})
 
-        cond = AK.RK.f14in['wl'] == 516.9056
-        for kk in AK.RK.f14in.keys():
-            try:
-                print(kk,AK.RK.f14in[kk][cond])
-            except:
-                continue
-
         # write new fort files to segll directory
         print('... Write out new fort files to seg dir')
         AK.wfort(        
@@ -255,6 +248,13 @@ class RunPrep(object):
             f20path=f'seg_{segnum}/ff/fort.20',
             f93path=f'seg_{segnum}/ff/fort.93',
         )
+
+        cond = RK.f14in['wl'] == 516.9056
+        for kk in RK.f14in.keys():
+            try:
+                print(kk,RK.f14in[kk][cond])
+            except:
+                continue
 
         # index the lines in just this segment
         # first stack f14 and f20 info
