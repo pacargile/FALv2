@@ -272,7 +272,7 @@ class RunPrep(object):
                 # All columns must have matching values
                 potentiallines = mindarr[0,cond]
                 for pp in potentiallines:
-                    mLL_i = mLL[f'{pp}']
+                    mLL_i = mLL[f'{int(pp)}']
                     mat = True
                     for kk in sLL.keys():
                         mat *= sLL[kk][ii] == mLL_i[kk]
