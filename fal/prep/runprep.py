@@ -294,8 +294,13 @@ class RunPrep(object):
                         foundmat = True
                         break
                 if foundmat == False:
-                    print(mindarr[:,cond])
-                    print(sLL['index'][ii],sLL['wl'][ii],sLL['code'][ii])
+                    for kk in sLL.keys():
+                        print('A',kk,sLL[kk][ii])
+                    for pp in potentiallines:
+                        print(f'... {pp}')
+                        for kk in mLL[f'{int(pp)}'].keys():
+                            print(kk,mLL[f'{int(pp)}'][kk])
+
                     print(f'ISSUE WITH LINE {ii}, LOOKED AT POTENTIAL LINES AND DID NOT FIND MATCH')
                     print(f'THIS SHOULD NOT HAPPEN')
                     raise IOError
