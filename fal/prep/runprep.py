@@ -228,7 +228,7 @@ class RunPrep(object):
             f93path=f'seg_{segnum}/ff/fort.93',
             )
     
-    def selfitlines(self,segnum=0):
+    def selfitlines(self,segnum=0,startwl=0.0,endwl=np.inf):
         # function that selects which lines to be fit in segment (lineindex), assigns free parameter 
         # index for each line (linepars), and writes info files out for lineindex and linepars. 
         # lineindex also includes the translation from masterll to segll.
@@ -263,6 +263,11 @@ class RunPrep(object):
         sort_ind = np.argsort(sLL['wl'])
         for kk in RK.f14in.keys():
             sLL[kk] = sLL[kk][sort_ind]
+
+        # trim sLL to wavelength range
+        condwl = (sLL['wl'] > startwl) & (sLL['WL'] < endwl)
+        for kk in RK.f14in.keys():
+            sLL[kk] = sLL[kk][condwl]
         
         # define index array based on length of sLL
         sLL['index'] = np.array(range(len(sLL['wl'])))
