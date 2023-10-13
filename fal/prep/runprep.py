@@ -271,7 +271,7 @@ class RunPrep(object):
             try:
                 print(kk,RK.f14in[kk][cond])
             except:
-                print(kk,AK.RK.f14in[kk][:,cond])
+                print(kk,RK.f14in[kk][:,cond])
 
         # index the lines in just this segment
         # first stack f14 and f20 info
