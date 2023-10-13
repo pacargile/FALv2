@@ -265,9 +265,11 @@ class RunPrep(object):
             sLL[kk] = sLL[kk][sort_ind]
 
         # trim sLL to wavelength range
+        print(sLL['wl'].min(),sLL['wl'].max())
         condwl = (sLL['wl'] > startwl) & (sLL['wl'] < endwl)
         for kk in RK.f14in.keys():
             sLL[kk] = sLL[kk][condwl]
+        print(sLL['wl'].min(),sLL['wl'].max())
         
         # define index array based on length of sLL
         sLL['index'] = np.array(range(len(sLL['wl'])))
