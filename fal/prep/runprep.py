@@ -456,7 +456,12 @@ class RunPrep(object):
                     )
 
                 # check to make sure if found the line
-                assert cond.sum() == 1
+                try:
+                    assert cond.sum() == 1
+                except AssertionError:
+                    print(cond.sum())
+                    raise
+                    
                 segind_i    = sLL['index'][cond]
                 masterind_i = sLL['masterind'][cond]
                 
