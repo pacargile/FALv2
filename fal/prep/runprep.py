@@ -301,11 +301,11 @@ class RunPrep(object):
             verbose=False,
             )
         RS.setfpaths(
-            f12path='seg_{segnum}/ff/fort.12'.format(segnum),
-            f14path='seg_{segnum}/ff/fort.14'.format(segnum),
-            f19path='seg_{segnum}/ff/fort.19'.format(segnum),
-            f20path='seg_{segnum}/ff/fort.20'.format(segnum),
-            f93path='seg_{segnum}/ff/fort.93'.format(segnum),
+            f12path=f'seg_{segnum}/ff/fort.12',
+            f14path=f'seg_{segnum}/ff/fort.14',
+            f19path=f'seg_{segnum}/ff/fort.19',
+            f20path=f'seg_{segnum}/ff/fort.20',
+            f93path=f'seg_{segnum}/ff/fort.93',
             )
 
         code    = np.array([],dtype=float)
