@@ -221,7 +221,7 @@ class RunPrep(object):
             try:
                 print(kk,AK.RK.f14in[kk][cond])
             except:
-                continue
+                print(kk,AK.RK.f14in[kk][:,cond])
 
         print('... Adj the starting and ending wavelengths')
         AK.adj93(newdict={'wl':[startwl,endwl]})
@@ -271,7 +271,7 @@ class RunPrep(object):
             try:
                 print(kk,RK.f14in[kk][cond])
             except:
-                continue
+                print(kk,AK.RK.f14in[kk][:,cond])
 
         # index the lines in just this segment
         # first stack f14 and f20 info
