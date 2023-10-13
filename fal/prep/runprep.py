@@ -228,6 +228,7 @@ class RunPrep(object):
 
         print('')
         cond = AK.RK.f14in['wl'] == 516.9056
+        print(np.argwhere(cond))
         for kk in AK.RK.f14in.keys():
             try:
                 print(kk,AK.RK.f14in[kk][cond])
