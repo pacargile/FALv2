@@ -265,7 +265,7 @@ class RunPrep(object):
             sLL[kk] = sLL[kk][sort_ind]
 
         # trim sLL to wavelength range
-        condwl = (sLL['wl'] > startwl) & (sLL['WL'] < endwl)
+        condwl = (sLL['wl'] > startwl) & (sLL['wl'] < endwl)
         for kk in RK.f14in.keys():
             sLL[kk] = sLL[kk][condwl]
         
