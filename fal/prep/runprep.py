@@ -23,7 +23,7 @@ class RunPrep(object):
         self.kwargs = kwargs
 
         # user input dir where master ll fort files are kept
-        self.masterllfdir = self.args[0]
+        self.masterllfdir = self.kwargs.get('masterfort','./fortfiles/')
 
         # define line threshold for including as a fitted line, default 1% depth
         self.threshold = self.kwargs.get('threshold',0.01)
@@ -121,7 +121,7 @@ class RunPrep(object):
                 wlf.write('segnum={segnum},startwl={startwl:.4f},endwl={endwl:.4f}'.format(**segdict[kk]))
 
             # build seg subdir
-            for ff in ['data','samples','lineinfo','mod','bin','ff']:
+            for ff in ['data','samples','lineinfo','atm','bin','ff']:
                 subsegdir = '{0}/{1}'.format(segdir,ff)
                 if not os.path.exists(subsegdir):
                     os.makedirs(subsegdir)
@@ -298,48 +298,46 @@ class RunPrep(object):
             lif.write('segind masterind\n')
             for x,y in zip(sLL['index'],lineindexarr):
                 lif.write(f'{x} {y}\n')
-
-        # set up initial SYNTHE runs for different atm files.
-        # This is to determine which lines need to be included
-        # as fit parameters.
-        RS = runsynthe.Synthe(
-            exedir=self.masterbinpath,
-            molecules='masterinfo/data/molecules.dat',
-            continuua='masterinfo/data/continuua.dat',
-            he1tables='masterinfo/data/he1tables.dat',
-            spectrv_infile='masterino/data/spectrv.input',                
-            verbose=False,
-            )
-        RS.setfpaths(
-            f12path=f'seg_{segnum}/ff/fort.12',
-            f14path=f'seg_{segnum}/ff/fort.14',
-            f19path=f'seg_{segnum}/ff/fort.19',
-            f20path=f'seg_{segnum}/ff/fort.20',
-            f93path=f'seg_{segnum}/ff/fort.93',
-            )
-
-        code    = np.array([],dtype=float)
-        wl      = np.array([],dtype=float)
-        dwl     = np.array([],dtype=float)
-        loggf   = np.array([],dtype=float)
-        dloggf  = np.array([],dtype=float)
-        gammar  = np.array([],dtype=float)
-        gammas  = np.array([],dtype=float)
-        gammaw  = np.array([],dtype=float)
-        dgammar = np.array([],dtype=float)
-        dgammas = np.array([],dtype=float)
-        dgammaw = np.array([],dtype=float)
-        resid   = np.array([],dtype=float)
-        src     = np.array([],dtype=int) # index for atm that flagged line
-        
-        
+                
         # temp change dir to seg_/ so that fortran is run there
         with cwd(f'seg_{segnum}/'):
 
+            # set up initial SYNTHE runs for different atm files.
+            # This is to determine which lines need to be included
+            # as fit parameters.
+            RS = runsynthe.Synthe(
+                exedir='./bin/',
+                molecules='./data/molecules.dat',
+                continuua='./data/continuua.dat',
+                he1tables='./data/he1tables.dat',
+                spectrv_infile='./data/spectrv.input',                
+                verbose=False,
+                )
+            RS.setfpaths(
+                f12path=f'./ff/fort.12',
+                f14path=f'./ff/fort.14',
+                f19path=f'./ff/fort.19',
+                f20path=f'./ff/fort.20',
+                f93path=f'./ff/fort.93',
+                )
+
+            code    = np.array([],dtype=float)
+            wl      = np.array([],dtype=float)
+            dwl     = np.array([],dtype=float)
+            loggf   = np.array([],dtype=float)
+            dloggf  = np.array([],dtype=float)
+            gammar  = np.array([],dtype=float)
+            gammas  = np.array([],dtype=float)
+            gammaw  = np.array([],dtype=float)
+            dgammar = np.array([],dtype=float)
+            dgammas = np.array([],dtype=float)
+            dgammaw = np.array([],dtype=float)
+            resid   = np.array([],dtype=float)
+            src     = np.array([],dtype=int) # index for atm that flagged line
+
             # glob all atm in atm/ into list
             atmlist_i = glob.glob('./atm/*')
-        
-
+            
             # Do an inital synthesis for each atm saving resid info
             for ii,atm_i in enumerate(atmlist_i):
                 # set atm file path
