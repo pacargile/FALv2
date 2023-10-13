@@ -3,6 +3,7 @@ import os
 import shutil
 import glob
 import h5py
+import stat
 
 from ..utils import readkurucz, runsynthe, adjkurucz
 
@@ -139,7 +140,10 @@ class RunPrep(object):
                 fname = bb.split('/')[-1]
                 dstfile = '{0}/bin/{1}'.format(segdir,fname)
                 if not os.path.exists(dstfile):
-                    shutil.copy2(bb, dstfile)
+                    shutil.copyfile(bb, dstfile)
+                    st = os.stat(dstfile)
+                    os.chmod(dstfile,st.st_mode | stat.S_IEXEC)
+                    
 
             # copy mod atm into subdir
             for aa in self.atmflist:
