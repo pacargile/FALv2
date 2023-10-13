@@ -459,7 +459,8 @@ class RunPrep(object):
                 try:
                     assert cond.sum() == 1
                 except AssertionError:
-                    print(cond.sum())
+                    print(sLL['wl'][:10],sLL['code'][:10],sLL['gflog'][:10],sLL['gammaw'][:10])
+                    print(wl[ii],code[ii],loggf[ii],gammaw[ii])
                     raise
                     
                 segind_i    = sLL['index'][cond]
