@@ -121,16 +121,33 @@ class AdjKurucz(object):
                     self.RK.f14in[kk] = self.RK.f14in[kk][cond14]
                 else:
                     if self.RK.f14in[kk].shape[0] == 2:
-                        # self.RK.f14in[kk] = self.RK.f14in[kk][:,np.flatnonzero(cond14)]
-
                         self.RK.f14in[kk] = np.array(
                             [self.RK.f14in[kk][0,np.flatnonzero(cond14)],
                              self.RK.f14in[kk][1,np.flatnonzero(cond14)]])
 
                     elif self.RK.f14in[kk].shape[1] == 10:
-                        self.RK.f14in[kk] = self.RK.f14in[kk][np.flatnonzero(cond14),:]
+                        # self.RK.f14in[kk] = self.RK.f14in[kk][np.flatnonzero(cond14),:]
+                        self.RK.f14in[kk] = np.array([
+                            self.RK.f14in[kk][np.flatnonzero(cond14),0],
+                            self.RK.f14in[kk][np.flatnonzero(cond14),1],
+                            self.RK.f14in[kk][np.flatnonzero(cond14),2],
+                            self.RK.f14in[kk][np.flatnonzero(cond14),3],
+                            self.RK.f14in[kk][np.flatnonzero(cond14),4],
+                            self.RK.f14in[kk][np.flatnonzero(cond14),5],
+                            self.RK.f14in[kk][np.flatnonzero(cond14),6],
+                            self.RK.f14in[kk][np.flatnonzero(cond14),7],
+                            self.RK.f14in[kk][np.flatnonzero(cond14),8],
+                            self.RK.f14in[kk][np.flatnonzero(cond14),9],
+                        ])
                     elif self.RK.f14in[kk].shape[1] == 5:
-                        self.RK.f14in[kk] = self.RK.f14in[kk][np.flatnonzero(cond14),:]
+                        # self.RK.f14in[kk] = self.RK.f14in[kk][np.flatnonzero(cond14),:]
+                        self.RK.f14in[kk] = np.array([
+                            self.RK.f14in[kk][np.flatnonzero(cond14),0],
+                            self.RK.f14in[kk][np.flatnonzero(cond14),1],
+                            self.RK.f14in[kk][np.flatnonzero(cond14),2],
+                            self.RK.f14in[kk][np.flatnonzero(cond14),3],
+                            self.RK.f14in[kk][np.flatnonzero(cond14),4],
+                        ])
                     else:
                         print(self.RK.f14in[kk].ndim,self.RK.f14in[kk].shape)
                         print('DID NOT WORK')
