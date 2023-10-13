@@ -266,9 +266,7 @@ class RunPrep(object):
         
         # define index array based on length of sLL
         sLL['index'] = range(len(sLL['wl']))
-        
-        print(f'SEG LL length {len(sLL)}')
-        
+                
         print('FINDING MASTER LL MATCHES')
         # first find seg index and match with master index
         # Try using the index array first, maybe we'll get lucky and there is only one match
@@ -450,16 +448,16 @@ class RunPrep(object):
                     (sLL['wl'] == wl[ii]) & 
                     (sLL['code'] == code[ii]) & 
                     (sLL['gflog'] == loggf[ii]) &
-                    (sLL['gammar'] == gammar[ii]) &
-                    (sLL['gammas'] == gammas[ii]) &
-                    (sLL['gammaw'] == gammaw[ii]) 
+                    (sLL['gr'] == gammar[ii]) &
+                    (sLL['gs'] == gammas[ii]) &
+                    (sLL['gw'] == gammaw[ii]) 
                     )
 
                 # check to make sure if found the line
                 try:
                     assert cond.sum() == 1
                 except AssertionError:
-                    print(sLL['wl'][:10],sLL['code'][:10],sLL['gflog'][:10],sLL['gammaw'][:10])
+                    print(sLL['wl'][:10],sLL['code'][:10],sLL['gflog'][:10],sLL['gw'][:10])
                     print(wl[ii],code[ii],loggf[ii],gammaw[ii])
                     raise
                     
