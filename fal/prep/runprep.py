@@ -342,7 +342,8 @@ class RunPrep(object):
             for ii,atm_i in enumerate(atmlist_i):
                 print(f'... working on {atm_i}')
                 # set atm file path
-                RS.setatmpath(atmmod=atm_i)
+                RS.setatmpath(atmpath=atm_i)
+                print(RS.atmmod)
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
 
