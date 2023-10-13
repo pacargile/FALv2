@@ -511,9 +511,6 @@ class RunPrep(object):
                     print(wl[ii],code[ii],loggf[ii],gammaw[ii])
                     raise
                     
-                print(len(cond))
-                print(len(sLL['index']))
-                print(len(sLL['masterind']))
                 segind_i    = sLL['index'][cond]
                 masterind_i = sLL['masterind'][cond]
                 
@@ -533,8 +530,8 @@ class RunPrep(object):
                 src_f.append(src[ii])
                 
                 # now look for connected line (molecular or HF/ISO)
-                sLL_i = sLL[cond]
-                sLL_m = sLL[~cond]
+                sLL_i = {sLL[kk][cond] for kk in sLL.keys()}
+                sLL_m = {sLL[kk][~cond] for kk in sLL.keys()}
                 
                 if code[ii] < 99.0:
                     # check for HF/ISO
