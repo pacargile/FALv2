@@ -52,8 +52,8 @@ class Synthe(object):
         self.f20path=kwargs.get('f20path',None)
         self.f93path=kwargs.get('f93path',None)
 
-    def setatmpath(self,**kwargs):
-        self.atmmod = self.kwargs.get('atmmod','./data/atmmod_sol.dat')
+    def setatmpath(self,atmpath=None):
+        self.atmmod = atmpath
 
     def run(self,**kwargs):
         
