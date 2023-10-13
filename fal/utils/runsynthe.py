@@ -74,6 +74,16 @@ class Synthe(object):
         if f93path_i != None:
             self.f93path = f93path_i
         
+        try:
+            assert self.f93path != None
+            assert self.f12path != None
+            assert self.f14path != None
+            assert self.f19path != None
+            assert self.f20path != None
+        except AssertionError:
+            print('Must define path to input fort files')
+            raise IOError
+        
         atmmod_i = self.kwargs.get('atmmod','./data/atmmod_sol.dat')
         if atmmod_i != None:
             self.atmmod = atmmod_i

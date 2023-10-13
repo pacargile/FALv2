@@ -6,6 +6,16 @@ import h5py
 
 from ..utils import readkurucz, runsynthe, adjkurucz
 
+from contextlib import contextmanager
+@contextmanager
+def cwd(path):
+    oldpwd = os.getcwd()
+    os.chdir(path)
+    try:
+        yield
+    finally:
+        os.chdir(oldpwd)
+
 class RunPrep(object):
     def __init__(self, *args, **kwargs):
         super(RunPrep, self).__init__()
@@ -327,8 +337,9 @@ class RunPrep(object):
         for ii,atm_i in enumerate(self.atmflist):
             # set atm file path
             RS.setatmpath(atmmod=atm_i)
-            # run SYNTHE
-            synout_i = RS.run()
+            # run SYNTHE in seg directory
+            with cwd(f'seg_{segnum}/'):
+                synout_i = RS.run()
 
             # filter out lines less than threashold (resid -> continuum = 1.0)
             theshcond = synout_i['resid'] < (1.0 - self.threshold)
