@@ -265,7 +265,7 @@ class RunPrep(object):
             sLL[kk] = sLL[kk][sort_ind]
         
         # define index array based on length of sLL
-        sLL['index'] = range(len(sLL['wl']))
+        sLL['index'] = np.array(range(len(sLL['wl'])))
                 
         print('FINDING MASTER LL MATCHES')
         # first find seg index and match with master index
@@ -393,8 +393,6 @@ class RunPrep(object):
                 y = np.array([wl,loggf,gammar,gammas,gammaw])
                 nonrepeatind = np.nonzero(np.all(~np.isin(x,y).T,axis=1))[0]
 
-                print(f'     ... Registering {len(nonrepeatind)} lines')
-
                 # append the non-repeating to parent lists            
                 code    = np.append(code,code_i[nonrepeatind])
                 wl      = np.append(wl,wl_i[nonrepeatind])
@@ -409,6 +407,9 @@ class RunPrep(object):
                 dgammaw = np.append(dgammaw,dgammaw_i[nonrepeatind])
                 resid   = np.append(resid,resid_i[nonrepeatind])
                 src     = np.append(src,[ii])
+
+                print(f'     ... Registering {len(nonrepeatind)} lines -> Total: {len(wl)}')
+
 
             # init seg and master index
             segind    = []
