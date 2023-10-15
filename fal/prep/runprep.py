@@ -493,7 +493,7 @@ class RunPrep(object):
                     gwind_i = gwind_j
                             
                 # figure out segind
-                cond = (
+                cond_sel = (
                     (sLL['wl'] == wl[ii]) & 
                     (sLL['code'] == code[ii]) & 
                     (sLL['gflog'] == loggf[ii]) &
@@ -504,15 +504,15 @@ class RunPrep(object):
 
                 # check to make sure if found the line
                 try:
-                    assert cond.sum() == 1
+                    assert cond_sel.sum() == 1
                 except AssertionError:
                     print('Could not find a single match to this line: ')
                     print(sLL['wl'][:10],sLL['code'][:10],sLL['gflog'][:10],sLL['gw'][:10])
                     print(wl[ii],code[ii],loggf[ii],gammaw[ii])
                     raise
                     
-                segind_i    = sLL['index'][cond]
-                masterind_i = sLL['masterind'][cond]
+                segind_i    = sLL['index'][cond_sel]
+                masterind_i = sLL['masterind'][cond_sel]
                 
                 # book the initial line 
                 segind.append(segind_i)
@@ -532,7 +532,7 @@ class RunPrep(object):
                 print(segind_i)
                 print(sLL)
                 print(len(sLL))
-                print(len(cond))
+                print(len(cond_sel))
                 
                 # now look for connected line (molecular or HF/ISO)
                 sLL_i = {}
@@ -540,7 +540,7 @@ class RunPrep(object):
                 
                 for kk in sLL.keys():
                     try:
-                        sLL_i[kk] = sLL[kk][cond]
+                        sLL_i[kk] = sLL[kk][cond_sel]
                     except:
                         print('I')
                         print(kk)
@@ -548,7 +548,7 @@ class RunPrep(object):
                         raise
 
                     try:
-                        sLL_m[kk] = sLL[kk][~cond]
+                        sLL_m[kk] = sLL[kk][~cond_sel]
                     except:
                         print('M')
                         print(kk)
