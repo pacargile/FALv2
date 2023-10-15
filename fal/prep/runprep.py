@@ -531,10 +531,31 @@ class RunPrep(object):
                 
                 print(segind_i)
                 print(sLL)
+                print(cond)
                 
                 # now look for connected line (molecular or HF/ISO)
-                sLL_i = {sLL[kk][cond] for kk in sLL.keys()}
-                sLL_m = {sLL[kk][~cond] for kk in sLL.keys()}
+                sLL_i = {}
+                sLL_m = {}
+                
+                for kk in sLL.keys():
+                    try:
+                        sLL_i[kk] = sLL[kk][cond]
+                    except:
+                        print('I')
+                        print(kk)
+                        print(sLL[kk])
+                        raise
+
+                    try:
+                        sLL_m[kk] = sLL[kk][~cond]
+                    except:
+                        print('M')
+                        print(kk)
+                        print(sLL[kk])
+                        raise
+
+                # sLL_i = {sLL[kk][cond] for kk in sLL.keys()}
+                # sLL_m = {sLL[kk][~cond] for kk in sLL.keys()}
                 
                 if code[ii] < 99.0:
                     # check for HF/ISO
