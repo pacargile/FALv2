@@ -530,8 +530,7 @@ class RunPrep(object):
                 src_f.append(src[ii])
                 
                 print(segind_i)
-                print(sLL)
-                print(len(sLL))
+                print(len(sLL['code']))
                 print(len(cond_sel))
                 
                 # now look for connected line (molecular or HF/ISO)
