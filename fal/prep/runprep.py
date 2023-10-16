@@ -509,7 +509,7 @@ class RunPrep(object):
                     print('Could not find a single match to this line: ')
                     print(wl[ii],code[ii],loggf[ii],gammaw[ii])
 
-                    cond_fail = (sLL['wl'] > wl[ii]-0.01) & (sLL['wl'] < wl[ii]+0.01)
+                    cond_fail = sLL['wl'] == wl[ii]
                     print(sLL['wl'][cond_fail],sLL['code'][cond_fail],sLL['gflog'][cond_fail],sLL['gw'][cond_fail])
                     raise
                     
