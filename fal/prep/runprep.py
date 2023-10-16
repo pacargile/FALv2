@@ -454,7 +454,7 @@ class RunPrep(object):
                 dgammas = np.append(dgammas,dgammas_i[nonrepeatind])
                 dgammaw = np.append(dgammaw,dgammaw_i[nonrepeatind])
                 resid   = np.append(resid,resid_i[nonrepeatind])
-                src     = np.append(src,[ii])
+                src     = np.append(src,ii*np.ones(len(code_i[nonrepeatind]),dtype=int))
 
                 print(f'     ... Registering {len(nonrepeatind)} lines -> Total: {len(wl)}')
 
