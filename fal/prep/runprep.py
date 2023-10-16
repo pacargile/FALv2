@@ -528,11 +528,7 @@ class RunPrep(object):
                 gammaw_f.append(gammaw[ii])
                 resid_f.append(resid[ii])
                 src_f.append(src[ii])
-                
-                print(segind_i)
-                print(len(sLL['code']))
-                print(len(cond_sel))
-                
+                                
                 # now look for connected line (molecular or HF/ISO)
                 sLL_i = {}
                 sLL_m = {}
@@ -544,6 +540,8 @@ class RunPrep(object):
                         print('I')
                         print(kk)
                         print(sLL[kk])
+                        print(len(sLL[kk]))
+                        print(len(cond_sel))
                         raise
 
                     try:
