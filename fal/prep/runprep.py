@@ -503,15 +503,19 @@ class RunPrep(object):
                     )
 
                 # check to make sure if found the line
-                try:
-                    assert cond_sel.sum() == 1
-                except AssertionError:
-                    print(f'Could not find a single match to this line: ({cond_sel.sum()})')
+                if cond_sel.sum() == 1:
+                    pass
+                elif cond_sel.sum() > 1:
+                    # just set the first line to be free, the other lines will likely 
+                    # be added as HF/ISO lines
+                    cond_sel = np.array(cond_sel).cumsum() == 1
+                else:
+                    print(f'Could not find  match to this line:')
                     print(wl[ii],code[ii],loggf[ii],gammaw[ii])
 
                     cond_fail = sLL['wl'] == wl[ii]
                     print(sLL['wl'][cond_fail],sLL['code'][cond_fail],sLL['gflog'][cond_fail],sLL['gw'][cond_fail])
-                    raise
+                    raise IOError
                     
                 segind_i    = sLL['index'][cond_sel]
                 masterind_i = sLL['masterind'][cond_sel]
