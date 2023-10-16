@@ -479,8 +479,8 @@ class RunPrep(object):
             src_f    = []
 
             wlind_j = 0
-            gfind_j = 0
-            gwind_j = 0
+            gfind_j = 1
+            gwind_j = 2
             
             for ii in range(len(code)):
                 
@@ -517,8 +517,8 @@ class RunPrep(object):
                     print(sLL['wl'][cond_fail],sLL['code'][cond_fail],sLL['gflog'][cond_fail],sLL['gw'][cond_fail])
                     raise IOError
                     
-                segind_i    = sLL['index'][cond_sel]
-                masterind_i = sLL['masterind'][cond_sel]
+                segind_i    = sLL['index'][cond_sel][0]
+                masterind_i = sLL['masterind'][cond_sel][0]
                 
                 # book the initial line 
                 segind.append(segind_i)
@@ -616,7 +616,7 @@ class RunPrep(object):
                             gammar_f.append(sLL_mm['gr'][jj])
                             gammas_f.append(sLL_mm['gs'][jj])
                             gammaw_f.append(sLL_mm['gw'][jj])
-                            resid_f.append(0.0)
+                            resid_f.append(1.0)
                             src_f.append(src[ii])
                     
                 
