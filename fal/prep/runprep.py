@@ -459,6 +459,22 @@ class RunPrep(object):
                 print(f'     ... Registering {len(nonrepeatind)} lines -> Total: {len(wl)}')
 
 
+            # sort arrays by wl
+            sortwl = np.argsort(wl)
+            code    = code[sortwl]
+            wl      = wl[sortwl]
+            dwl     = dwl[sortwl]
+            loggf   = loggf[sortwl]
+            dloggf  = dloggf[sortwl]
+            gammar  = gammar[sortwl]
+            gammas  = gammas[sortwl]
+            gammaw  = gammaw[sortwl]
+            dgammar = dgammar[sortwl]
+            dgammas = dgammas[sortwl]
+            dgammaw = dgammaw[sortwl]
+            resid   = resid[sortwl]
+            src     = src[sortwl]
+
             # init seg and master index
             segind    = []
             masterind = []
@@ -629,7 +645,7 @@ class RunPrep(object):
             with open('./lineinfo/linefitpars.txt','w') as lfp:
                 lfp.write('segind masterind wlind gfind gwind code wl loggf gammar gammas gammaw resid src \n')
                 for ii in range(len(segind)):
-                    lfp.write(f'{segind[ii]} {masterind[ii]} {wlind[ii]} {gfind[ii]} {gwind[ii]} {code_f[ii]} {wl_f[ii]} {loggf_f[ii]} {gammar_f[ii]} {gammas_f[ii]} {gammaw_f[ii]} {resid_f[ii]} {src_f[ii]} \n')    
+                    lfp.write(f'{segind[ii]} {masterind[ii]} {wlind[ii]} {gfind[ii]} {gwind[ii]} {code_f[ii]:.2f} {wl_f[ii]:.4f} {loggf_f[ii]:.3f} {gammar_f[ii]:.2f} {gammas_f[ii]:.2f} {gammaw_f[ii]:.2f} {resid_f[ii]:.4f} {src_f[ii]} \n')    
     
     def defseg(self,):
         # function that defines segll given the masterll based on line density
