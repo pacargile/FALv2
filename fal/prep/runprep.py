@@ -506,7 +506,7 @@ class RunPrep(object):
                 try:
                     assert cond_sel.sum() == 1
                 except AssertionError:
-                    print('Could not find a single match to this line: ')
+                    print(f'Could not find a single match to this line: ({cond_sel.sum()})')
                     print(wl[ii],code[ii],loggf[ii],gammaw[ii])
 
                     cond_fail = sLL['wl'] == wl[ii]
