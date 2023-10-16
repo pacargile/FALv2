@@ -172,9 +172,9 @@ class RunPrep(object):
         for kk in RK.f14in.keys():
             mLL[kk] = np.append(RK.f14in[kk],RK.f20in[kk])
 
-        mLL['linsrc'] = np.array(
-            [14 for _ in range(len(RK.f14in['wl']))] + 
-            [20 for _ in range(len(RK.f20in['wl']))],dtype=int)
+        # mLL['linsrc'] = np.array(
+        #     [14 for _ in range(len(RK.f14in['wl']))] + 
+        #     [20 for _ in range(len(RK.f20in['wl']))],dtype=int)
 
         # sort mLL based on wavelengths
         sort_ind = np.argsort(mLL['wl'])
@@ -188,7 +188,7 @@ class RunPrep(object):
         # create HDF5 file and fill it with info
         with h5py.File('./masterinfo/masterll.h5','w') as h5file:
             # first write a index table to simplify look-ups
-            indexarr = np.vstack([ind,mLL['wl'],mLL['code'],mLL['linsrc']])
+            indexarr = np.vstack([ind,mLL['wl'],mLL['code']])
             h5file.create_dataset('index',data=indexarr)
 
             # write individual line info into hdf5
@@ -255,9 +255,9 @@ class RunPrep(object):
         for kk in RK.f14in.keys():
             sLL[kk] = np.append(RK.f14in[kk],RK.f20in[kk])
 
-        sLL['linsrc'] = np.array(
-            [14 for _ in range(len(RK.f14in['wl']))] + 
-            [20 for _ in range(len(RK.f20in['wl']))],dtype=int)
+        # sLL['linsrc'] = np.array(
+        #     [14 for _ in range(len(RK.f14in['wl']))] + 
+        #     [20 for _ in range(len(RK.f20in['wl']))],dtype=int)
 
         # sort sLL based on wavelengths
         sort_ind = np.argsort(sLL['wl'])
