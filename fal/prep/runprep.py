@@ -527,7 +527,11 @@ class RunPrep(object):
                 gammas_f.append(gammas[ii])
                 gammaw_f.append(gammaw[ii])
                 resid_f.append(resid[ii])
-                src_f.append(src[ii])
+                try:
+                    src_f.append(src[ii])
+                except:
+                    print(src)
+                    raise
                                 
                 # now look for connected line (molecular or HF/ISO)
                 sLL_i = {}
