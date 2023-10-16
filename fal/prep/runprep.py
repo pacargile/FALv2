@@ -621,9 +621,9 @@ class RunPrep(object):
                     
                 
                 wlind_j += 1
-                gfind_j += 1
+                gfind_j += 2
                 if gwind_i != -1:
-                    gwind_j += 1
+                    gwind_j += 3
             
             # write fit pars file out
             with open('./lineinfo/linefitpars.txt','w') as lfp:
