@@ -507,8 +507,10 @@ class RunPrep(object):
                     assert cond_sel.sum() == 1
                 except AssertionError:
                     print('Could not find a single match to this line: ')
-                    print(sLL['wl'][:20],sLL['code'][:20],sLL['gflog'][:20],sLL['gw'][:20])
                     print(wl[ii],code[ii],loggf[ii],gammaw[ii])
+
+                    cond_fail = (sLL['wl'] > wl[ii]-0.01) & (sLL['wl'] < wl[ii]+0.01)
+                    print(sLL['wl'][cond_fail],sLL['code'][cond_fail],sLL['gflog'][cond_fail],sLL['gw'][cond_fail])
                     raise
                     
                 segind_i    = sLL['index'][cond_sel]
