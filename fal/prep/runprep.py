@@ -577,7 +577,7 @@ class RunPrep(object):
                     if HFISOcond.sum() > 0:
                         sLL_mm = {kk:sLL_m[kk][HFISOcond] for kk in sLL_m.keys()}
                         # sLL_mm = sLL_m[HFISOcond]
-                        for jj in range(len(sLL_mm)):
+                        for jj in range(len(sLL_mm['index'])):
                             segind.append(sLL_mm['index'][jj])
                             masterind.append(sLL_mm['masterind'][jj])
                             wlind.append(wlind_i)
@@ -602,8 +602,9 @@ class RunPrep(object):
                     )
 
                     if MOLcond.sum() > 0:
-                        sLL_mm = sLL_m[MOLcond]
-                        for jj in range(len(sLL_mm)):
+                        sLL_mm = {kk:sLL_m[kk][MOLcond] for kk in sLL_m.keys()}
+                        # sLL_mm = sLL_m[MOLcond]
+                        for jj in range(len(sLL_mm['index'])):
                             segind.append(sLL_mm['index'][jj])
                             masterind.append(sLL_mm['masterind'][jj])
                             wlind.append(wlind_i)
