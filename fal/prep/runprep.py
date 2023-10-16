@@ -575,7 +575,8 @@ class RunPrep(object):
                     )
 
                     if HFISOcond.sum() > 0:
-                        sLL_mm = sLL_m[HFISOcond]
+                        sLL_mm = {kk:sLL_m[kk][HFISOcond] for kk in sLL_m.keys()}
+                        # sLL_mm = sLL_m[HFISOcond]
                         for jj in range(len(sLL_mm)):
                             segind.append(sLL_mm['index'][jj])
                             masterind.append(sLL_mm['masterind'][jj])
