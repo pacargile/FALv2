@@ -189,16 +189,15 @@ class RunPrep(object):
         with h5py.File('./masterinfo/masterll.h5','w') as h5file:
             # first write a index table to simplify look-ups
             indexarr = np.vstack([ind,mLL['wl'],mLL['code']])
-            h5file.create_dataset('index',data=indexarr)
+            h5file.create_dataset('index',data=indexarr, compression='gzip')
 
             # write individual line info into hdf5
-            for ii in ind:
-                for kk in mLL.keys():
-                    dataset_name = f'{ii}/{kk}'
-                    try:
-                        h5file.create_dataset(dataset_name,data=mLL[kk][ii])
-                    except TypeError:
-                        h5file.create_dataset(dataset_name,data=mLL[kk][ii].astype('S1'))
+            for kk in mLL.keys():
+                dataset_name = f'{kk}'
+                try:
+                    h5file.create_dataset(dataset_name,data=mLL[kk], compression='gzip')
+                except TypeError:
+                    h5file.create_dataset(dataset_name,data=mLL[kk].astype('S1'), compression='gzip')
 
     
     def refactorll(self,segnum=0,startwl=0.0,endwl=np.inf):
@@ -288,12 +287,13 @@ class RunPrep(object):
                 potentiallines = mindarr[0,cond]
                 foundmat = False
                 for pp in potentiallines:
-                    mLL_i = mLL[f'{int(pp)}']
+                    # mLL_i = mLL[f'{int(pp)}']
                     mat = True
                     for kk in sLL.keys():
                         if kk in ['index','linesrc','ref','auto','ixfixfp','labelp','label','ishift','ishiftp']:
                             continue
-                        mat *= sLL[kk][ii] == mLL_i[kk]
+                        # mat *= sLL[kk][ii] == mLL_i[kk]
+                        mat *= sLL[kk][ii] == mLL[kk][int(pp)]
                     if mat:
                         lineindexarr.append(int(pp))
                         foundmat = True
@@ -301,7 +301,7 @@ class RunPrep(object):
                 if foundmat == False:
                     for kk in sLL.keys():
                         testpar = sLL[kk][ii]
-                        matchedlist = np.array([mLL[f'{int(pp)}'][kk][()] for pp in potentiallines])
+                        matchedlist = np.array([mLL[kk][int(pp)] for pp in potentiallines])
                         condtest = matchedlist == testpar
                         print('A',kk,testpar,matchedlist,'->',matchedlist[condtest])
 
