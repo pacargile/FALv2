@@ -206,7 +206,7 @@ class RunPrep(object):
         # fort files out to segll subdirectory.
         
         # initialize AdjKurucz
-        print('... Read Fort Files')
+        print('... Read Fort Files',flush=True)
         AK = adjkurucz.AdjKurucz(
             f12path=self.masterf12path,
             f14path=self.masterf14path,
@@ -238,7 +238,7 @@ class RunPrep(object):
         mindarr = mLL['index'][()]
 
         # read the segll files
-        print('... Read Seg fort files')
+        print('... Read Seg fort files',flush=True)
         RK = readkurucz.ReadKurucz(verbose=True)
         RK.readfiles(
             f12path=f'seg_{segnum}/ff/fort.12',
@@ -271,7 +271,7 @@ class RunPrep(object):
         # define index array based on length of sLL
         sLL['index'] = np.array(range(len(sLL['wl'])))
                 
-        print('... Finding Master LL Matches')
+        print('... Finding Master LL Matches',flush=True)
         # first find seg index and match with master index
         # Try using the index array first, maybe we'll get lucky and there is only one match
         lineindexarr = []
@@ -305,13 +305,13 @@ class RunPrep(object):
                         condtest = matchedlist == testpar
                         print('A',kk,testpar,matchedlist,'->',matchedlist[condtest])
 
-                    print(f'ISSUE WITH LINE {ii}, LOOKED AT POTENTIAL LINES AND DID NOT FIND MATCH')
-                    print(f'THIS SHOULD NOT HAPPEN')
+                    print(f'ISSUE WITH LINE {ii}, LOOKED AT POTENTIAL LINES AND DID NOT FIND MATCH',flush=True)
+                    print(f'THIS SHOULD NOT HAPPEN',flush=True)
                     raise IOError
                     
             else:
-                print(f'ISSUE WITH LINE {ii}, COULD NOT FIND MATCH IN MASTERLL')
-                print(f'THIS SHOULD NOT HAPPEN')
+                print(f'ISSUE WITH LINE {ii}, COULD NOT FIND MATCH IN MASTERLL',flush=True)
+                print(f'THIS SHOULD NOT HAPPEN',flush=True)
                 raise IOError
         
         
@@ -368,18 +368,18 @@ class RunPrep(object):
 
             # Do an inital synthesis for each atm saving resid info
             for ii,atm_i in enumerate(atmlist_i):
-                print(f'... working on {atm_i}')
+                print(f'... working on {atm_i}',flush=True)
                 # set atm file path
                 RS.setatmpath(atmpath=atm_i)
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
 
-                print(f'     ... Found {len(synout_i["resid"])} to consider.')
+                print(f'     ... Found {len(synout_i["resid"])} to consider.',flush=True)
 
                 # filter out lines less than threashold (resid -> continuum = 1.0)
                 theshcond = synout_i['resid'] < (1.0 - self.threshold)
 
-                print(f'     ... After threshold cut {theshcond.sum()}.')
+                print(f'     ... After threshold cut {theshcond.sum()}.',flush=True)
                 
                 # check to make sure there are lines to fit for this atm
                 if theshcond.sum() == 0:
@@ -417,7 +417,7 @@ class RunPrep(object):
                 # filter out lines outside wavelength range
                 wlcond = (wl_i > startwl) & (wl_i < endwl)
 
-                print(f'     ... After wave cut {wlcond.sum()}.')
+                print(f'     ... After wave cut {wlcond.sum()}.',flush=True)
                 
                 # check to make sure there are lines to fit for this atm
                 if wlcond.sum() == 0:
@@ -456,7 +456,7 @@ class RunPrep(object):
                 resid   = np.append(resid,resid_i[nonrepeatind])
                 src     = np.append(src,ii*np.ones(len(code_i[nonrepeatind]),dtype=int))
 
-                print(f'     ... Registering {len(nonrepeatind)} lines -> Total: {len(wl)}')
+                print(f'     ... Registering {len(nonrepeatind)} lines -> Total: {len(wl)}',flush=True)
 
 
             # sort arrays by wl
@@ -526,8 +526,8 @@ class RunPrep(object):
                     # be added as HF/ISO lines
                     cond_sel = np.array(cond_sel).cumsum() == 1
                 else:
-                    print(f'Could not find  match to this line:')
-                    print(wl[ii],code[ii],loggf[ii],gammaw[ii])
+                    print(f'Could not find  match to this line:',flush=True)
+                    print(wl[ii],code[ii],loggf[ii],gammaw[ii],flush=True)
 
                     cond_fail = sLL['wl'] == wl[ii]
                     print(sLL['wl'][cond_fail],sLL['code'][cond_fail],sLL['gflog'][cond_fail],sLL['gw'][cond_fail])
