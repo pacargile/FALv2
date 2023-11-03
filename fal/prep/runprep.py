@@ -189,12 +189,10 @@ class RunPrep(object):
         with h5py.File('./masterinfo/masterll.h5','w') as h5file:
             # first write a index table to simplify look-ups
             indexarr = np.vstack([ind,mLL['wl'],mLL['code']])
-            print('Create INDEX',flush=True)
             h5file.create_dataset('index',data=indexarr, compression='gzip')
 
             # write individual line info into hdf5
             for kk in mLL.keys():
-                print(f'Create {kk} array',flush=True)
                 dataset_name = f'{kk}'
                 try:
                     h5file.create_dataset(dataset_name,data=mLL[kk], compression='gzip')
