@@ -288,7 +288,8 @@ class RunPrep(object):
         sLL_i = {}
         for kk in RK.f14in.keys():
             sLL_i[kk] = sLL[kk][condwl]
-
+        sLL_i['index'] = sLL['index'][condwl]
+        
         print(f'... Number of lines in sLL dict after wl cut {len(sLL_i["wl"])}')
                 
         print('... Finding Master LL Matches',flush=True)
