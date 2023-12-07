@@ -215,7 +215,9 @@ class RunPrep(object):
             f93path=self.masterf93path)
 
         print(f'... Starting Number of Lines: {AK.RK.f93in["nlines"] }')
+        print('... First 10 lines')
         print(AK.RK.f14in['wl'][:10])
+        print('... Last 10 lines')
         print(AK.RK.f14in['wl'][-10:])
 
 
@@ -223,7 +225,9 @@ class RunPrep(object):
         AK.adj93(newdict={'wl':[startwl,endwl]})
 
         print(f'... Total Number of Lines: {AK.RK.f93in["nlines"] }')
+        print('... First 10 lines')
         print(AK.RK.f14in['wl'][:10])
+        print('... Last 10 lines')
         print(AK.RK.f14in['wl'][-10:])
 
         # write new fort files to segll directory
@@ -257,11 +261,15 @@ class RunPrep(object):
             f93path=f'seg_{segnum}/ff/fort.93',
         )
 
+        print(f'... Number of lines in fort files {len(RK.f93in["nlines"])}')
+
         # index the lines in just this segment
         # first stack f14 and f20 info
         sLL = {}
         for kk in RK.f14in.keys():
             sLL[kk] = np.append(RK.f14in[kk],RK.f20in[kk])
+
+        print(f'... Number of lines in sLL dict {len(sLL["wl"])}')
 
         # sLL['linsrc'] = np.array(
         #     [14 for _ in range(len(RK.f14in['wl']))] + 
