@@ -136,6 +136,8 @@ class Like(object):
             f93path='./ff/fort.93',
             )
 
+        print(f'... READ IN LINES {len(self.AK.RK.f14in["wl"])}')
+
     def genmod(self,linepars={'dwl':[],'dloggf':[],'dgammaw':[],'dgammar':[],'dgammas':[]}):
         
         # adjust the line parameters
