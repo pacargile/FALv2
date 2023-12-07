@@ -137,6 +137,8 @@ class Like(object):
             )
 
         print(f'... READ IN LINES {len(self.AK.RK.f14in["wl"])}')
+        print(f'... MIN WL {self.AK.RK.f14in["wl"].min()}')
+        print(f'... MAX WL {self.AK.RK.f14in["wl"].max()}')
 
     def genmod(self,linepars={'dwl':[],'dloggf':[],'dgammaw':[],'dgammar':[],'dgammas':[]}):
         
