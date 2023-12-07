@@ -148,6 +148,7 @@ class Like(object):
             'dgammar':linepars['dgammar'],
             'dgammas':linepars['dgammas'],
             })
+        print(indictll)
         self.AK.adjll(lindict=indictll)
         
         # write the tmp fortfiles
@@ -172,7 +173,7 @@ class Like(object):
             wave = mod_i['wave']
             flux = mod_i['qmu1']/mod_i['qmu2']
             modarr.append([wave,flux])
-        cond = (wave > 517.1) & (wave < 517.2)
+        cond = (wave > 517.12) & (wave < 517.17)
         print(wave[cond])
         print(flux[cond])
     
@@ -219,8 +220,6 @@ class Like(object):
             if pind[4] != -1:
                 dgammas[ii] = pars[pind[4]]
         linepars = {'dwl':dwl,'dloggf':dloggf,'dgammaw':dgammaw,'dgammar':dgammar,'dgammas':dgammas}
-        
-        print(linepars)
         
         # generate the models
         starttime = datetime.now()
