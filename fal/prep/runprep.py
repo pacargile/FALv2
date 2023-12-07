@@ -214,7 +214,7 @@ class RunPrep(object):
             f20path=self.masterf20path,
             f93path=self.masterf93path)
 
-        print('... Adj the starting and ending wavelengths')
+        print(f'... Adj the starting and ending wavelengths: {startwl} - {endwl}')
         AK.adj93(newdict={'wl':[startwl,endwl]})
 
         # write new fort files to segll directory
