@@ -204,7 +204,7 @@ class Like(object):
         dgammar = np.zeros(len(self.lineindex),dtype=float)
         dgammas = np.zeros(len(self.lineindex),dtype=float)
         
-        for ii,pind in zip(self.lineindex,self.linepars):
+        for ii,pind in enumerate(self.linepars):
             if pind[0] != -1:
                 dwl[ii] = pars[pind[0]]
             if pind[1] != -1:
