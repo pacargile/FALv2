@@ -279,20 +279,23 @@ class RunPrep(object):
         sort_ind = np.argsort(sLL['wl'])
         for kk in RK.f14in.keys():
             sLL[kk] = sLL[kk][sort_ind]
-
-        # trim sLL to wavelength range
-        condwl = (sLL['wl'] > startwl) & (sLL['wl'] < endwl)
-        for kk in RK.f14in.keys():
-            sLL[kk] = sLL[kk][condwl]
                 
         # define index array based on length of sLL
         sLL['index'] = np.array(range(len(sLL['wl'])))
+
+        print(f'... Number of lines in sLL dict after wl cut {len(sLL["wl"])}')
+
+        # trim sLL to wavelength range
+        condwl = (sLL['wl'] > startwl) & (sLL['wl'] < endwl)
+        sLL_i = {}
+        for kk in RK.f14in.keys():
+            sLL_i[kk] = sLL[kk][condwl]
                 
         print('... Finding Master LL Matches',flush=True)
         # first find seg index and match with master index
         # Try using the index array first, maybe we'll get lucky and there is only one match
         lineindexarr = []
-        for ii in sLL['index']:
+        for ii in sLL_i['index']:
             cond = (mindarr[1,:] == sLL['wl'][ii]) & (mindarr[2,:] == sLL['code'][ii])
 
             if cond.sum() == 1:
