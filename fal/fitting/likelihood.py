@@ -48,14 +48,6 @@ class Like(object):
         
         self.trans = self.kwargs('trans',None)
         
-        # determine which if any spectra requires a RV shift
-        
-        self.rvshiftind = self.kwargs('rvshiftind',[])
-        
-        # determine which if any spectra requires a scaling
-        
-        self.scaleind = self.kwargs.get('scaleind',[])
-        
         # look for user defined info for each spectra in input list        
         self.inputspecinfo = self.kwargs.get('specinfo',[{}])
 
@@ -135,11 +127,11 @@ class Like(object):
 
         # init the adjust kurucz class
         self.AK = AdjKurucz(
-            f12path='./fortfiles/fort.12',
-            f14path='./fortfiles/fort.14',
-            f19path='./fortfiles/fort.19',
-            f20path='./fortfiles/fort.20',
-            f93path='./fortfiles/fort.93',
+            f12path='./ff/fort.12',
+            f14path='./ff/fort.14',
+            f19path='./ff/fort.19',
+            f20path='./ff/fort.20',
+            f93path='./ff/fort.93',
             )
 
     def genmod(self,linepars={'dwl':[],'dloggf':[],'dgammaw':[],'dgammar':[],'dgammas':[]}):
@@ -158,22 +150,22 @@ class Like(object):
         
         # write the tmp fortfiles
         self.AK.wfort(        
-            f12path='./fortfiles/fort_tmp.12',
-            f14path='./fortfiles/fort_tmp.14',
-            f19path='./fortfiles/fort_tmp.19',
-            f20path='./fortfiles/fort_tmp.20',
-            f93path='./fortfiles/fort_tmp.93',
+            f12path='./ff/fort_tmp.12',
+            f14path='./ff/fort_tmp.14',
+            f19path='./ff/fort_tmp.19',
+            f20path='./ff/fort_tmp.20',
+            f93path='./ff/fort_tmp.93',
             )
         
         # run synthe for each of the input spectra
         modarr = []
         for ii in range(self.nspec):
             mod_i = self.RSarr[ii](            
-                f12path='./fortfiles/fort_tmp.12',
-                f14path='./fortfiles/fort_tmp.14',
-                f19path='./fortfiles/fort_tmp.19',
-                f20path='./fortfiles/fort_tmp.20',
-                f93path='./fortfiles/fort_tmp.93',
+                f12path='./ff/fort_tmp.12',
+                f14path='./ff/fort_tmp.14',
+                f19path='./ff/fort_tmp.19',
+                f20path='./ff/fort_tmp.20',
+                f93path='./ff/fort_tmp.93',
                 )
             wave = mod_i['wave']
             flux = mod_i['qmu1']/mod_i['qmu2']
@@ -194,7 +186,7 @@ class Like(object):
         return chisq
 
     def run(self,pars):
-        
+                        
         # last sets of pars are always RV shifts and then scale factors
         rvsnum = np.array(self.specinfo['rvshiftbool']).sum()
         scanum = np.array(self.specinfo['scalebool']).sum()
