@@ -215,11 +215,16 @@ class RunPrep(object):
             f93path=self.masterf93path)
 
         print(f'... Starting Number of Lines: {AK.RK.f93in["nlines"] }')
+        print(AK.RK.f14in['wl'][:10])
+        print(AK.RK.f14in['wl'][-10:])
+
 
         print(f'... Adj the starting and ending wavelengths: {startwl} - {endwl}')
         AK.adj93(newdict={'wl':[startwl,endwl]})
 
         print(f'... Total Number of Lines: {AK.RK.f93in["nlines"] }')
+        print(AK.RK.f14in['wl'][:10])
+        print(AK.RK.f14in['wl'][-10:])
 
         # write new fort files to segll directory
         print('... Write out new fort files to seg dir')
