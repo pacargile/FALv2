@@ -217,6 +217,8 @@ class RunPrep(object):
         print(f'... Adj the starting and ending wavelengths: {startwl} - {endwl}')
         AK.adj93(newdict={'wl':[startwl,endwl]})
 
+        print(f'... Total Number of Lines: {AK.RK.f93in["nlines"] }')
+
         # write new fort files to segll directory
         print('... Write out new fort files to seg dir')
         AK.wfort(        
