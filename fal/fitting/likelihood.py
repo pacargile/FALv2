@@ -46,7 +46,7 @@ class Like(object):
         
         # pull out the transmission spectrum
         
-        self.trans = self.kwargs('trans',None)
+        self.trans = self.kwargs.get('trans',None)
         
         # look for user defined info for each spectra in input list        
         self.inputspecinfo = self.kwargs.get('specinfo',[{}])
