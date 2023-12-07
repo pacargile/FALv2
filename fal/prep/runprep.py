@@ -283,13 +283,13 @@ class RunPrep(object):
         # define index array based on length of sLL
         sLL['index'] = np.array(range(len(sLL['wl'])))
 
-        print(f'... Number of lines in sLL dict after wl cut {len(sLL["wl"])}')
-
         # trim sLL to wavelength range
         condwl = (sLL['wl'] > startwl) & (sLL['wl'] < endwl)
         sLL_i = {}
         for kk in RK.f14in.keys():
             sLL_i[kk] = sLL[kk][condwl]
+
+        print(f'... Number of lines in sLL dict after wl cut {len(sLL_i["wl"])}')
                 
         print('... Finding Master LL Matches',flush=True)
         # first find seg index and match with master index
