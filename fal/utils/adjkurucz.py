@@ -1,5 +1,6 @@
 from . import readkurucz
 import numpy as np
+from datetime import datetime
 from collections import Counter
 
 class AdjKurucz(object):
@@ -319,8 +320,7 @@ class AdjKurucz(object):
                         if lindict['rlte'][ii]:
                             fortfile = 19
                     
-                    print(ind)
-                    print(deltapar)
+                    starttime = datetime.now()
                     if 'dwl' in lindict.keys():
                         self.adjwl(ind,deltapar['dwl'],fort=fortfile)
                     if 'dloggf' in lindict.keys():
@@ -331,7 +331,8 @@ class AdjKurucz(object):
                         self.adjgammar(ind,deltapar['dgammar'],fort=fortfile)
                     if 'dgammas' in lindict.keys():
                         self.adjgammas(ind,deltapar['dgammas'],fort=fortfile)
-                    
+                    print(f'... adj pars {datetime.now()-starttime}',flush=True)
+
         else:
             print('! MUST INCLUDE EITEHR linind or pars as input !')
             print('! NOT ADJUSTING ANYTHING !')
