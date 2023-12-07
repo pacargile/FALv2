@@ -272,6 +272,7 @@ class AdjKurucz(object):
         if 'lineind' in lindict.keys():
             # user is using line indices to id lines
             if isinstance(lindict['lineind'],int):
+                print('A')
                 
                 ind = lindict['lineind']
 
@@ -291,6 +292,7 @@ class AdjKurucz(object):
                 if 'dgammas' in lindict.keys():
                     self.adjgammas(ind,lindict['dgammas'],fort=fortfile)
             else:
+                print('B')
                 # MAY WANT TO VECTORIZE THIS STEP
                 for ii,ind in enumerate(lindict['lineind']):
                     # make sure ind is int
