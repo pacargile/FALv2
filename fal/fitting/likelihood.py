@@ -2,6 +2,7 @@ import numpy as np
 from jax import jit
 from scipy import constants
 speedoflight = constants.c / 1000.0
+from datetime import datetime
 
 from ..utils.runsynthe import Synthe
 from ..utils.adjkurucz import AdjKurucz
@@ -216,8 +217,12 @@ class Like(object):
                 dgammas[ii] = pars[pind[4]]
         linepars = {'dwl':dwl,'dloggf':dloggf,'dgammaw':dgammaw,'dgammar':dgammar,'dgammas':dgammas}
         
+        print(linepars)
+        
         # generate the models
+        starttime = datetime.now()
         modarr = self.genmod(linepars=linepars)
+        print(f'... model eval {datetime.now()-starttime}',flush=True)
         
         # find which spectra need a RV shift and scaling
         for ii in range(self.nspec):
@@ -232,7 +237,9 @@ class Like(object):
                 kk += 1
                 
         # calculate the chi-sqaure
+        starttime = datetime.now()
         chisq = self.calcchisq(modarr)
+        print(f'... chisq eval {datetime.now()-starttime}',flush=True)
         
         # return the likelihood
         return -0.5 * chisq
