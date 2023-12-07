@@ -321,6 +321,7 @@ class AdjKurucz(object):
                             fortfile = 19
                     
                     print(ind,deltapar)
+                    print(self.RK.f12in[ind])
                     starttime = datetime.now()
                     if 'dwl' in lindict.keys():
                         if deltapar['dwl'] != 0.0:
@@ -338,9 +339,10 @@ class AdjKurucz(object):
                         if deltapar['dgammas'] != 0.0:
                             self.adjgammas(ind,deltapar['dgammas'],fort=fortfile)
                     print(f'... adj pars {datetime.now()-starttime}',flush=True)
+                    print(self.RK.f12in[ind])
 
         else:
-            print('! MUST INCLUDE EITEHR linind or pars as input !')
+            print('! MUST INCLUDE EITHER linind or pars as input !')
             print('! NOT ADJUSTING ANYTHING !')
             return
         
