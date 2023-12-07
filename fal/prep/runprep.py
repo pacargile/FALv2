@@ -214,6 +214,8 @@ class RunPrep(object):
             f20path=self.masterf20path,
             f93path=self.masterf93path)
 
+        print(f'... Starting Number of Lines: {AK.RK.f93in["nlines"] }')
+
         print(f'... Adj the starting and ending wavelengths: {startwl} - {endwl}')
         AK.adj93(newdict={'wl':[startwl,endwl]})
 
