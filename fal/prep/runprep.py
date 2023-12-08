@@ -340,15 +340,12 @@ class RunPrep(object):
         mLL.close()
 
         # write in the master ll index for future use
-        sLL['masterind'] = np.array(lineindexarr)
-        
-        print(f'SLL LEN {len(sLL["wl"])}')
-        print(f'LINEINDEXARR LEN {len(sLL["masterind"])}')
-        
+        sLL_t['masterind'] = np.array(lineindexarr)
+                
         # write lineindex arrays to file
         with open(f'seg_{segnum}/lineinfo/lineindex.txt','w') as lif:
             lif.write('segind masterind\n')
-            for x,y in zip(sLL['index'],lineindexarr):
+            for x,y in zip(sLL_t['index'],lineindexarr):
                 lif.write(f'{x} {y}\n')
                 
         # temp change dir to seg_/ so that fortran is run there
@@ -534,12 +531,12 @@ class RunPrep(object):
                             
                 # figure out segind
                 cond_sel = (
-                    (sLL['wl'] == wl[ii]) & 
-                    (sLL['code'] == code[ii]) & 
-                    (sLL['gflog'] == loggf[ii]) &
-                    (sLL['gr'] == gammar[ii]) &
-                    (sLL['gs'] == gammas[ii]) &
-                    (sLL['gw'] == gammaw[ii]) 
+                    (sLL_t['wl'] == wl[ii]) & 
+                    (sLL_t['code'] == code[ii]) & 
+                    (sLL_t['gflog'] == loggf[ii]) &
+                    (sLL_t['gr'] == gammar[ii]) &
+                    (sLL_t['gs'] == gammas[ii]) &
+                    (sLL_t['gw'] == gammaw[ii]) 
                     )
 
                 # check to make sure if found the line
@@ -553,12 +550,12 @@ class RunPrep(object):
                     print(f'Could not find  match to this line:',flush=True)
                     print(wl[ii],code[ii],loggf[ii],gammaw[ii],flush=True)
 
-                    cond_fail = sLL['wl'] == wl[ii]
-                    print(sLL['wl'][cond_fail],sLL['code'][cond_fail],sLL['gflog'][cond_fail],sLL['gw'][cond_fail])
+                    cond_fail = sLL_t['wl'] == wl[ii]
+                    print(sLL_t['wl'][cond_fail],sLL_t['code'][cond_fail],sLL_t['gflog'][cond_fail],sLL_t['gw'][cond_fail])
                     raise IOError
                     
-                segind_i    = sLL['index'][cond_sel][0]
-                masterind_i = sLL['masterind'][cond_sel][0]
+                segind_i    = sLL_t['index'][cond_sel][0]
+                masterind_i = sLL_t['masterind'][cond_sel][0]
                 
                 # book the initial line 
                 segind.append(segind_i)
@@ -583,23 +580,23 @@ class RunPrep(object):
                 sLL_i = {}
                 sLL_m = {}
                 
-                for kk in sLL.keys():
+                for kk in sLL_t.keys():
                     try:
-                        sLL_i[kk] = sLL[kk][cond_sel]
+                        sLL_i[kk] = sLL_t[kk][cond_sel]
                     except:
                         print('I')
                         print(kk)
-                        print(sLL[kk])
-                        print(len(sLL[kk]))
+                        print(sLL_t[kk])
+                        print(len(sLL_t[kk]))
                         print(len(cond_sel))
                         raise
 
                     try:
-                        sLL_m[kk] = sLL[kk][~cond_sel]
+                        sLL_m[kk] = sLL_t[kk][~cond_sel]
                     except:
                         print('M')
                         print(kk)
-                        print(sLL[kk])
+                        print(sLL_t[kk])
                         raise
 
                 # sLL_i = {sLL[kk][cond] for kk in sLL.keys()}
