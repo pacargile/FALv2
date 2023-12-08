@@ -285,18 +285,18 @@ class RunPrep(object):
 
         # trim sLL to wavelength range
         condwl = (sLL['wl'] > startwl) & (sLL['wl'] < endwl)
-        sLL_i = {}
+        sLL_t = {}
         for kk in RK.f14in.keys():
-            sLL_i[kk] = sLL[kk][condwl]
-        sLL_i['index'] = sLL['index'][condwl]
+            sLL_t[kk] = sLL[kk][condwl]
+        sLL_t['index'] = sLL['index'][condwl]
         
-        print(f'... Number of lines in sLL dict after wl cut {len(sLL_i["wl"])}')
+        print(f'... Number of lines in sLL dict after wl cut {len(sLL_t["wl"])}')
                 
         print('... Finding Master LL Matches',flush=True)
         # first find seg index and match with master index
         # Try using the index array first, maybe we'll get lucky and there is only one match
         lineindexarr = []
-        for ii in sLL_i['index']:
+        for ii in sLL_t['index']:
             cond = (mindarr[1,:] == sLL['wl'][ii]) & (mindarr[2,:] == sLL['code'][ii])
 
             if cond.sum() == 1:
@@ -341,6 +341,9 @@ class RunPrep(object):
 
         # write in the master ll index for future use
         sLL['masterind'] = np.array(lineindexarr)
+        
+        print(f'SLL LEN {len(sLL["wl"])}')
+        print(f'LINEINDEXARR LEN {len(sLL["masterind"])}')
         
         # write lineindex arrays to file
         with open(f'seg_{segnum}/lineinfo/lineindex.txt','w') as lif:
