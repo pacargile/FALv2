@@ -261,7 +261,7 @@ class RunPrep(object):
             f93path=f'seg_{segnum}/ff/fort.93',
         )
 
-        print(f'... Number of lines in fort files {RK.f93in["nlines"]}')
+        print(f'... Number of lines in fort files {RK.f93in["nlines"]+RK.f93in["n19"]}')
 
         # index the lines in just this segment
         # first stack f14 and f20 info
