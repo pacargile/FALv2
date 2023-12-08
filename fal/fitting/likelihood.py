@@ -136,9 +136,9 @@ class Like(object):
             f93path='./ff/fort.93',
             )
 
-        print(f'... READ IN LINES {len(self.AK.RK.f14in["wl"])}')
-        print(f'... MIN WL {self.AK.RK.f14in["wl"].min()}')
-        print(f'... MAX WL {self.AK.RK.f14in["wl"].max()}')
+        print(f'... READ IN LINES {len(self.AK.RK.f14in["wl"]+len(self.AK.RK.f20in["wl"]))}')
+        print(f'... Aprox MIN WL {self.AK.RK.f14in["wl"].min()}')
+        print(f'... Aprox MAX WL {self.AK.RK.f14in["wl"].max()}')
 
     def genmod(self,linepars={'dwl':[],'dloggf':[],'dgammaw':[],'dgammar':[],'dgammas':[]}):
         
@@ -177,7 +177,7 @@ class Like(object):
             wave = mod_i['wave']
             flux = mod_i['qmu1']/mod_i['qmu2']
             modarr.append([wave,flux])
-        cond = (wave > 517.12) & (wave < 517.17)
+        cond = (wave > 517.0) & (wave < 517.1)
         print(wave[cond])
         print(flux[cond])
     
