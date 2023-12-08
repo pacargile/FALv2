@@ -154,7 +154,7 @@ class Like(object):
             })
         print(indictll)
         self.AK.adjll(lindict=indictll)
-        print('WL',len(self.AK.RK.f14in['wl']))
+        print('WL',self.AK.RK.f14in['wl'][indictll['lineind']])
         # write the tmp fortfiles
         self.AK.wfort(        
             f12path='./ff/fort_tmp.12',

@@ -276,9 +276,9 @@ class RunPrep(object):
         #     [20 for _ in range(len(RK.f20in['wl']))],dtype=int)
 
         # sort sLL based on wavelengths
-        sort_ind = np.argsort(sLL['wl'])
-        for kk in RK.f14in.keys():
-            sLL[kk] = sLL[kk][sort_ind]
+        # sort_ind = np.argsort(sLL['wl'])
+        # for kk in RK.f14in.keys():
+        #     sLL[kk] = sLL[kk][sort_ind]
                 
         # define index array based on length of sLL
         sLL['index'] = np.array(range(len(sLL['wl'])))
