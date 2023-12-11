@@ -321,7 +321,10 @@ class RunPrep(object):
                     # mLL_i = mLL[f'{int(pp)}']
                     mat = True
                     for kk in sLL.keys():
-                        if kk in ['index','linesrc','ref','auto','ixfixfp','labelp','label','ishift','ishiftp','other1x','other2x']:
+                        if kk in (
+                            ['index','linesrc','ref','auto','ixfixfp',
+                             'labelp','label','labelx','labelpx',
+                             'ishift','ishiftp','other1x','other2x']):
                             continue
                         # mat *= sLL[kk][ii] == mLL_i[kk]
                         try:
