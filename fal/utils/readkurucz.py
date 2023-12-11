@@ -57,7 +57,6 @@ class ReadKurucz(object):
             print('... reading in fort.20')
         self.f20in = self.readfort20(f20path)
         
-
     def writefiles(self,
                    f12outpath='./fort_NEW.12',f14outpath='./fort_NEW.14',
                    f19outpath='./fort_NEW.19',f20outpath='./fort_NEW.20',
@@ -91,7 +90,6 @@ class ReadKurucz(object):
             print('... writing fort.20')
         self.writefort20(f20outpath)
         
-    
     def readfort93(self,f93path):
 
         # turn path string into bytes
@@ -466,8 +464,8 @@ class ReadKurucz(object):
         Ei        = np.zeros(self.nlines19,dtype=np.float64)
         EPi       = np.zeros(self.nlines19,dtype=np.float64)
 
-        LABELi    = np.zeros((self.nlines19,11),dtype='str')
-        LABELPi   = np.zeros((self.nlines19,11),dtype='str')
+        LABELi    = np.zeros((self.nlines19,10),dtype='str')
+        LABELPi   = np.zeros((self.nlines19,10),dtype='str')
 
         LABELx    = np.zeros((2,self.nlines19),dtype=np.float64)
         LABELPx   = np.zeros((2,self.nlines19),dtype=np.float64)
@@ -475,11 +473,11 @@ class ReadKurucz(object):
         # OTHER1i   = np.zeros((self.nlines12,10),dtype='str')
         # OTHER2i   = np.zeros((self.nlines12,10),dtype='str')
 
-        ISHIFTi   = np.zeros(self.nlines12,dtype=np.int32)
-        ISHIFTPi  = np.zeros(self.nlines12,dtype=np.int32)
-        IXFIXFPi  = np.zeros(self.nlines12,dtype='str')
-        LINESIZEi = np.zeros(self.nlines12,dtype=np.int32)
-        AUTOi     = np.zeros(self.nlines12,dtype='str')
+        ISHIFTi   = np.zeros(self.nlines19,dtype=np.int32)
+        ISHIFTPi  = np.zeros(self.nlines19,dtype=np.int32)
+        IXFIXFPi  = np.zeros(self.nlines19,dtype='str')
+        LINESIZEi = np.zeros(self.nlines19,dtype=np.int32)
+        AUTOi     = np.zeros(self.nlines19,dtype='str')
 
         OTHER1x   = np.zeros((2,self.nlines19),dtype=np.float64)
         OTHER2x   = np.zeros((2,self.nlines19),dtype=np.float64)
