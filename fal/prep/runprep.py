@@ -268,11 +268,9 @@ class RunPrep(object):
         sLL = {}
         for kk in RK.f14in.keys():
             sLL[kk] = np.append(RK.f14in[kk],RK.f20in[kk])
+            print(kk,RK.f14in[kk].shape,RK.f20in[kk].shape,sLL[kk].shape)
 
         print(f'... Number of lines in sLL dict {len(sLL["wl"])}')
-
-        for kk in sLL.keys():
-            print(kk,sLL[kk].shape,sLL[kk][0])
 
         # sLL['linsrc'] = np.array(
         #     [14 for _ in range(len(RK.f14in['wl']))] + 
