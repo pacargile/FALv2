@@ -271,7 +271,6 @@ class RunPrep(object):
                 sLL[kk] = np.concatenate((RK.f14in[kk],RK.f20in[kk]),axis=1)
             else:
                 sLL[kk] = np.concatenate((RK.f14in[kk],RK.f20in[kk]),axis=0)
-            print(kk,RK.f14in[kk].shape,RK.f20in[kk].shape,sLL[kk].shape)
 
         print(f'... Number of lines in sLL dict {len(sLL["wl"])}')
 
@@ -289,16 +288,13 @@ class RunPrep(object):
 
         # trim sLL to wavelength range
         condwl = (sLL['wl'] > startwl) & (sLL['wl'] < endwl)
-        print('CONDWL',len(condwl),condwl.sum())
         sLL_t = {}
         for kk in RK.f14in.keys():
-            print('Trying',kk,len(sLL[kk]),sLL[kk].shape)
             try:
                 if kk in ['labelx','labelpx','other1x','other2x']:
                     sLL_t[kk] = sLL[kk][...,condwl]
                 else:
                     sLL_t[kk] = sLL[kk][condwl,...]
-                    
             except:
                 print('PROBLEM',kk,len(sLL[kk]),sLL[kk].shape)
                 raise
@@ -325,7 +321,7 @@ class RunPrep(object):
                     # mLL_i = mLL[f'{int(pp)}']
                     mat = True
                     for kk in sLL.keys():
-                        if kk in ['index','linesrc','ref','auto','ixfixfp','labelp','label','ishift','ishiftp']:
+                        if kk in ['index','linesrc','ref','auto','ixfixfp','labelp','label','ishift','ishiftp','other1x','other2x']:
                             continue
                         # mat *= sLL[kk][ii] == mLL_i[kk]
                         mat *= sLL[kk][ii] == mLL[kk][int(pp)]
