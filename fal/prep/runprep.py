@@ -267,7 +267,12 @@ class RunPrep(object):
         # first stack f14 and f20 info
         sLL = {}
         for kk in RK.f14in.keys():
-            sLL[kk] = np.append(RK.f14in[kk],RK.f20in[kk])
+            if kk in ['label','labelp','ref']:
+                sLL[kk] = np.concatenate((RK.f14in[kk],RK.f20in[kk]),axis=0)
+            elif kk in ['labelx','labelpx']:
+                sLL[kk] = np.concatenate((RK.f14in[kk],RK.f20in[kk]),axis=1)
+            else:
+                sLL[kk] = np.concatenate((RK.f14in[kk],RK.f20in[kk]),axis=0)
             print(kk,RK.f14in[kk].shape,RK.f20in[kk].shape,sLL[kk].shape)
 
         print(f'... Number of lines in sLL dict {len(sLL["wl"])}')
