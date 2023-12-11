@@ -267,9 +267,7 @@ class RunPrep(object):
         # first stack f14 and f20 info
         sLL = {}
         for kk in RK.f14in.keys():
-            if kk in ['label','labelp','ref']:
-                sLL[kk] = np.concatenate((RK.f14in[kk],RK.f20in[kk]),axis=0)
-            elif kk in ['labelx','labelpx']:
+            if kk in ['labelx','labelpx','other1x','other2x']:
                 sLL[kk] = np.concatenate((RK.f14in[kk],RK.f20in[kk]),axis=1)
             else:
                 sLL[kk] = np.concatenate((RK.f14in[kk],RK.f20in[kk]),axis=0)
@@ -296,7 +294,11 @@ class RunPrep(object):
         for kk in RK.f14in.keys():
             print('Trying',kk,len(sLL[kk]),sLL[kk].shape)
             try:
-                sLL_t[kk] = sLL[kk][condwl]
+                if kk in ['labelx','labelpx','other1x','other2x']:
+                    sLL_t[kk] = sLL[kk][...,condwl]
+                else:
+                    sLL_t[kk] = sLL[kk][condwl,...]
+                    
             except:
                 print('PROBLEM',kk,len(sLL[kk]),sLL[kk].shape)
                 raise
