@@ -251,7 +251,7 @@ class RunPrep(object):
         mindarr = mLL['index'][()]
 
         # parse mindarr to be generally around the wavelength range of fit region
-        condwl_m = (mindarr[1,:] > startwl - 0.5) & (mindarr[1,:] < endwl + 0.5)
+        condwl_m = (mindarr[1,:] > startwl - 0.05) & (mindarr[1,:] < endwl + 0.05)
         mindarr = mindarr[:,condwl_m]
 
         # read the segll files
