@@ -291,7 +291,7 @@ class RunPrep(object):
             try:
                 sLL_t[kk] = sLL[kk][condwl]
             except:
-                print('PROBLEM',kk,len(sLL[kk]))
+                print('PROBLEM',kk,len(sLL[kk]),sLL[kk].shape)
                 raise
         sLL_t['index'] = sLL['index'][condwl]
         
