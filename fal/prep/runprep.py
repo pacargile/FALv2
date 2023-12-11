@@ -324,7 +324,11 @@ class RunPrep(object):
                         if kk in ['index','linesrc','ref','auto','ixfixfp','labelp','label','ishift','ishiftp','other1x','other2x']:
                             continue
                         # mat *= sLL[kk][ii] == mLL_i[kk]
-                        mat *= sLL[kk][ii] == mLL[kk][int(pp)]
+                        try:
+                            mat *= sLL[kk][ii] == mLL[kk][int(pp)]
+                        except:
+                            print(kk,int(pp))
+                            raise
                     if mat:
                         lineindexarr.append(int(pp))
                         foundmat = True
