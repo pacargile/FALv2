@@ -288,6 +288,7 @@ class RunPrep(object):
         print('CONDWL',len(condwl),condwl.sum())
         sLL_t = {}
         for kk in RK.f14in.keys():
+            print('Trying',kk,len(sLL[kk]),sLL[kk].shape)
             try:
                 sLL_t[kk] = sLL[kk][condwl]
             except:
