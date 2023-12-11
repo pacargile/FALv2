@@ -254,6 +254,8 @@ class RunPrep(object):
         condwl_m = (mindarr[1,:] > startwl - 0.05) & (mindarr[1,:] < endwl + 0.05)
         mindarr = mindarr[:,condwl_m]
 
+        print(f'... Number of Potentially matching lines in master LL: {len(mindarr[0,:])}')
+
         # read the segll files
         print('... Read Seg fort files',flush=True)
         RK = readkurucz.ReadKurucz(verbose=True)
