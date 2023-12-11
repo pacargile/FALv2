@@ -285,9 +285,14 @@ class RunPrep(object):
 
         # trim sLL to wavelength range
         condwl = (sLL['wl'] > startwl) & (sLL['wl'] < endwl)
+        print('CONDWL',len(condwl),condwl.sum())
         sLL_t = {}
         for kk in RK.f14in.keys():
-            sLL_t[kk] = sLL[kk][condwl]
+            try:
+                sLL_t[kk] = sLL[kk][condwl]
+            except:
+                print('PROBLEM',kk,len(sLL[kk]))
+                raise
         sLL_t['index'] = sLL['index'][condwl]
         
         print(f'... Number of lines in sLL dict after wl cut {len(sLL_t["wl"])}')
