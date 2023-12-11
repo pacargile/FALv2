@@ -599,22 +599,40 @@ class RunPrep(object):
                 
                 for kk in sLL_t.keys():
                     try:
-                        sLL_i[kk] = sLL_t[kk][cond_sel]
+                        if kk in ['labelx','labelpx','other1x','other2x']:
+                            sLL_i[kk] = sLL_t[kk][...,cond_sel]
+                        else:
+                            sLL_i[kk] = sLL_t[kk][condwl,...]
                     except:
-                        print('I')
-                        print(kk)
-                        print(sLL_t[kk])
-                        print(len(sLL_t[kk]))
-                        print(len(cond_sel))
+                        print('PROBLEM I',kk,len(cond_sel),sLL_t[kk].shape)
                         raise
 
+                    # try:
+                    #     sLL_i[kk] = sLL_t[kk][cond_sel]
+                    # except:
+                    #     print('I')
+                    #     print(kk)
+                    #     print(sLL_t[kk])
+                    #     print(len(sLL_t[kk]))
+                    #     print(len(cond_sel))
+                    #     raise
+
                     try:
-                        sLL_m[kk] = sLL_t[kk][~cond_sel]
+                        if kk in ['labelx','labelpx','other1x','other2x']:
+                            sLL_m[kk] = sLL_t[kk][...,~cond_sel]
+                        else:
+                            sLL_m[kk] = sLL_t[kk][~condwl,...]
                     except:
-                        print('M')
-                        print(kk)
-                        print(sLL_t[kk])
+                        print('PROBLEM M',kk,len(~cond_sel),sLL_t[kk].shape)
                         raise
+
+                    # try:
+                    #     sLL_m[kk] = sLL_t[kk][~cond_sel]
+                    # except:
+                    #     print('M')
+                    #     print(kk)
+                    #     print(sLL_t[kk])
+                    #     raise
 
                 # sLL_i = {sLL[kk][cond] for kk in sLL.keys()}
                 # sLL_m = {sLL[kk][~cond] for kk in sLL.keys()}
