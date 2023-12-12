@@ -611,7 +611,7 @@ class RunPrep(object):
                         if kk in ['labelx','labelpx','other1x','other2x']:
                             sLL_i[kk] = sLL_t[kk][...,cond_sel]
                         else:
-                            sLL_i[kk] = sLL_t[kk][condwl,...]
+                            sLL_i[kk] = sLL_t[kk][cond_sel,...]
                     except:
                         print('PROBLEM I',kk,len(cond_sel),sLL_t[kk].shape)
                         raise
@@ -630,7 +630,7 @@ class RunPrep(object):
                         if kk in ['labelx','labelpx','other1x','other2x']:
                             sLL_m[kk] = sLL_t[kk][...,~cond_sel]
                         else:
-                            sLL_m[kk] = sLL_t[kk][~condwl,...]
+                            sLL_m[kk] = sLL_t[kk][~cond_sel,...]
                     except:
                         print('PROBLEM M',kk,len(~cond_sel),sLL_t[kk].shape)
                         raise
