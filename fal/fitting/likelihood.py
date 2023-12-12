@@ -151,7 +151,7 @@ class Like(object):
     def genmod(self,linepars={'dwl':[],'dloggf':[],'dgammaw':[],'dgammar':[],'dgammas':[]}):
         
         # adjust the line parameters
-        
+        starttime = datetime.now()
         indictll = ({
             'lineind':self.lineindex,
             'dwl':linepars['dwl'],
@@ -160,10 +160,12 @@ class Like(object):
             'dgammar':linepars['dgammar'],
             'dgammas':linepars['dgammas'],
             })
-        print(indictll)
+        # print(indictll)
         self.AK.adjll(lindict=indictll)
-        print('WL',self.AK.RK.f14in['wl'][indictll['lineind']])
+        print(f'ADJ LINES {datetime.now()-starttime}')
+        # print('WL',self.AK.RK.f14in['wl'][indictll['lineind']])
         # write the tmp fortfiles
+        starttime = datetime.now()
         self.AK.wfort(        
             f12path='./ff/fort_tmp.12',
             f14path='./ff/fort_tmp.14',
@@ -171,8 +173,10 @@ class Like(object):
             f20path='./ff/fort_tmp.20',
             f93path='./ff/fort_tmp.93',
             )
+        print(f'WRITE FF {datetime.now()-starttime}')
         
         # run synthe for each of the input spectra
+        starttime = datetime.now()
         modarr = []
         for ii in range(self.nspec):
             mod_i = self.RSarr[ii]()            
@@ -188,6 +192,7 @@ class Like(object):
         # cond = (wave > 517.0) & (wave < 517.1)
         # print(wave[cond])
         # print(flux[cond])
+        print(f'RUN MODEL {datetime.now()-starttime}')
     
         return modarr
     
