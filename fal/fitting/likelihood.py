@@ -175,13 +175,13 @@ class Like(object):
         # run synthe for each of the input spectra
         modarr = []
         for ii in range(self.nspec):
-            mod_i = self.RSarr[ii](            
-                f12path='./ff/fort_tmp.12',
-                f14path='./ff/fort_tmp.14',
-                f19path='./ff/fort_tmp.19',
-                f20path='./ff/fort_tmp.20',
-                f93path='./ff/fort_tmp.93',
-                )
+            mod_i = self.RSarr[ii]()            
+                # # f12path='./ff/fort_tmp.12',
+                # # f14path='./ff/fort_tmp.14',
+                # # f19path='./ff/fort_tmp.19',
+                # # f20path='./ff/fort_tmp.20',
+                # # f93path='./ff/fort_tmp.93',
+                # )
             wave = mod_i['wave']
             flux = mod_i['qmu1']/mod_i['qmu2']
             modarr.append([wave,flux])
