@@ -370,12 +370,14 @@ class RunPrep(object):
         
         # write in the master ll index for future use
         sLL_t['masterind'] = np.array(lineindexarr)
-                
+
+        starttime = datetime.now()                
         # write lineindex arrays to file
         with open(f'seg_{segnum}/lineinfo/lineindex.txt','w') as lif:
             lif.write('segind masterind wl code\n')
             for x,y,z,w in zip(sLL_t['index'],lineindexarr,sLL_t['wl'],sLL_t['code']):
                 lif.write(f'{x} {y} {z} {w}\n')
+        print(f'... Fnished writing master LL match file: {datetime.now()-starttime}',flush=True)
                 
         print('... Determining which lines need to be included in fit',flush=True)
         # temp change dir to seg_/ so that fortran is run there
