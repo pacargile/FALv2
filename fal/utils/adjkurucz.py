@@ -390,6 +390,10 @@ class AdjKurucz(object):
         # instead of log(gf)
         dgf = 10.0**dloggf
 
+        print(f'adjusting dloggf {linind}')
+        print(f'{self.RK.f14in["wl"][linind]}')
+        print(f'{self.RK.f14in["wlvac"][linind]}')
+
         if fort == 12:
             # shift log(gf) by dlog(gf) in terms of gf
             self.RK.f12in['cgf'][linind]    = self.RK.f12in['cgf'][linind] * dgf
