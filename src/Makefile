@@ -26,6 +26,8 @@ synthe:
 	$(FC) $(LDFLAGS) -o rh2oslow.exe rh2oslow.o
 	$(FC) $(FFLAGS)  -o synthe.o synthe.for
 	$(FC) $(LDFLAGS) -o synthe.exe synthe.o
+	$(FC) $(FFLAGS)  -o synthe_fast.o synthe_fast.for
+	$(FC) $(LDFLAGS) -o synthe_fast.exe synthe_fast.o
 	$(FC) $(FFLAGS) -o spectrv.o spectrv.for
 	$(FC) $(LDFLAGS) -o spectrv.exe spectrv.o atlas7lib.o
 	$(FC) $(FFLAGS) -o broadenx.o broadenx.for
