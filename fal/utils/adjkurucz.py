@@ -328,20 +328,20 @@ class AdjKurucz(object):
                     #         continue
                     starttime = datetime.now()
                     if 'dwl' in lindict.keys():
-                        if deltapar['dwl'] != 0.0:
-                            self.adjwl(ind,deltapar['dwl'],fort=fortfile)
+                        # if deltapar['dwl'] != 0.0:
+                        self.adjwl(ind,deltapar['dwl'],fort=fortfile)
                     if 'dloggf' in lindict.keys():
-                        if deltapar['dloggf'] != 0.0:
-                            self.adjloggf(ind,deltapar['dloggf'],fort=fortfile)
+                        # if deltapar['dloggf'] != 0.0:
+                        self.adjloggf(ind,deltapar['dloggf'],fort=fortfile)
                     if 'dgammaw' in lindict.keys():
-                        if deltapar['dgammaw'] != 0.0:
-                            self.adjgammaw(ind,deltapar['dgammaw'],fort=fortfile)
+                        # if deltapar['dgammaw'] != -1.0:
+                        self.adjgammaw(ind,deltapar['dgammaw'],fort=fortfile)
                     if 'dgammar' in lindict.keys():
-                        if deltapar['dgammar'] != 0.0:
-                            self.adjgammar(ind,deltapar['dgammar'],fort=fortfile)
+                        # if deltapar['dgammar'] != -1.0:
+                        self.adjgammar(ind,deltapar['dgammar'],fort=fortfile)
                     if 'dgammas' in lindict.keys():
-                        if deltapar['dgammas'] != 0.0:
-                            self.adjgammas(ind,deltapar['dgammas'],fort=fortfile)
+                        # if deltapar['dgammas'] != -1.0:
+                        self.adjgammas(ind,deltapar['dgammas'],fort=fortfile)
                     print(f'... adj pars {datetime.now()-starttime}',flush=True)
                     # for kk in self.RK.f14in.keys():
                     #     try:
