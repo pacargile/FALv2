@@ -256,4 +256,4 @@ class Like(object):
         print(f'... chisq eval {datetime.now()-starttime}',flush=True)
         
         # return the likelihood
-        return -0.5 * chisq
+        return (-0.5 * chisq, modarr)
