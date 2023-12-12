@@ -123,8 +123,8 @@ class Like(object):
             RS_i = Synthe(**inputdict)
 
             # jit it so that repeat calls will be much faster
-            # JSrun = jit(RS_i.run)
-            JSrun = RS_i.run
+            JSrun = jit(RS_i.run)
+            # JSrun = RS_i.run
             self.RSarr.append(JSrun)
 
         # init the adjust kurucz class

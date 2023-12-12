@@ -4,6 +4,7 @@ import shutil
 import glob
 import h5py
 import stat
+from datetime import datetime
 
 from ..utils import readkurucz, runsynthe, adjkurucz
 
@@ -311,6 +312,7 @@ class RunPrep(object):
         print('... Finding Master LL Matches',flush=True)
         # first find seg index and match with master index
         # Try using the index array first, maybe we'll get lucky and there is only one match
+        starttime = datetime.now()
         lineindexarr = []
         for ii in sLL_t['index']:
             cond = (mindarr[1,:] == sLL['wl'][ii]) & (mindarr[2,:] == sLL['code'][ii])
@@ -361,10 +363,11 @@ class RunPrep(object):
                 print(f'THIS SHOULD NOT HAPPEN',flush=True)
                 raise IOError
         
-        
         # close the masterLL HDF5 file
         mLL.close()
 
+        print(f'... Master LL matched finished: {datetime.now()-starttime.now()}',flush=True)
+        
         # write in the master ll index for future use
         sLL_t['masterind'] = np.array(lineindexarr)
                 
@@ -374,6 +377,7 @@ class RunPrep(object):
             for x,y in zip(sLL_t['index'],lineindexarr):
                 lif.write(f'{x} {y}\n')
                 
+        print('... Determining which lines need to be included in fit',flush=True)
         # temp change dir to seg_/ so that fortran is run there
         with cwd(f'seg_{segnum}/'):
 
@@ -415,6 +419,7 @@ class RunPrep(object):
 
             # Do an inital synthesis for each atm saving resid info
             for ii,atm_i in enumerate(atmlist_i):
+                starttime = datetime.now()
                 print(f'... working on {atm_i}',flush=True)
                 # set atm file path
                 RS.setatmpath(atmpath=atm_i)
@@ -504,7 +509,10 @@ class RunPrep(object):
                 src     = np.append(src,ii*np.ones(len(code_i[nonrepeatind]),dtype=int))
 
                 print(f'     ... Registering {len(nonrepeatind)} lines -> Total: {len(wl)}',flush=True)
+                print(f'     ... Finished {atm_i}: {datetime.now()-starttime}',flush=True)
 
+            starttime = datetime.now()
+            print(f'... setting up free parameter arrays',flush=True)
 
             # sort arrays by wl
             sortwl = np.argsort(wl)
