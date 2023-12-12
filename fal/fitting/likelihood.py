@@ -121,7 +121,15 @@ class Like(object):
 
             # init the class            
             RS_i = Synthe(**inputdict)
-
+            
+            RS_i.setfpaths(
+                f12path='./ff/fort_tmp.12',
+                f14path='./ff/fort_tmp.14',
+                f19path='./ff/fort_tmp.19',
+                f20path='./ff/fort_tmp.20',
+                f93path='./ff/fort_tmp.93',
+                )
+            
             # jit it so that repeat calls will be much faster
             JSrun = jit(RS_i.run)
             # JSrun = RS_i.run
