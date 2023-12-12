@@ -366,7 +366,7 @@ class RunPrep(object):
         # close the masterLL HDF5 file
         mLL.close()
 
-        print(f'... Master LL matched finished: {datetime.now()-starttime.now()}',flush=True)
+        print(f'... Master LL matched finished: {datetime.now()-starttime}',flush=True)
         
         # write in the master ll index for future use
         sLL_t['masterind'] = np.array(lineindexarr)
