@@ -185,9 +185,9 @@ class Like(object):
             wave = mod_i['wave']
             flux = mod_i['qmu1']/mod_i['qmu2']
             modarr.append([wave,flux])
-        cond = (wave > 517.0) & (wave < 517.1)
-        print(wave[cond])
-        print(flux[cond])
+        # cond = (wave > 517.0) & (wave < 517.1)
+        # print(wave[cond])
+        # print(flux[cond])
     
         return modarr
     

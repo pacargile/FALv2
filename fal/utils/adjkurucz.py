@@ -320,7 +320,7 @@ class AdjKurucz(object):
                         if lindict['rlte'][ii]:
                             fortfile = 19
                     
-                    print(ind,deltapar)
+                    # print(ind,deltapar)
                     # for kk in self.RK.f14in.keys():
                     #     try:
                     #         print(kk, self.RK.f14in[kk][ind])
@@ -389,10 +389,6 @@ class AdjKurucz(object):
         # construct a dlog(gf) -> 10^dlog(gf) as gf's are stored 
         # instead of log(gf)
         dgf = 10.0**dloggf
-
-        print(f'adjusting dloggf {linind}')
-        print(f'{self.RK.f14in["wl"][linind]}')
-        print(f'{self.RK.f14in["wlvac"][linind]}')
 
         if fort == 12:
             # shift log(gf) by dlog(gf) in terms of gf
