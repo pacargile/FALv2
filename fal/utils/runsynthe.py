@@ -109,7 +109,9 @@ class Synthe(object):
         # run synthe
         self.xnfpelsyn(verbose_xnf=verbose)
         starttime = datetime.now()
-        self.synthe(verbose_syn=verbose)
+        jsyn = jax.jit(self.synthe)
+        # self.synthe(verbose_syn=verbose)
+        jsyn()
         print(f'SYN {datetime.now()-starttime}')
         self.spectrv(verbose_sprv=verbose)
         self.rotate(vrot=self.vrot,verbose_rot=verbose)
@@ -152,7 +154,6 @@ class Synthe(object):
         
         return
     
-    @jax.jit
     def synthe(self,verbose_syn=False):
         """
         Run SYNTHE code
