@@ -7,6 +7,7 @@ from scipy import io as spIO
 import numpy as np
 import fal
 from . import readkurucz
+import jax
 
 class Synthe(object):
     """ 
@@ -106,26 +107,16 @@ class Synthe(object):
             )
 
         # run synthe
-        starttime = datetime.now()
         self.xnfpelsyn(verbose_xnf=verbose)
-        print(f'XNF {datetime.now()-starttime}')
         starttime = datetime.now()
         self.synthe(verbose_syn=verbose)
         print(f'SYN {datetime.now()-starttime}')
-        starttime = datetime.now()
         self.spectrv(verbose_sprv=verbose)
-        print(f'SPV {datetime.now()-starttime}')
-        starttime = datetime.now()
         self.rotate(vrot=self.vrot,verbose_rot=verbose)
-        print(f'ROT {datetime.now()-starttime}')
-        starttime = datetime.now()
         self.broaden(verbose_bro=verbose)
-        print(f'BRO {datetime.now()-starttime}')
 
-        starttime = datetime.now()
         # read in binary output
         outdat = self.RK.readspecbin('./ROT1')
-        print(f'READOUT {datetime.now()-starttime}')
 
 
         return outdat
@@ -161,6 +152,7 @@ class Synthe(object):
         
         return
     
+    @jax.jit
     def synthe(self,verbose_syn=False):
         """
         Run SYNTHE code
