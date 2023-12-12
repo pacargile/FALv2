@@ -106,14 +106,27 @@ class Synthe(object):
             )
 
         # run synthe
+        starttime = datetime.now()
         self.xnfpelsyn(verbose_xnf=verbose)
+        print(f'XNF {datetime.now()-starttime}')
+        starttime = datetime.now()
         self.synthe(verbose_syn=verbose)
+        print(f'SYN {datetime.now()-starttime}')
+        starttime = datetime.now()
         self.spectrv(verbose_sprv=verbose)
+        print(f'SPV {datetime.now()-starttime}')
+        starttime = datetime.now()
         self.rotate(vrot=self.vrot,verbose_rot=verbose)
+        print(f'ROT {datetime.now()-starttime}')
+        starttime = datetime.now()
         self.broaden(verbose_bro=verbose)
+        print(f'BRO {datetime.now()-starttime}')
 
+        starttime = datetime.now()
         # read in binary output
         outdat = self.RK.readspecbin('./ROT1')
+        print(f'READOUT {datetime.now()-starttime}')
+
 
         return outdat
 
