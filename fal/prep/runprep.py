@@ -657,14 +657,14 @@ class RunPrep(object):
 
                     if HFISOcond.sum() > 0:
                         sLL_mm = {}
-                        for kk in sLL_t.keys():
+                        for kk in sLL_m.keys():
                             try:
                                 if kk in ['labelx','labelpx','other1x','other2x']:
                                     sLL_mm[kk] = sLL_m[kk][...,HFISOcond]
                                 else:
                                     sLL_mm[kk] = sLL_m[kk][HFISOcond,...]
                             except:
-                                print('PROBLEM MM',kk,len(HFISOcond),sLL_mm[kk].shape)
+                                print('PROBLEM MM',kk,len(HFISOcond),sLL_m[kk].shape)
                                 raise
                         # sLL_mm = {kk:sLL_m[kk][HFISOcond] for kk in sLL_m.keys()}
                         # sLL_mm = sLL_m[HFISOcond]
@@ -694,14 +694,14 @@ class RunPrep(object):
 
                     if MOLcond.sum() > 0:
                         sLL_mm = {}
-                        for kk in sLL_t.keys():
+                        for kk in sLL_m.keys():
                             try:
                                 if kk in ['labelx','labelpx','other1x','other2x']:
-                                    sLL_mm[kk] = sLL_m[kk][...,HFISOcond]
+                                    sLL_mm[kk] = sLL_m[kk][...,MOLcond]
                                 else:
-                                    sLL_mm[kk] = sLL_m[kk][HFISOcond,...]
+                                    sLL_mm[kk] = sLL_m[kk][MOLcond,...]
                             except:
-                                print('PROBLEM MM',kk,len(HFISOcond),sLL_mm[kk].shape)
+                                print('PROBLEM MM',kk,len(MOLcond),sLL_m[kk].shape)
                                 raise
 
                         # sLL_mm = {kk:sLL_m[kk][MOLcond] for kk in sLL_m.keys()}
