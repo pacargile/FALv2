@@ -216,20 +216,20 @@ class RunPrep(object):
             f93path=self.masterf93path)
 
         print(f'... Starting Number of Lines: {AK.RK.f93in["nlines"] }')
-        print('... First 10 lines')
-        print(AK.RK.f14in['wl'][:10])
-        print('... Last 10 lines')
-        print(AK.RK.f14in['wl'][-10:])
+        # print('... First 10 lines')
+        # print(AK.RK.f14in['wl'][:10])
+        # print('... Last 10 lines')
+        # print(AK.RK.f14in['wl'][-10:])
 
 
         print(f'... Adj the starting and ending wavelengths: {startwl} - {endwl}')
         AK.adj93(newdict={'wl':[startwl,endwl]})
 
-        print(f'... Total Number of Lines: {AK.RK.f93in["nlines"] }')
-        print('... First 10 lines')
-        print(AK.RK.f14in['wl'][:10])
-        print('... Last 10 lines')
-        print(AK.RK.f14in['wl'][-10:])
+        print(f'... Total Number of Lines after Ajd: {AK.RK.f93in["nlines"] }')
+        # print('... First 10 lines')
+        # print(AK.RK.f14in['wl'][:10])
+        # print('... Last 10 lines')
+        # print(AK.RK.f14in['wl'][-10:])
 
         # write new fort files to segll directory
         print('... Write out new fort files to seg dir')
@@ -402,6 +402,7 @@ class RunPrep(object):
                 f93path=f'./ff/fort.93',
                 )
 
+            # init list for fit lines
             code    = []
             wl      = []
             dwl     = []
@@ -416,6 +417,21 @@ class RunPrep(object):
             resid   = []
             src     = [] # index for atm that flagged line
 
+            # init list for all significant lines
+            code_full    = []
+            wl_full      = []
+            dwl_full     = []
+            loggf_full   = []
+            dloggf_full  = []
+            gammar_full  = []
+            gammas_full  = []
+            gammaw_full  = []
+            dgammar_full = []
+            dgammas_full = []
+            dgammaw_full = []
+            resid_full   = []
+            src_full     = [] # index for atm that flagged line
+
             # glob all atm in atm/ into list
             atmlist_i = glob.glob('./atm/*')
 
@@ -428,14 +444,47 @@ class RunPrep(object):
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
 
-                print(f'     ... Found {len(synout_i["resid"])} to consider.',flush=True)
+                code_fl    = synout_i['code']
+                wl_fl      = synout_i['wl']
+                dwl_fl     = synout_i['dwl']
+                loggf_fl   = synout_i['loggf']
+                dloggf_fl  = synout_i['dloggf']
+                gammar_fl  = synout_i['gammar']
+                gammas_fl  = synout_i['gammas']
+                gammaw_fl  = synout_i['gammaw']
+                dgammar_fl = synout_i['dgammar']
+                dgammas_fl = synout_i['dgammas']
+                dgammaw_fl = synout_i['dgammaw']
+                resid_fl   = synout_i['resid']
+
+                print(f'     ... Found {len(code_fl)} to consider.',flush=True)
+
+                # check to see if there are repeats for full line lists
+                x = np.array([wl_fl,loggf_fl,gammar_fl,gammas_fl,gammaw_fl])
+                y = np.array([wl_full,loggf_full,gammar_full,gammas_full,gammaw_full])
+                nonrepeatind = np.nonzero(np.all(~np.isin(x,y).T,axis=1))[0]
+
+                # append the non-repeating to parent lists            
+                code_full    = np.append(code_full,code_fl[nonrepeatind])
+                wl_full      = np.append(wl_full,wl_fl[nonrepeatind])
+                dwl_full     = np.append(dwl_full,dwl_fl[nonrepeatind])
+                loggf_full   = np.append(loggf_full,loggf_fl[nonrepeatind])
+                dloggf_full  = np.append(dloggf_full,dloggf_fl[nonrepeatind])
+                gammar_full  = np.append(gammar_full,gammar_fl[nonrepeatind])
+                gammas_full  = np.append(gammas_full,gammas_fl[nonrepeatind])
+                gammaw_full  = np.append(gammaw_full,gammaw_fl[nonrepeatind])
+                dgammar_full = np.append(dgammar_full,dgammar_fl[nonrepeatind])
+                dgammas_full = np.append(dgammas_full,dgammas_fl[nonrepeatind])
+                dgammaw_full = np.append(dgammaw_full,dgammaw_fl[nonrepeatind])
+                resid_full   = np.append(resid_full,resid_fl[nonrepeatind])
+                src_full     = np.append(src_full,ii*np.ones(len(code_fl[nonrepeatind]),dtype=int))
 
                 # find lines where resid == 1.0
-                lowlines = synout_i["resid"] > 0.9999
+                lowlines = resid_fl > 0.9999
                 print(f'     ... Found {lowlines.sum()} lines with RESID > 0.9999.',flush=True)
                 
                 # filter out lines less than threashold (resid -> continuum = 1.0)
-                theshcond = synout_i['resid'] < (1.0 - self.threshold)
+                theshcond = resid_fl < (1.0 - self.threshold)
 
                 print(f'     ... After threshold cut {theshcond.sum()}.',flush=True)
                 
@@ -443,18 +492,18 @@ class RunPrep(object):
                 if theshcond.sum() == 0:
                     continue
                 
-                code_i    = synout_i['code'][theshcond]
-                wl_i      = synout_i['wl'][theshcond]
-                dwl_i     = synout_i['dwl'][theshcond]
-                loggf_i   = synout_i['loggf'][theshcond]
-                dloggf_i  = synout_i['dloggf'][theshcond]
-                gammar_i  = synout_i['gammar'][theshcond]
-                gammas_i  = synout_i['gammas'][theshcond]
-                gammaw_i  = synout_i['gammaw'][theshcond]
-                dgammar_i = synout_i['dgammar'][theshcond]
-                dgammas_i = synout_i['dgammas'][theshcond]
-                dgammaw_i = synout_i['dgammaw'][theshcond]
-                resid_i   = synout_i['resid'][theshcond]
+                code_i    = code_fl[theshcond]
+                wl_i      = wl_fl[theshcond]
+                dwl_i     = dwl_fl[theshcond]
+                loggf_i   = loggf_fl[theshcond]
+                dloggf_i  = dloggf_fl[theshcond]
+                gammar_i  = gammar_fl[theshcond]
+                gammas_i  = gammas_fl[theshcond]
+                gammaw_i  = gammaw_fl[theshcond]
+                dgammar_i = dgammar_fl[theshcond]
+                dgammas_i = dgammas_fl[theshcond]
+                dgammaw_i = dgammaw_fl[theshcond]
+                resid_i   = resid_fl[theshcond]
                 
                 # sort by wl
                 sortcond = np.argsort(wl_i)
@@ -535,6 +584,23 @@ class RunPrep(object):
             dgammaw = dgammaw[sortwl]
             resid   = resid[sortwl]
             src     = src[sortwl]
+
+            sortwl_full = np.argsort(wl_full)
+            code_full    = code[sortwl_full]
+            wl_full      = wl[sortwl_full]
+            dwl_full     = dwl[sortwl_full]
+            loggf_full   = loggf[sortwl_full]
+            dloggf_full  = dloggf[sortwl_full]
+            gammar_full  = gammar[sortwl_full]
+            gammas_full  = gammas[sortwl_full]
+            gammaw_full  = gammaw[sortwl_full]
+            dgammar_full = dgammar[sortwl_full]
+            dgammas_full = dgammas[sortwl_full]
+            dgammaw_full = dgammaw[sortwl_full]
+            resid_full   = resid[sortwl_full]
+            src_full     = src[sortwl_full]
+
+            print(f'... Total Number of Strong Lines to Consider {len(code_full)}')
 
             # init seg and master index
             segind    = []
