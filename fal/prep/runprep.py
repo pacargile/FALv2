@@ -464,7 +464,7 @@ class RunPrep(object):
                 y = np.array([wl_full,loggf_full,gammar_full,gammas_full,gammaw_full])
                 nonrepeatind = np.nonzero(np.all(~np.isin(x,y).T,axis=1))[0]
 
-                print(f'     ... Adding {nonrepeatind.sum()} to significant line list.',flush=True)
+                print(f'     ... Adding {len(nonrepeatind)} to significant line list.',flush=True)
 
                 # append the non-repeating to parent lists            
                 code_full    = np.append(code_full,code_fl[nonrepeatind])
