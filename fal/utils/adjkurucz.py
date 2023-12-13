@@ -96,7 +96,7 @@ class AdjKurucz(object):
             offset_beg[condTiO] = (wlbeg - 1.145)
             offset_end[condTiO] = (wlend + 1.0)
 
-            # select which stars are still included
+            # select which lines are still included
             cond14 = (self.RK.f14in['wlvac'] >= offset_beg) & (self.RK.f14in['wlvac'] <= offset_end)
 
             # calculate NLINES

@@ -430,6 +430,10 @@ class RunPrep(object):
 
                 print(f'     ... Found {len(synout_i["resid"])} to consider.',flush=True)
 
+                # find lines where resid == 1.0
+                lowlines = synout_i["resid"] == 1.0
+                print(f'     ... Found {lowlines.sum()} lines with RESID == 1.0.',flush=True)
+                
                 # filter out lines less than threashold (resid -> continuum = 1.0)
                 theshcond = synout_i['resid'] < (1.0 - self.threshold)
 
