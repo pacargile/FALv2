@@ -570,7 +570,7 @@ class RunPrep(object):
             print(f'... setting up free parameter arrays',flush=True)
 
             # sort arrays by wl
-            sortwl = np.argsort(wl)
+            sortwl  = np.argsort(wl)
             code    = code[sortwl]
             wl      = wl[sortwl]
             dwl     = dwl[sortwl]
@@ -585,20 +585,20 @@ class RunPrep(object):
             resid   = resid[sortwl]
             src     = src[sortwl]
 
-            sortwl_full = np.argsort(wl_full)
-            code_full    = code[sortwl_full]
-            wl_full      = wl[sortwl_full]
-            dwl_full     = dwl[sortwl_full]
-            loggf_full   = loggf[sortwl_full]
-            dloggf_full  = dloggf[sortwl_full]
-            gammar_full  = gammar[sortwl_full]
-            gammas_full  = gammas[sortwl_full]
-            gammaw_full  = gammaw[sortwl_full]
-            dgammar_full = dgammar[sortwl_full]
-            dgammas_full = dgammas[sortwl_full]
-            dgammaw_full = dgammaw[sortwl_full]
-            resid_full   = resid[sortwl_full]
-            src_full     = src[sortwl_full]
+            sortwl_full  = np.argsort(wl_full)
+            code_full    = code_full[sortwl_full]
+            wl_full      = wl_full[sortwl_full]
+            dwl_full     = dwl_full[sortwl_full]
+            loggf_full   = loggf_full[sortwl_full]
+            dloggf_full  = dloggf_full[sortwl_full]
+            gammar_full  = gammar_full[sortwl_full]
+            gammas_full  = gammas_full[sortwl_full]
+            gammaw_full  = gammaw_full[sortwl_full]
+            dgammar_full = dgammar_full[sortwl_full]
+            dgammas_full = dgammas_full[sortwl_full]
+            dgammaw_full = dgammaw_full[sortwl_full]
+            resid_full   = resid_full[sortwl_full]
+            src_full     = src_full[sortwl_full]
 
             print(f'... Total Number of Strong Lines to Consider {len(code_full)}')
 
