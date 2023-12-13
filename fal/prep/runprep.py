@@ -480,7 +480,7 @@ class RunPrep(object):
                         (x4 in gammas_full) and 
                         (x5 in gammaw_full)):
                         testcond[ii] = False
-                
+                testcond = np.array(testcond,dtype=bool)
                 print('TEST',testcond.sum())
 
                 print(f'     ... Adding {len(nonrepeatind)} to significant line list.',flush=True)
