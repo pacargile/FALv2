@@ -18,6 +18,13 @@ def cwd(path):
     finally:
         os.chdir(oldpwd)
 
+def is_unique(*lsts):
+    arr = np.vstack(lsts)
+    _, ind = np.unique(arr, axis=1, return_index=True)
+    out = np.zeros(shape=arr.shape[1], dtype=bool)
+    out[ind] = True
+    return out
+
 class RunPrep(object):
     def __init__(self, *args, **kwargs):
         super(RunPrep, self).__init__()
@@ -463,6 +470,18 @@ class RunPrep(object):
                 x = np.array([wl_fl,loggf_fl,gammar_fl,gammas_fl,gammaw_fl])
                 y = np.array([wl_full,loggf_full,gammar_full,gammas_full,gammaw_full])
                 nonrepeatind = np.nonzero(np.all(~np.isin(x,y).T,axis=1))[0]
+
+                testcond = [True for _ in range(len(code_fl))]
+                for ii,(x1,x2,x3,x4,x5) in enumerate(zip(wl_fl,loggf_fl,gammar_fl,gammas_fl,gammaw_fl)):
+                    if (
+                        (x1 in wl_full) and 
+                        (x2 in loggf_full) and 
+                        (x3 in gammar_full) and 
+                        (x4 in gammas_full) and 
+                        (x5 in gammaw_full)):
+                        testcond[ii] = False
+                
+                print('TEST',testcond.sum())
 
                 print(f'     ... Adding {len(nonrepeatind)} to significant line list.',flush=True)
 
