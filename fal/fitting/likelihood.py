@@ -182,6 +182,7 @@ class Like(object):
                 # # f20path='./ff/fort_tmp.20',
                 # # f93path='./ff/fort_tmp.93',
                 # )
+            print(mod_i.keys())
             wave = mod_i['wave']
             flux = mod_i['qmu1']/mod_i['qmu2']
             modarr.append([wave,flux])
