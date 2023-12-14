@@ -335,7 +335,7 @@ class RunPrep(object):
                 tmpspec = Table()
                 tmpspec['wave'] = synout_i['wave']
                 tmpspec['flux'] = synout_i['qmu1']/synout_i['qmu2']
-                tmpspec.write(f'./data/specfull_{atm_i.replace(".atm",".fits")}',format='fits',overwrite=True)
+                tmpspec.write(f'./data/specfull_{atm_i.split("/")[-1].replace(".atm",".fits")}',format='fits',overwrite=True)
 
                 code_fl    = synout_i['code']
                 wl_fl      = synout_i['wl']
