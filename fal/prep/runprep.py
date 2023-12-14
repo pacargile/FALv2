@@ -518,7 +518,7 @@ class RunPrep(object):
                 cond_sel = (y == x).all(axis=1)
                 
                 if cond_sel.sum() == 1:
-                    slindex.append(sLL['index'][cond_sel])
+                    slindex.append(int(sLL['index'][cond_sel]))
                 elif cond_sel.sum() > 1:
                     for ss in sLL['index'][cond_sel]:
                         slindex.append(ss)
@@ -529,7 +529,8 @@ class RunPrep(object):
                     cond_fail = cond_sel
                     print(sLL['wl'][cond_fail],sLL['code'][cond_fail],sLL['gflog'][cond_fail],sLL['gw'][cond_fail])
                     raise IOError
-            
+
+            slindex.sort()
             AK.filterll({'index':slindex})
 
             print('... Writing out rebuilt fort files',flush=True)
