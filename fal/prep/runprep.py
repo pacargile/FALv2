@@ -466,22 +466,6 @@ class RunPrep(object):
 
                 print(f'     ... Found {len(code_fl)} to consider.',flush=True)
 
-                # # check to see if there are repeats for full line lists
-                # x = np.array([wl_fl,loggf_fl,gammar_fl,gammas_fl,gammaw_fl])
-                # y = np.array([wl_full,loggf_full,gammar_full,gammas_full,gammaw_full])
-                # nonrepeatind = np.nonzero(np.all(~np.isin(x,y).T,axis=1))[0]
-
-                # nonrepeatind = [True for _ in range(len(code_fl))]
-                # for ii,(x1,x2,x3,x4,x5) in enumerate(zip(wl_fl,loggf_fl,gammar_fl,gammas_fl,gammaw_fl)):
-                #     if (
-                #         (x1 in wl_full) and 
-                #         (x2 in loggf_full) and 
-                #         (x3 in gammar_full) and 
-                #         (x4 in gammas_full) and 
-                #         (x5 in gammaw_full)):
-                #         nonrepeatind[ii] = False
-                # nonrepeatind = np.array(nonrepeatind,dtype=bool)
-
                 nonrepeatind = [True for _ in range(len(code_fl))]
                 y = np.vstack([wl_full,loggf_full,gammar_full,gammas_full,gammaw_full]).T
                 for ii,(x1,x2,x3,x4,x5) in enumerate(zip(wl_fl,loggf_fl,gammar_fl,gammas_fl,gammaw_fl)):
@@ -572,10 +556,19 @@ class RunPrep(object):
                 dgammaw_i = dgammaw_i[wlcond]
                 resid_i   = resid_i[wlcond]
                 
-                # check to see if there are repeats
-                x = np.array([wl_i,loggf_i,gammar_i,gammas_i,gammaw_i])
-                y = np.array([wl,loggf,gammar,gammas,gammaw])
-                nonrepeatind = np.nonzero(np.all(~np.isin(x,y).T,axis=1))[0]
+                # # check to see if there are repeats
+                # x = np.array([wl_i,loggf_i,gammar_i,gammas_i,gammaw_i])
+                # y = np.array([wl,loggf,gammar,gammas,gammaw])
+                # nonrepeatind = np.nonzero(np.all(~np.isin(x,y).T,axis=1))[0]
+
+                nonrepeatind = [True for _ in range(len(code_i))]
+                y = np.vstack([wl,loggf,gammar,gammas,gammaw]).T
+                for ii,(x1,x2,x3,x4,x5) in enumerate(zip(wl_i,loggf_i,gammar_i,gammas_i,gammaw_i)):
+                    x = [x1,x2,x3,x4,x5]
+                    if len((y == x).all(axis=1).nonzero()[0]) > 0:
+                        nonrepeatind[ii] = False
+                nonrepeatind = np.array(nonrepeatind,dtype=bool)
+
 
                 # append the non-repeating to parent lists            
                 code    = np.append(code,code_i[nonrepeatind])
