@@ -513,7 +513,7 @@ class RunPrep(object):
 
             slindex = []
             for ii in range(len(code_full)):
-                y = np.vstack([sLL['wl'],sLL['code'],sLL['gflog'],sLL['gr'],sLL['gs'],sLL['gw']])
+                y = np.vstack([sLL['wl'],sLL['code'],sLL['gflog'],sLL['gr'],sLL['gs'],sLL['gw']]).T
                 x = [wl_full[ii],code_full[ii],loggf_full[ii],gammar_full[ii],gammas_full[ii],gammaw_full[ii]]
                 cond_sel = (y == x).all(axis=1)
                 
