@@ -523,7 +523,7 @@ class RunPrep(object):
                     print(f'Could not find match or too many matches for this line:',flush=True)
                     print(wl_full[ii],code_full[ii],loggf_full[ii],gammaw_full[ii],flush=True)
 
-                    cond_fail = sLL['wl'] == wl_full[ii]
+                    cond_fail = cond_sel
                     print(sLL['wl'][cond_fail],sLL['code'][cond_fail],sLL['gflog'][cond_fail],sLL['gw'][cond_fail])
                     raise IOError
 
