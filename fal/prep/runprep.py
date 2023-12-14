@@ -491,16 +491,62 @@ class RunPrep(object):
 
             print(f'... Total Number of Strong Lines {len(code_full)}')
 
-
-            # read the segll files
-            print('... Read Seg fort files',flush=True)
-            RK = readkurucz.ReadKurucz(verbose=True)
-            RK.readfiles(
+            print('... Rebuilding fort files with just significant lines',flush=True)
+            # initialize AdjKurucz
+            AK = adjkurucz.AdjKurucz(
                 f12path=f'./ff/fort.12',
                 f14path=f'./ff/fort.14',
                 f19path=f'./ff/fort.19',
                 f20path=f'./ff/fort.20',
                 f93path=f'./ff/fort.93',
+                )
+
+            # index the lines in just this segment
+            # first stack f14 and f20 info
+            sLL = {}
+            for kk in AK.RK.f14in.keys():
+                if kk in ['labelx','labelpx','other1x','other2x']:
+                    sLL[kk] = np.concatenate((AK.RK.f14in[kk],AK.RK.f20in[kk]),axis=1)
+                else:
+                    sLL[kk] = np.concatenate((AK.RK.f14in[kk],AK.RK.f20in[kk]),axis=0)
+            sLL['index'] = np.array(range(len(sLL['wl'])))
+
+            slindex = []
+            for ii in range(len(code_full)):
+                y = np.vstack([sLL['wl'],sLL['code'],sLL['gflog'],sLL['gr'],sLL['gs'],sLL['gw']])
+                x = [wl_full[ii],code_full[ii],loggf_full[ii],gammar_full[ii],gammas_full[ii],gammaw_full[ii]]
+                cond_sel = (y == x).all(axis=1)
+                
+                if cond_sel.sum() == 1:
+                    slindex.append(sLL['index'][cond_sel])
+                else:
+                    print(f'Could not find match or too many matches for this line:',flush=True)
+                    print(wl_full[ii],code_full[ii],loggf_full[ii],gammaw_full[ii],flush=True)
+
+                    cond_fail = sLL['wl'] == wl_full[ii]
+                    print(sLL['wl'][cond_fail],sLL['code'][cond_fail],sLL['gflog'][cond_fail],sLL['gw'][cond_fail])
+                    raise IOError
+
+            AK.filterll({'index':slindex})
+
+            print('... Writing out rebuilt fort files',flush=True)
+            AK.wfort(        
+                f12path=f'./ff/fort_sl.12',
+                f14path=f'./ff/fort_sl.14',
+                f19path=f'./ff/fort_sl.19',
+                f20path=f'./ff/fort_sl.20',
+                f93path=f'./ff/fort_sl.93',
+                )
+            
+            # read the segll files
+            print('... Read Seg fort files',flush=True)
+            RK = readkurucz.ReadKurucz(verbose=True)
+            RK.readfiles(
+                f12path=f'./ff/fort_sl.12',
+                f14path=f'./ff/fort_sl.14',
+                f19path=f'./ff/fort_sl.19',
+                f20path=f'./ff/fort_sl.20',
+                f93path=f'./ff/fort_sl.93',
             )
 
             print(f'... Number of lines in fort files {RK.f93in["nlines"]+RK.f93in["n19"]}')
@@ -667,14 +713,18 @@ class RunPrep(object):
                     gwind_i = gwind_j
                             
                 # figure out segind
-                cond_sel = (
-                    (sLL_t['wl'] == wl[ii]) & 
-                    (sLL_t['code'] == code[ii]) & 
-                    (sLL_t['gflog'] == loggf[ii]) &
-                    (sLL_t['gr'] == gammar[ii]) &
-                    (sLL_t['gs'] == gammas[ii]) &
-                    (sLL_t['gw'] == gammaw[ii]) 
-                    )
+                # cond_sel = (
+                #     (sLL_t['wl'] == wl[ii]) & 
+                #     (sLL_t['code'] == code[ii]) & 
+                #     (sLL_t['gflog'] == loggf[ii]) &
+                #     (sLL_t['gr'] == gammar[ii]) &
+                #     (sLL_t['gs'] == gammas[ii]) &
+                #     (sLL_t['gw'] == gammaw[ii]) 
+                #     )
+
+                y = np.vstack([sLL_t['wl'],sLL_t['code'],sLL_t['gflog'],sLL_t['gr'],sLL_t['gs'],sLL_t['gw']])
+                x = [wl[ii],code[ii],loggf[ii],gammar[ii],gammas[ii],gammaw[ii]]
+                cond_sel = (y == x).all(axis=1)
 
                 # check to make sure if found the line
                 if cond_sel.sum() == 1:

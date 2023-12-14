@@ -41,6 +41,138 @@ class AdjKurucz(object):
             f20outpath=outf20path,
             f93outpath=outf93path)
 
+    def filterll(self,lindict={}):
+        """
+        Function to rebuild fort files with a subset of line
+        based on their indices.
+        """
+        
+        if lindict == {}:
+            return
+
+        # pull out line index array
+        linind = lindict['index']
+        
+        fortfile = 12
+        if 'rlte' in lindict.keys():
+            if lindict['rlte']:
+                fortfile = 19
+
+        # construct the shift in the line buffer
+        wlbeg   = self.RK.f93in['wlbeg']
+        ratiolg = self.RK.f93in['ratiolg']
+        ixwlbeg = np.log(wlbeg)/ratiolg
+        if np.exp(ixwlbeg*ratiolg) < wlbeg:
+            ixwlbeg += 1
+
+        if fortfile == 12:
+            # parse the fort.12/14 lines
+            for kk in self.RK.f12in.keys():
+                self.RK.f12in[kk] = self.RK.f12in[kk][linind]
+            for kk in self.RK.f14in.keys():
+                if self.RK.f14in[kk].ndim == 1:
+                    self.RK.f14in[kk] = self.RK.f14in[kk][linind]
+                else:
+                    if self.RK.f14in[kk].shape[0] == 2:
+                        self.RK.f14in[kk] = np.array(
+                            [self.RK.f14in[kk][0,linind],
+                             self.RK.f14in[kk][1,linind]])
+
+                    elif self.RK.f14in[kk].shape[1] == 10:
+                        # self.RK.f14in[kk] = self.RK.f14in[kk][np.flatnonzero(cond14),:]
+                        self.RK.f14in[kk] = np.array([
+                            self.RK.f14in[kk][linind,0],
+                            self.RK.f14in[kk][linind,1],
+                            self.RK.f14in[kk][linind,2],
+                            self.RK.f14in[kk][linind,3],
+                            self.RK.f14in[kk][linind,4],
+                            self.RK.f14in[kk][linind,5],
+                            self.RK.f14in[kk][linind,6],
+                            self.RK.f14in[kk][linind,7],
+                            self.RK.f14in[kk][linind,8],
+                            self.RK.f14in[kk][linind,9],
+                        ])
+                    elif self.RK.f14in[kk].shape[1] == 5:
+                        # self.RK.f14in[kk] = self.RK.f14in[kk][np.flatnonzero(cond14),:]
+                        self.RK.f14in[kk] = np.array([
+                            self.RK.f14in[kk][linind,0],
+                            self.RK.f14in[kk][linind,1],
+                            self.RK.f14in[kk][linind,2],
+                            self.RK.f14in[kk][linind,3],
+                            self.RK.f14in[kk][linind,4],
+                        ])
+                    else:
+                        print(self.RK.f14in[kk].ndim,self.RK.f14in[kk].shape)
+                        print('DID NOT WORK')
+                        raise IOError
+
+            # recalculate the line buffer in fort.12
+            nbuff_n = []
+            for wl in self.RK.f14in['wl']:
+                ixwl = np.log(wl)/ratiolg + 0.5
+                nbuff_n.append(np.floor(ixwl - ixwlbeg + 1))
+            self.RK.f12in['nbuff'] = np.array(nbuff_n,dtype=np.int32)
+
+
+        if fortfile == 19:
+            # parse the fort.19/20 lines
+            for kk in self.RK.f19in.keys():
+                self.RK.f19in[kk] = self.RK.f19in[kk][linind]
+            for kk in self.RK.f20in.keys():
+                if self.RK.f20in[kk].ndim == 1:
+                    self.RK.f20in[kk] = self.RK.f20in[kk][linind]
+                else:
+                    if self.RK.f20in[kk].shape[0] == 2:
+                        self.RK.f20in[kk] = np.array(
+                            [self.RK.f20in[kk][0,linind],
+                             self.RK.f20in[kk][1,linind]])
+
+                    elif self.RK.f20in[kk].shape[1] == 10:
+                        # self.RK.f14in[kk] = self.RK.f14in[kk][np.flatnonzero(cond14),:]
+                        self.RK.f20in[kk] = np.array([
+                            self.RK.f20in[kk][linind,0],
+                            self.RK.f20in[kk][linind,1],
+                            self.RK.f20in[kk][linind,2],
+                            self.RK.f20in[kk][linind,3],
+                            self.RK.f20in[kk][linind,4],
+                            self.RK.f20in[kk][linind,5],
+                            self.RK.f20in[kk][linind,6],
+                            self.RK.f20in[kk][linind,7],
+                            self.RK.f20in[kk][linind,8],
+                            self.RK.f20in[kk][linind,9],
+                        ])
+                    elif self.RK.f20in[kk].shape[1] == 5:
+                        # self.RK.f14in[kk] = self.RK.f14in[kk][np.flatnonzero(cond14),:]
+                        self.RK.f20in[kk] = np.array([
+                            self.RK.f20in[kk][linind,0],
+                            self.RK.f20in[kk][linind,1],
+                            self.RK.f20in[kk][linind,2],
+                            self.RK.f20in[kk][linind,3],
+                            self.RK.f20in[kk][linind,4],
+                        ])
+                    else:
+                        print(self.RK.f20in[kk].ndim,self.RK.f20in[kk].shape)
+                        print('DID NOT WORK')
+                        raise IOError
+
+            # recalculate the line buffer for lines in fort.19
+            nbuff_n = []
+            for wl in self.RK.f20in['wl']:
+                ixwl = np.log(wl)/ratiolg + 0.5
+                nbuff_n.append(np.floor(ixwl - ixwlbeg + 1))
+            self.RK.f19in['nbuff'] = np.array(nbuff_n,dtype=np.int32)
+        
+        # calculate the new number of lines
+        self.RK.f93in['nlines'] = np.array(len(self.RK.f14in['wl']),dtype=np.int32)
+        self.RK.f93in['n19']    = np.array(len(self.RK.f20in['wl']),dtype=np.int32)
+
+        # correct the variables nlines12/19
+        self.RK.nlines12 = self.RK.f93in['nlines']
+        self.RK.nlines19 = self.RK.f93in['n19']
+        
+        
+        
+
     def adj93(self,newdict={}):
         """
         Function to adjust the global parameters in fort.93 
