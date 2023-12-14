@@ -506,9 +506,9 @@ class RunPrep(object):
             sLL = {}
             for kk in AK.RK.f14in.keys():
                 if kk in ['labelx','labelpx','other1x','other2x']:
-                    sLL[kk] = np.concatenate((AK.RK.f14in[kk],AK.RK.f20in[kk]),axis=1)
+                    sLL[kk] = np.concatenate((AK.RK.f14in[kk]),axis=1)
                 else:
-                    sLL[kk] = np.concatenate((AK.RK.f14in[kk],AK.RK.f20in[kk]),axis=0)
+                    sLL[kk] = np.concatenate((AK.RK.f14in[kk]),axis=0)
             sLL['index'] = np.array(range(len(sLL['wl'])))
 
             slindex = []
@@ -526,9 +526,10 @@ class RunPrep(object):
                     print(f'Could not find match for this line:',flush=True)
                     print(wl_full[ii],code_full[ii],loggf_full[ii],gammaw_full[ii],flush=True)
 
-                    cond_fail = cond_sel
-                    print(sLL['wl'][cond_fail],sLL['code'][cond_fail],sLL['gflog'][cond_fail],sLL['gw'][cond_fail])
-                    raise IOError
+                    # cond_fail = cond_sel
+                    # print(sLL['wl'][cond_fail],sLL['code'][cond_fail],sLL['gflog'][cond_fail],sLL['gw'][cond_fail])
+                    # raise IOError
+                    pass
 
             slindex.sort()
             AK.filterll({'index':slindex})

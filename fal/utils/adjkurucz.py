@@ -52,9 +52,7 @@ class AdjKurucz(object):
 
         # pull out line index array
         linind = lindict['index']
-        
-        print(linind)
-        
+                
         fortfile = 12
         if 'rlte' in lindict.keys():
             if lindict['rlte']:
