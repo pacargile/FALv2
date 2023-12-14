@@ -519,8 +519,11 @@ class RunPrep(object):
                 
                 if cond_sel.sum() == 1:
                     slindex.append(sLL['index'][cond_sel])
+                elif cond_sel.sum() > 1:
+                    for ss in sLL['index'][cond_sel]:
+                        slindex.append(ss)
                 else:
-                    print(f'Could not find match or too many matches for this line:',flush=True)
+                    print(f'Could not find match for this line:',flush=True)
                     print(wl_full[ii],code_full[ii],loggf_full[ii],gammaw_full[ii],flush=True)
 
                     cond_fail = cond_sel
