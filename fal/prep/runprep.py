@@ -489,7 +489,7 @@ class RunPrep(object):
             resid_full   = resid_full[sortwl_full]
             src_full     = src_full[sortwl_full]
 
-            print(f'... Total Number of Strong Lines to Consider {len(code_full)}')
+            print(f'... Total Number of Strong Lines {len(code_full)}')
 
 
             # read the segll files
@@ -608,7 +608,7 @@ class RunPrep(object):
 
             starttime = datetime.now()                
             # write lineindex arrays to file
-            with open(f'seg_{segnum}/lineinfo/lineindex.txt','w') as lif:
+            with open(f'./lineinfo/lineindex.txt','w') as lif:
                 lif.write('segind masterind wl code\n')
                 for x,y,z,w in zip(sLL_t['index'],lineindexarr,sLL_t['wl'],sLL_t['code']):
                     lif.write(f'{x} {y} {z} {w}\n')
