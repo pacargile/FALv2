@@ -466,12 +466,12 @@ class RunPrep(object):
 
                 print(f'     ... Found {len(code_fl)} to consider.',flush=True)
 
-                # check to see if there are repeats for full line lists
-                x = np.array([wl_fl,loggf_fl,gammar_fl,gammas_fl,gammaw_fl])
-                y = np.array([wl_full,loggf_full,gammar_full,gammas_full,gammaw_full])
-                nonrepeatind = np.nonzero(np.all(~np.isin(x,y).T,axis=1))[0]
+                # # check to see if there are repeats for full line lists
+                # x = np.array([wl_fl,loggf_fl,gammar_fl,gammas_fl,gammaw_fl])
+                # y = np.array([wl_full,loggf_full,gammar_full,gammas_full,gammaw_full])
+                # nonrepeatind = np.nonzero(np.all(~np.isin(x,y).T,axis=1))[0]
 
-                testcond = [True for _ in range(len(code_fl))]
+                nonrepeatind = [True for _ in range(len(code_fl))]
                 for ii,(x1,x2,x3,x4,x5) in enumerate(zip(wl_fl,loggf_fl,gammar_fl,gammas_fl,gammaw_fl)):
                     if (
                         (x1 in wl_full) and 
@@ -479,11 +479,10 @@ class RunPrep(object):
                         (x3 in gammar_full) and 
                         (x4 in gammas_full) and 
                         (x5 in gammaw_full)):
-                        testcond[ii] = False
-                testcond = np.array(testcond,dtype=bool)
-                print('TEST',testcond.sum())
+                        nonrepeatind[ii] = False
+                nonrepeatind = np.array(nonrepeatind,dtype=bool)
 
-                print(f'     ... Adding {len(nonrepeatind)} to significant line list.',flush=True)
+                print(f'     ... Adding {nonrepeatind.sum()}/{len(nonrepeatind)} to significant line list.',flush=True)
 
                 # append the non-repeating to parent lists            
                 code_full    = np.append(code_full,code_fl[nonrepeatind])
