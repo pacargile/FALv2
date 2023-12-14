@@ -5,6 +5,7 @@ import glob
 import h5py
 import stat
 from datetime import datetime
+from astropy.table import Table
 
 from ..utils import readkurucz, runsynthe, adjkurucz
 
@@ -263,128 +264,6 @@ class RunPrep(object):
         mindarr = mindarr[:,condwl_m]
 
         print(f'... Number of Potentially matching lines in master LL: {len(mindarr[0,:])}')
-
-        # read the segll files
-        print('... Read Seg fort files',flush=True)
-        RK = readkurucz.ReadKurucz(verbose=True)
-        RK.readfiles(
-            f12path=f'seg_{segnum}/ff/fort.12',
-            f14path=f'seg_{segnum}/ff/fort.14',
-            f19path=f'seg_{segnum}/ff/fort.19',
-            f20path=f'seg_{segnum}/ff/fort.20',
-            f93path=f'seg_{segnum}/ff/fort.93',
-        )
-
-        print(f'... Number of lines in fort files {RK.f93in["nlines"]+RK.f93in["n19"]}')
-
-        # index the lines in just this segment
-        # first stack f14 and f20 info
-        sLL = {}
-        for kk in RK.f14in.keys():
-            if kk in ['labelx','labelpx','other1x','other2x']:
-                sLL[kk] = np.concatenate((RK.f14in[kk],RK.f20in[kk]),axis=1)
-            else:
-                sLL[kk] = np.concatenate((RK.f14in[kk],RK.f20in[kk]),axis=0)
-
-        print(f'... Number of lines in sLL dict {len(sLL["wl"])}')
-
-        # sLL['linsrc'] = np.array(
-        #     [14 for _ in range(len(RK.f14in['wl']))] + 
-        #     [20 for _ in range(len(RK.f20in['wl']))],dtype=int)
-
-        # sort sLL based on wavelengths
-        # sort_ind = np.argsort(sLL['wl'])
-        # for kk in RK.f14in.keys():
-        #     sLL[kk] = sLL[kk][sort_ind]
-                
-        # define index array based on length of sLL
-        sLL['index'] = np.array(range(len(sLL['wl'])))
-
-        # trim sLL to wavelength range
-        condwl = (sLL['wl'] > startwl) & (sLL['wl'] < endwl)
-        sLL_t = {}
-        for kk in RK.f14in.keys():
-            try:
-                if kk in ['labelx','labelpx','other1x','other2x']:
-                    sLL_t[kk] = sLL[kk][...,condwl]
-                else:
-                    sLL_t[kk] = sLL[kk][condwl,...]
-            except:
-                print('PROBLEM',kk,len(sLL[kk]),sLL[kk].shape)
-                raise
-        sLL_t['index'] = sLL['index'][condwl]
-        
-        print(f'... Number of lines in sLL dict after wl cut {len(sLL_t["wl"])}')
-                
-        print('... Finding Master LL Matches',flush=True)
-        # first find seg index and match with master index
-        # Try using the index array first, maybe we'll get lucky and there is only one match
-        starttime = datetime.now()
-        lineindexarr = []
-        for ii in sLL_t['index']:
-            cond = (mindarr[1,:] == sLL['wl'][ii]) & (mindarr[2,:] == sLL['code'][ii])
-
-            if cond.sum() == 1:
-                # found only one match, write line index
-                lineindexarr.append(int(mindarr[0,cond][0]))
-            elif cond.sum() > 1:
-                # found more than one match, must sort out which one it is
-                # All columns must have matching values
-                potentiallines = mindarr[0,cond]
-                foundmat = False
-                for pp in potentiallines:
-                    # mLL_i = mLL[f'{int(pp)}']
-                    mat = True
-                    for kk in sLL.keys():
-                        if kk in (
-                            ['index','linesrc','ref','auto','ixfixfp',
-                             'labelp','label','labelx','labelpx',
-                             'ishift','ishiftp','other1x','other2x']):
-                            continue
-                        # mat *= sLL[kk][ii] == mLL_i[kk]
-                        try:
-                            mat *= sLL[kk][ii] == mLL[kk][int(pp)]
-                        except:
-                            print(kk,int(pp))
-                            raise
-                    if mat:
-                        lineindexarr.append(int(pp))
-                        foundmat = True
-                        break
-                if foundmat == False:
-                    for kk in sLL.keys():
-                        testpar = sLL[kk][ii]
-                        matchedlist = np.array([mLL[kk][int(pp)] for pp in potentiallines])
-                        condtest = matchedlist == testpar
-                        print('A',kk,testpar,matchedlist,'->',matchedlist[condtest])
-
-                    print(f'ISSUE WITH LINE {ii}, LOOKED AT POTENTIAL LINES AND DID NOT FIND MATCH',flush=True)
-                    print(f'THIS SHOULD NOT HAPPEN',flush=True)
-                    raise IOError
-                    
-            else:
-                print(sLL['wl'][ii])
-                print(mindarr[1,:].min())
-                print(mindarr[1,:].max())
-                print(f'ISSUE WITH LINE {ii}, COULD NOT FIND MATCH IN MASTERLL',flush=True)
-                print(f'THIS SHOULD NOT HAPPEN',flush=True)
-                raise IOError
-        
-        # close the masterLL HDF5 file
-        mLL.close()
-
-        print(f'... Master LL matched finished: {datetime.now()-starttime}',flush=True)
-        
-        # write in the master ll index for future use
-        sLL_t['masterind'] = np.array(lineindexarr)
-
-        starttime = datetime.now()                
-        # write lineindex arrays to file
-        with open(f'seg_{segnum}/lineinfo/lineindex.txt','w') as lif:
-            lif.write('segind masterind wl code\n')
-            for x,y,z,w in zip(sLL_t['index'],lineindexarr,sLL_t['wl'],sLL_t['code']):
-                lif.write(f'{x} {y} {z} {w}\n')
-        print(f'... Fnished writing master LL match file: {datetime.now()-starttime}',flush=True)
                 
         print('... Determining which lines need to be included in fit',flush=True)
         # temp change dir to seg_/ so that fortran is run there
@@ -451,6 +330,13 @@ class RunPrep(object):
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
 
+                # write spectrum to seg_num/data/
+                
+                tmpspec = Table()
+                tmpspec['wave'] = synout_i['wave']
+                tmpspec['flux'] = synout_i['qmu1']/synout_i['qmu2']
+                tmpspec.write(f'./data/specfull_{atm_i.replace(".atm",".fits")}',format='fits',overwrite=True)
+
                 code_fl    = synout_i['code']
                 wl_fl      = synout_i['wl']
                 dwl_fl     = synout_i['dwl']
@@ -474,7 +360,6 @@ class RunPrep(object):
                         nonrepeatind[ii] = False
                 nonrepeatind = np.array(nonrepeatind,dtype=bool)
                 
-
                 print(f'     ... Adding {nonrepeatind.sum()}/{len(nonrepeatind)} to significant line list.',flush=True)
 
                 # append the non-repeating to parent lists            
@@ -569,7 +454,6 @@ class RunPrep(object):
                         nonrepeatind[ii] = False
                 nonrepeatind = np.array(nonrepeatind,dtype=bool)
 
-
                 # append the non-repeating to parent lists            
                 code    = np.append(code,code_i[nonrepeatind])
                 wl      = np.append(wl,wl_i[nonrepeatind])
@@ -589,23 +473,6 @@ class RunPrep(object):
                 print(f'     ... Finished {atm_i}: {datetime.now()-starttime}',flush=True)
 
             starttime = datetime.now()
-            print(f'... setting up free parameter arrays',flush=True)
-
-            # sort arrays by wl
-            sortwl  = np.argsort(wl)
-            code    = code[sortwl]
-            wl      = wl[sortwl]
-            dwl     = dwl[sortwl]
-            loggf   = loggf[sortwl]
-            dloggf  = dloggf[sortwl]
-            gammar  = gammar[sortwl]
-            gammas  = gammas[sortwl]
-            gammaw  = gammaw[sortwl]
-            dgammar = dgammar[sortwl]
-            dgammas = dgammas[sortwl]
-            dgammaw = dgammaw[sortwl]
-            resid   = resid[sortwl]
-            src     = src[sortwl]
 
             sortwl_full  = np.argsort(wl_full)
             code_full    = code_full[sortwl_full]
@@ -624,15 +491,157 @@ class RunPrep(object):
 
             print(f'... Total Number of Strong Lines to Consider {len(code_full)}')
 
-            # init seg and master index
-            segind    = []
-            masterind = []
+
+            # read the segll files
+            print('... Read Seg fort files',flush=True)
+            RK = readkurucz.ReadKurucz(verbose=True)
+            RK.readfiles(
+                f12path=f'./ff/fort.12',
+                f14path=f'./ff/fort.14',
+                f19path=f'./ff/fort.19',
+                f20path=f'./ff/fort.20',
+                f93path=f'./ff/fort.93',
+            )
+
+            print(f'... Number of lines in fort files {RK.f93in["nlines"]+RK.f93in["n19"]}')
+
+            # index the lines in just this segment
+            # first stack f14 and f20 info
+            sLL = {}
+            for kk in RK.f14in.keys():
+                if kk in ['labelx','labelpx','other1x','other2x']:
+                    sLL[kk] = np.concatenate((RK.f14in[kk],RK.f20in[kk]),axis=1)
+                else:
+                    sLL[kk] = np.concatenate((RK.f14in[kk],RK.f20in[kk]),axis=0)
+
+            print(f'... Number of lines in sLL dict {len(sLL["wl"])}')
+
+            # sLL['linsrc'] = np.array(
+            #     [14 for _ in range(len(RK.f14in['wl']))] + 
+            #     [20 for _ in range(len(RK.f20in['wl']))],dtype=int)
+
+            # sort sLL based on wavelengths
+            # sort_ind = np.argsort(sLL['wl'])
+            # for kk in RK.f14in.keys():
+            #     sLL[kk] = sLL[kk][sort_ind]
+                    
+            # define index array based on length of sLL
+            sLL['index'] = np.array(range(len(sLL['wl'])))
+
+            # trim sLL to wavelength range
+            condwl = (sLL['wl'] > startwl) & (sLL['wl'] < endwl)
+            sLL_t = {}
+            for kk in RK.f14in.keys():
+                try:
+                    if kk in ['labelx','labelpx','other1x','other2x']:
+                        sLL_t[kk] = sLL[kk][...,condwl]
+                    else:
+                        sLL_t[kk] = sLL[kk][condwl,...]
+                except:
+                    print('PROBLEM',kk,len(sLL[kk]),sLL[kk].shape)
+                    raise
+            sLL_t['index'] = sLL['index'][condwl]
+            
+            print(f'... Number of lines in sLL dict after wl cut {len(sLL_t["wl"])}')
+                    
+            print('... Finding Master LL Matches',flush=True)
+            # first find seg index and match with master index
+            # Try using the index array first, maybe we'll get lucky and there is only one match
+            starttime = datetime.now()
+            lineindexarr = []
+            for ii in sLL_t['index']:
+                cond = (mindarr[1,:] == sLL['wl'][ii]) & (mindarr[2,:] == sLL['code'][ii])
+
+                if cond.sum() == 1:
+                    # found only one match, write line index
+                    lineindexarr.append(int(mindarr[0,cond][0]))
+                elif cond.sum() > 1:
+                    # found more than one match, must sort out which one it is
+                    # All columns must have matching values
+                    potentiallines = mindarr[0,cond]
+                    foundmat = False
+                    for pp in potentiallines:
+                        # mLL_i = mLL[f'{int(pp)}']
+                        mat = True
+                        for kk in sLL.keys():
+                            if kk in (
+                                ['index','linesrc','ref','auto','ixfixfp',
+                                'labelp','label','labelx','labelpx',
+                                'ishift','ishiftp','other1x','other2x']):
+                                continue
+                            # mat *= sLL[kk][ii] == mLL_i[kk]
+                            try:
+                                mat *= sLL[kk][ii] == mLL[kk][int(pp)]
+                            except:
+                                print(kk,int(pp))
+                                raise
+                        if mat:
+                            lineindexarr.append(int(pp))
+                            foundmat = True
+                            break
+                    if foundmat == False:
+                        for kk in sLL.keys():
+                            testpar = sLL[kk][ii]
+                            matchedlist = np.array([mLL[kk][int(pp)] for pp in potentiallines])
+                            condtest = matchedlist == testpar
+                            print('A',kk,testpar,matchedlist,'->',matchedlist[condtest])
+
+                        print(f'ISSUE WITH LINE {ii}, LOOKED AT POTENTIAL LINES AND DID NOT FIND MATCH',flush=True)
+                        print(f'THIS SHOULD NOT HAPPEN',flush=True)
+                        raise IOError
+                        
+                else:
+                    print(sLL['wl'][ii])
+                    print(mindarr[1,:].min())
+                    print(mindarr[1,:].max())
+                    print(f'ISSUE WITH LINE {ii}, COULD NOT FIND MATCH IN MASTERLL',flush=True)
+                    print(f'THIS SHOULD NOT HAPPEN',flush=True)
+                    raise IOError
+            
+            # close the masterLL HDF5 file
+            mLL.close()
+
+            print(f'... Master LL matched finished: {datetime.now()-starttime}',flush=True)
+            
+            # write in the master ll index for future use
+            sLL_t['masterind'] = np.array(lineindexarr)
+
+            starttime = datetime.now()                
+            # write lineindex arrays to file
+            with open(f'seg_{segnum}/lineinfo/lineindex.txt','w') as lif:
+                lif.write('segind masterind wl code\n')
+                for x,y,z,w in zip(sLL_t['index'],lineindexarr,sLL_t['wl'],sLL_t['code']):
+                    lif.write(f'{x} {y} {z} {w}\n')
+            print(f'... Fnished writing master LL match file: {datetime.now()-starttime}',flush=True)
+
+
+            print(f'... setting up free parameter arrays',flush=True)
+            # sort arrays by wl
+            sortwl  = np.argsort(wl)
+            code    = code[sortwl]
+            wl      = wl[sortwl]
+            dwl     = dwl[sortwl]
+            loggf   = loggf[sortwl]
+            dloggf  = dloggf[sortwl]
+            gammar  = gammar[sortwl]
+            gammas  = gammas[sortwl]
+            gammaw  = gammaw[sortwl]
+            dgammar = dgammar[sortwl]
+            dgammas = dgammas[sortwl]
+            dgammaw = dgammaw[sortwl]
+            resid   = resid[sortwl]
+            src     = src[sortwl]
+
 
             # int free par index for each line in fit line list
             wlind = []
             gfind = []
             gwind = []
             
+            # init seg and master index
+            segind_f    = []
+            masterind_f = []
+
             # init final par columns
             code_f   = []
             wl_f     = []
@@ -686,8 +695,8 @@ class RunPrep(object):
                 masterind_i = sLL_t['masterind'][cond_sel][0]
                 
                 # book the initial line 
-                segind.append(segind_i)
-                masterind.append(masterind_i)
+                segind_f.append(segind_i)
+                masterind_f.append(masterind_i)
                 wlind.append(wlind_i)
                 gfind.append(gfind_i)
                 gwind.append(gwind_i)
@@ -771,8 +780,8 @@ class RunPrep(object):
                         # sLL_mm = {kk:sLL_m[kk][HFISOcond] for kk in sLL_m.keys()}
                         # sLL_mm = sLL_m[HFISOcond]
                         for jj in range(len(sLL_mm['index'])):
-                            segind.append(sLL_mm['index'][jj])
-                            masterind.append(sLL_mm['masterind'][jj])
+                            segind_f.append(sLL_mm['index'][jj])
+                            masterind_f.append(sLL_mm['masterind'][jj])
                             wlind.append(wlind_i)
                             gfind.append(gfind_i)
                             gwind.append(gwind_i)
@@ -809,8 +818,8 @@ class RunPrep(object):
                         # sLL_mm = {kk:sLL_m[kk][MOLcond] for kk in sLL_m.keys()}
                         # sLL_mm = sLL_m[MOLcond]
                         for jj in range(len(sLL_mm['index'])):
-                            segind.append(sLL_mm['index'][jj])
-                            masterind.append(sLL_mm['masterind'][jj])
+                            segind_f.append(sLL_mm['index'][jj])
+                            masterind_f.append(sLL_mm['masterind'][jj])
                             wlind.append(wlind_i)
                             gfind.append(gfind_i)
                             gwind.append(gwind_i)
@@ -832,8 +841,8 @@ class RunPrep(object):
             # write fit pars file out
             with open('./lineinfo/linefitpars.txt','w') as lfp:
                 lfp.write('segind masterind wlind gfind gwind code wl loggf gammar gammas gammaw resid src \n')
-                for ii in range(len(segind)):
-                    lfp.write(f'{segind[ii]} {masterind[ii]} {wlind[ii]} {gfind[ii]} {gwind[ii]} {code_f[ii]:.2f} {wl_f[ii]:.4f} {loggf_f[ii]:.3f} {gammar_f[ii]:.2f} {gammas_f[ii]:.2f} {gammaw_f[ii]:.2f} {resid_f[ii]:.4f} {src_f[ii]} \n')    
+                for ii in range(len(segind_f)):
+                    lfp.write(f'{segind_f[ii]} {masterind_f[ii]} {wlind[ii]} {gfind[ii]} {gwind[ii]} {code_f[ii]:.2f} {wl_f[ii]:.4f} {loggf_f[ii]:.3f} {gammar_f[ii]:.2f} {gammas_f[ii]:.2f} {gammaw_f[ii]:.2f} {resid_f[ii]:.4f} {src_f[ii]} \n')    
     
     def defseg(self,):
         # function that defines segll given the masterll based on line density
