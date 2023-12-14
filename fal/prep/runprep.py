@@ -529,7 +529,7 @@ class RunPrep(object):
                     cond_fail = cond_sel
                     print(sLL['wl'][cond_fail],sLL['code'][cond_fail],sLL['gflog'][cond_fail],sLL['gw'][cond_fail])
                     raise IOError
-
+            
             AK.filterll({'index':slindex})
 
             print('... Writing out rebuilt fort files',flush=True)
