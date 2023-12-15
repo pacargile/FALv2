@@ -505,10 +505,11 @@ class RunPrep(object):
             # first stack f14 and f20 info
             sLL = {}
             for kk in AK.RK.f14in.keys():
-                if kk in ['labelx','labelpx','other1x','other2x']:
-                    sLL[kk] = np.concatenate((AK.RK.f14in[kk]),axis=1)
-                else:
-                    sLL[kk] = np.concatenate((AK.RK.f14in[kk]),axis=0)
+                sLL[kk] = AK.RK.f14in[kk]
+                # if kk in ['labelx','labelpx','other1x','other2x']:
+                #     sLL[kk] = np.concatenate((AK.RK.f14in[kk]),axis=1)
+                # else:
+                #     sLL[kk] = np.concatenate((AK.RK.f14in[kk]),axis=0)
             sLL['index'] = np.array(range(len(sLL['wl'])))
 
             slindex = []
