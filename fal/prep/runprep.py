@@ -49,9 +49,6 @@ class RunPrep(object):
         # define path to SYNTHE exe binaries
         self.masterbinpath = self.kwargs.get('masterbin',None)
 
-        # define location of trans model
-        self.transmodpath = self.kwargs.get('transmod',None)
-
         # set the masterll file paths
         self.masterf12path=self.masterllfdir+'/fort.12'
         self.masterf14path=self.masterllfdir+'/fort.14'
@@ -85,6 +82,13 @@ class RunPrep(object):
             srcfile = f'{self.commonfilespath}/{ff}'
             if not os.path.exists(dstfile):
                 shutil.copyfile(srcfile, dstfile)
+
+        # define location of trans model
+        self.transmodpath = self.kwargs.get('transmod',None)
+        self.fulltransmod = {}
+        with h5py.File(self.transmodpath,'r') as th5:
+            self.fulltransmod['wave'] = th5['spec']['WAVE']
+            self.fulltransmod['flux'] = th5['spec']['QMU1']/th5['spec']['QMU2']
 
 
     def readseg(self,segfile):
@@ -164,14 +168,10 @@ class RunPrep(object):
                     shutil.copyfile(aa, dstfile)
             
             # cut transmission model to wavelength range and copy it to data/
-            fulltransmod = {}
-            with h5py.File(self.transmodpath,'r') as th5:
-                fulltransmod['wave'] = th5['spec']['WAVE']
-                fulltransmod['flux'] = th5['spec']['QMU1']/th5['spec']['QMU2']
-            condwl = (fulltransmod['wave'] >= segdict['startwl']) & (fulltransmod['wave'] <= segdict['endwl'])
+            condwl = (self.fulltransmod['wave'] >= segdict['startwl']) & (self.fulltransmod['wave'] <= segdict['endwl'])
             transout = Table()
-            transout['wave'] = fulltransmod['wave'][condwl]
-            transout['flux'] = fulltransmod['flux'][condwl]
+            transout['wave'] = self.fulltransmod['wave'][condwl]
+            transout['flux'] = self.fulltransmod['flux'][condwl]
             transout.write('{0}/data/transmod.fits'.format(segdir),overwrite=True)
 
 
