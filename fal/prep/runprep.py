@@ -168,7 +168,7 @@ class RunPrep(object):
                     shutil.copyfile(aa, dstfile)
             
             # cut transmission model to wavelength range and copy it to data/
-            condwl = (self.fulltransmod['wave'] >= segdict['startwl']) & (self.fulltransmod['wave'] <= segdict['endwl'])
+            condwl = (self.fulltransmod['wave'] >= segdict[kk]['startwl']) & (self.fulltransmod['wave'] <= segdict[kk]['endwl'])
             transout = Table()
             transout['wave'] = self.fulltransmod['wave'][condwl]
             transout['flux'] = self.fulltransmod['flux'][condwl]
