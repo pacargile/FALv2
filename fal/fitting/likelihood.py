@@ -111,15 +111,10 @@ class Like(object):
                 weaklinepath = './data/specWL_at12.fits'
             weaklinemod_i = Table.read(weaklinepath,format='fits')
             self.specinfo['weaklinemod'].append(weaklinemod_i)
-            
-            if 'transmod' in inspecinfo.keys():
-                transmodpath = inspecinfo['transmod']
-            else:
-                transmodpath = './data/transmod.fits'
-            transmod_i = Table.read(transmodpath,format='fits')
-            self.specinfo['transmod'].append(transmod_i)
-            
-        
+
+        transmodpath = self.kwargs.get('transmod','./data/transmod.fits')            
+        self.transmod = Table.read(transmodpath,format='fits')
+                
         # init runsynthe for each spectrum in the input list
         
         self.RSarr = []
@@ -203,10 +198,10 @@ class Like(object):
             wave = mod_i['wave']
             flux = mod_i['qmu1']/mod_i['qmu2']
 
-            wlmod = np.interp(wave,self.specinfo['weaklinemod']['wave'],self.specinfo['weaklinemod']['flux'])
+            wlmod = np.interp(wave,self.specinfo['weaklinemod'][ii]['wave'],self.specinfo['weaklinemod'][ii]['flux'])
             flux = flux * wlmod
 
-            tmod = np.interp(wave,self.specinfo['transmod']['wave'],self.specinfo['transmod']['flux'])
+            tmod = np.interp(wave,self.transmod['wave'],self.transmod['flux'])
             flux = flux * tmod
 
             modarr.append([wave,flux])
