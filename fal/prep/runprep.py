@@ -728,7 +728,7 @@ class RunPrep(object):
                 #     (sLL_t['gw'] == gammaw[ii]) 
                 #     )
 
-                y = np.vstack([sLL_t['wl'],sLL_t['code'],sLL_t['gflog'],sLL_t['gr'],sLL_t['gs'],sLL_t['gw']])
+                y = np.vstack([sLL_t['wl'],sLL_t['code'],sLL_t['gflog'],sLL_t['gr'],sLL_t['gs'],sLL_t['gw']]).T
                 x = [wl[ii],code[ii],loggf[ii],gammar[ii],gammas[ii],gammaw[ii]]
                 cond_sel = (y == x).all(axis=1)
 
