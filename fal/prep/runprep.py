@@ -911,11 +911,55 @@ class RunPrep(object):
                 if gwind_i != -1:
                     gwind_j += 1
             
+            print(f'... Writing line fit pars file',flush=True)
             # write fit pars file out
             with open('./lineinfo/linefitpars.txt','w') as lfp:
                 lfp.write('segind masterind wlind gfind gwind code wl loggf gammar gammas gammaw resid src \n')
                 for ii in range(len(segind_f)):
                     lfp.write(f'{segind_f[ii]} {masterind_f[ii]} {wlind[ii]} {gfind[ii]} {gwind[ii]} {code_f[ii]:.2f} {wl_f[ii]:.4f} {loggf_f[ii]:.3f} {gammar_f[ii]:.2f} {gammas_f[ii]:.2f} {gammaw_f[ii]:.2f} {resid_f[ii]:.4f} {src_f[ii]} \n')    
+    
+            print(f'... Making weak line spectrum',flush=True)
+            # run SYNTHE with just the significant lines
+            # this model is used to divide by the full specturm and 
+            # the result is the weak line spectrum used in fitting
+            RS = runsynthe.Synthe(
+                exedir='./bin/',
+                molecules='./data/molecules.dat',
+                continuua='./data/continuua.dat',
+                he1tables='./data/he1tables.dat',
+                spectrv_infile='./data/spectrv.input',                
+                verbose=False,
+                )
+            RS.setfpaths(
+                f12path=f'./ff/fort_sl.12',
+                f14path=f'./ff/fort_sl.14',
+                f19path=f'./ff/fort_sl.19',
+                f20path=f'./ff/fort_sl.20',
+                f93path=f'./ff/fort_sl.93',
+                )
+            for ii,atm_i in enumerate(atmlist_i):
+                starttime = datetime.now()
+                print(f'... working on {atm_i}',flush=True)
+                # set atm file path
+                RS.setatmpath(atmpath=atm_i)
+                # run SYNTHE in seg directory
+                synout_i = RS.run()
+
+                # write spectrum to seg_num/data/
+                tmpspec = Table()
+                tmpspec['wave'] = synout_i['wave']
+                tmpspec['flux'] = synout_i['qmu1']/synout_i['qmu2']
+                tmpspec.write(f'./data/specSL_{atm_i.split("/")[-1].replace(".atm",".fits")}',format='fits',overwrite=True)
+
+                # now read in specfull and specSL, divide them, and write out specWL
+                specfull = Table.read(f'./data/specfull_{atm_i.split("/")[-1].replace(".atm",".fits")}',format='fits')
+                specSL   = Table.read(f'./data/specSL_{atm_i.split("/")[-1].replace(".atm",".fits")}',format='fits')
+                
+                tmpspec = Table()
+                tmpspec['wave'] = specfull['wave']
+                tmpspec['flux'] = specfull['flux']/specSL['flux']
+                tmpspec.write(f'./data/specWL_{atm_i.split("/")[-1].replace(".atm",".fits")}',format='fits',overwrite=True)
+
     
     def defseg(self,):
         # function that defines segll given the masterll based on line density

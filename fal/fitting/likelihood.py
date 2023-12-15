@@ -3,6 +3,7 @@ from jax import jit
 from scipy import constants
 speedoflight = constants.c / 1000.0
 from datetime import datetime
+from astropy.table import Table
 
 from ..utils.runsynthe import Synthe
 from ..utils.adjkurucz import AdjKurucz
@@ -65,6 +66,7 @@ class Like(object):
         self.specinfo['rvshiftbool'] = []
         self.specinfo['scalebool'] = []
         self.specinfo['weaklinemod'] = []
+        self.specinfo['transmod'] = []
         
         for ii in range(self.nspec):
             inspecinfo = self.inputspecinfo[ii]
@@ -104,16 +106,19 @@ class Like(object):
                 self.specinfo['scalebool'].append(False)
 
             if 'weaklinemod' in inspecinfo.keys():
-                self.specinfo['weaklinemod'].append(inspecinfo['weaklinemod'])
+                weaklinepath = inspecinfo['weaklinemod']
             else:
-                self.specinfo['weaklinemod'].append('./data/specfull_at12.fits')
+                weaklinepath = './data/specWL_at12.fits'
+            weaklinemod_i = Table.read(weaklinepath,format='fits')
+            self.specinfo['weaklinemod'].append(weaklinemod_i)
             
             if 'transmod' in inspecinfo.keys():
-                self.specinfo['transmod'].append(inspecinfo['transmod'])
+                transmodpath = inspecinfo['transmod']
             else:
-                self.specinfo['transmod'].append('./data/transmod.fits')
+                transmodpath = './data/transmod.fits'
+            transmod_i = Table.read(transmodpath,format='fits')
+            self.specinfo['transmod'].append(transmod_i)
             
-
         
         # init runsynthe for each spectrum in the input list
         
