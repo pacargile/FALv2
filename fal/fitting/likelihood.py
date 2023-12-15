@@ -137,11 +137,11 @@ class Like(object):
 
         # init the adjust kurucz class
         self.AK = AdjKurucz(
-            f12path='./ff/fort.12',
-            f14path='./ff/fort.14',
-            f19path='./ff/fort.19',
-            f20path='./ff/fort.20',
-            f93path='./ff/fort.93',
+            f12path=self.kwargs('f12path','./ff/fort.12'),
+            f14path=self.kwargs('f14path','./ff/fort.14'),
+            f19path=self.kwargs('f19path','./ff/fort.19'),
+            f20path=self.kwargs('f20path','./ff/fort.20'),
+            f93path=self.kwargs('f93path','./ff/fort.93'),
             )
 
         print(f'... READ IN LINES {len(self.AK.RK.f14in["wl"]+len(self.AK.RK.f20in["wl"]))}')
