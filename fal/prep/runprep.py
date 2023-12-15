@@ -354,10 +354,10 @@ class RunPrep(object):
 
                 nonrepeatind = [True for _ in range(len(code_fl))]
                 y = np.vstack([wl_full,loggf_full,gammar_full,gammas_full,gammaw_full]).T
-                for ii,(x1,x2,x3,x4,x5) in enumerate(zip(wl_fl,loggf_fl,gammar_fl,gammas_fl,gammaw_fl)):
+                for jj,(x1,x2,x3,x4,x5) in enumerate(zip(wl_fl,loggf_fl,gammar_fl,gammas_fl,gammaw_fl)):
                     x = [x1,x2,x3,x4,x5]
                     if len((y == x).all(axis=1).nonzero()[0]) > 0:
-                        nonrepeatind[ii] = False
+                        nonrepeatind[jj] = False
                 nonrepeatind = np.array(nonrepeatind,dtype=bool)
                 
                 print(f'     ... Adding {nonrepeatind.sum()}/{len(nonrepeatind)} to significant line list.',flush=True)
@@ -448,10 +448,10 @@ class RunPrep(object):
 
                 nonrepeatind = [True for _ in range(len(code_i))]
                 y = np.vstack([wl,loggf,gammar,gammas,gammaw]).T
-                for ii,(x1,x2,x3,x4,x5) in enumerate(zip(wl_i,loggf_i,gammar_i,gammas_i,gammaw_i)):
+                for jj,(x1,x2,x3,x4,x5) in enumerate(zip(wl_i,loggf_i,gammar_i,gammas_i,gammaw_i)):
                     x = [x1,x2,x3,x4,x5]
                     if len((y == x).all(axis=1).nonzero()[0]) > 0:
-                        nonrepeatind[ii] = False
+                        nonrepeatind[jj] = False
                 nonrepeatind = np.array(nonrepeatind,dtype=bool)
 
                 # append the non-repeating to parent lists            
