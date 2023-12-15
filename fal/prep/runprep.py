@@ -49,6 +49,9 @@ class RunPrep(object):
         # define path to SYNTHE exe binaries
         self.masterbinpath = self.kwargs.get('masterbin',None)
 
+        # define location of trans model
+        self.transmodpath = self.kwargs.get('transmod',None)
+
         # set the masterll file paths
         self.masterf12path=self.masterllfdir+'/fort.12'
         self.masterf14path=self.masterllfdir+'/fort.14'
@@ -153,13 +156,23 @@ class RunPrep(object):
                     st = os.stat(dstfile)
                     os.chmod(dstfile,st.st_mode | stat.S_IEXEC)
                     
-
             # copy mod atm into subdir
             for aa in self.atmflist:
                 fname = aa.split('/')[-1]
                 dstfile = '{0}/atm/{1}'.format(segdir,fname)
                 if not os.path.exists(dstfile):
                     shutil.copyfile(aa, dstfile)
+            
+            # cut transmission model to wavelength range and copy it to data/
+            fulltransmod = {}
+            with h5py.File(self.transmodpath,'r') as th5:
+                fulltransmod['wave'] = th5['spec']['WAVE']
+                fulltransmod['flux'] = th5['spec']['QMU1']/th5['spec']['QMU2']
+            condwl = (fulltransmod['wave'] >= segdict['startwl']) & (fulltransmod['wave'] <= segdict['endwl'])
+            transout = Table()
+            transout['wave'] = fulltransmod['wave'][condwl]
+            transout['flux'] = fulltransmod['flux'][condwl]
+            transout.write('{0}/data/transmod.fits'.format(segdir),overwrite=True)
 
 
     def indexmasterll(self,):

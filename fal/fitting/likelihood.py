@@ -64,6 +64,7 @@ class Like(object):
         self.specinfo['C12/C13'] = []
         self.specinfo['rvshiftbool'] = []
         self.specinfo['scalebool'] = []
+        self.specinfo['weaklinemod'] = []
         
         for ii in range(self.nspec):
             inspecinfo = self.inputspecinfo[ii]
@@ -101,6 +102,17 @@ class Like(object):
                 self.specinfo['scalebool'].append(inspecinfo['scalebool'])
             else:
                 self.specinfo['scalebool'].append(False)
+
+            if 'weaklinemod' in inspecinfo.keys():
+                self.specinfo['weaklinemod'].append(inspecinfo['weaklinemod'])
+            else:
+                self.specinfo['weaklinemod'].append('./data/specfull_at12.fits')
+            
+            if 'transmod' in inspecinfo.keys():
+                self.specinfo['transmod'].append(inspecinfo['transmod'])
+            else:
+                self.specinfo['transmod'].append('./data/transmod.fits')
+            
 
         
         # init runsynthe for each spectrum in the input list
