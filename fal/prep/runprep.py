@@ -663,7 +663,7 @@ class RunPrep(object):
             with open(f'./lineinfo/lineindex.txt','w') as lif:
                 lif.write('segind masterind wl code\n')
                 for x,y,z,w in zip(sLL_t['index'],lineindexarr,sLL_t['wl'],sLL_t['code']):
-                    lif.write(f'{x} {y} {z} {w}\n')
+                    lif.write(f'{x} {y} {z:.4f} {w:.2f}\n')
             print(f'... Fnished writing master LL match file: {datetime.now()-starttime}',flush=True)
 
 
@@ -749,6 +749,10 @@ class RunPrep(object):
                     
                 segind_i    = sLL_t['index'][cond_sel][0]
                 masterind_i = sLL_t['masterind'][cond_sel][0]
+                
+                # check to see if line already is in fit line list
+                if segind_i in segind_f:
+                    continue
                 
                 # book the initial line 
                 segind_f.append(segind_i)
