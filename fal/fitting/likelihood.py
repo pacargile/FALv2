@@ -202,6 +202,13 @@ class Like(object):
             print(mod_i.keys())
             wave = mod_i['wave']
             flux = mod_i['qmu1']/mod_i['qmu2']
+
+            wlmod = np.interp(wave,self.specinfo['weaklinemod']['wave'],self.specinfo['weaklinemod']['flux'])
+            flux = flux * wlmod
+
+            tmod = np.interp(wave,self.specinfo['transmod']['wave'],self.specinfo['transmod']['flux'])
+            flux = flux * tmod
+
             modarr.append([wave,flux])
             print(f'RUN MODEL {ii} {datetime.now()-starttime}')
 
