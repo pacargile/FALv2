@@ -350,6 +350,9 @@ class RunPrep(object):
                 tmpspec['flux'] = synout_i['qmu1']/synout_i['qmu2']
                 tmpspec.write(f'./data/specfull_{atm_i.split("/")[-1].replace(".atm",".fits")}',format='fits',overwrite=True)
 
+                if ii == 0:
+                    print(synout_i)
+
                 print(f'specfull min/max flux {min(tmpspec["flux"])}/{max(tmpspec["flux"])}')
 
                 code_fl    = synout_i['code']
