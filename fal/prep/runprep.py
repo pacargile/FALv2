@@ -319,7 +319,7 @@ class RunPrep(object):
             src_full     = [] # index for atm that flagged line
 
             # glob all atm in atm/ into list
-            atmlist_i = glob.glob('./atm/*')
+            atmlist_i = glob.glob('./atm/*.atm')
 
             # Do an inital synthesis for each atm saving resid info
             for ii,atm_i in enumerate(atmlist_i):
