@@ -293,13 +293,6 @@ class RunPrep(object):
                 spectrv_infile='./data/spectrv.input',                
                 verbose=False,
                 )
-            RS.setfpaths(
-                f12path=f'./ff/fort.12',
-                f14path=f'./ff/fort.14',
-                f19path=f'./ff/fort.19',
-                f20path=f'./ff/fort.20',
-                f93path=f'./ff/fort.93',
-                )
 
             # init list for fit lines
             code    = []
@@ -341,7 +334,12 @@ class RunPrep(object):
                 # set atm file path
                 RS.setatmpath(atmpath=atm_i)
                 # run SYNTHE in seg directory
-                synout_i = RS.run()
+                synout_i = RS.run(
+                    f12path=f'./ff/fort.12',
+                    f14path=f'./ff/fort.14',
+                    f19path=f'./ff/fort.19',
+                    f20path=f'./ff/fort.20',
+                    f93path=f'./ff/fort.93',)
 
                 # write spectrum to seg_num/data/
                 
