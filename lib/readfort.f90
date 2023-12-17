@@ -854,6 +854,7 @@ module readfort
         IF(NAV.EQ.0.)NAV=1
         IF(IFSURF.EQ.3)NMU=1
         NMU2=NMU+NMU
+        WRITE(6,*)'TEST',NMU2
         RATIO=1.D0+1.D0/RESOLU
         DO 6 IWL=1,NWL
            SWL=WBEGIN*RATIO**(IWL-1)
