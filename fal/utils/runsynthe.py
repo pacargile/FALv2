@@ -118,6 +118,8 @@ class Synthe(object):
         # read in binary output
         outdat = self.RK.readspecbin('./ROT1')
 
+        print('1',outdat['qmu1'].min(),outdat['qmu1'].max())
+        print('2',outdat['qmu2'].min(),outdat['qmu2'].max())
 
         return outdat
 
