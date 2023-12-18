@@ -112,7 +112,7 @@ class Synthe(object):
         self.synthe(verbose_syn=verbose)
         print(f'SYN {datetime.now()-starttime}')
         self.spectrv(verbose_sprv=verbose)
-        self.rotate(vrot=self.vrot,verbose_rot=True)
+        self.rotate(vrot=self.vrot,verbose_rot=verbose)
         self.broaden(verbose_bro=verbose)
 
         # read in binary output

@@ -69,25 +69,25 @@ class ReadKurucz(object):
 
         # write new fort.93
         if self.verbose:
-            print('... writing fort.93')
+            print(f'... writing fort.93: {f93outpath}')
         self.writefort93(f93outpath)
     
         # write new fort.12 and fort.14
         if self.verbose:
-            print('... writing fort.12')
+            print(f'... writing fort.12: {f12outpath}')
         self.writefort12(f12outpath)
 
         if self.verbose:
-            print('... writing fort.14')
+            print(f'... writing fort.14: {f14outpath}')
         self.writefort14(f14outpath)
 
         # write new fort.19 fort.20
         if self.verbose:
-            print('... writing fort.19')
+            print(f'... writing fort.19: {f19outpath}')
         self.writefort19(f19outpath)
 
         if self.verbose:
-            print('... writing fort.20')
+            print(f'... writing fort.20: {f20outpath}')
         self.writefort20(f20outpath)
         
     def readfort93(self,f93path):
