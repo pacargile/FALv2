@@ -56,6 +56,9 @@ class Synthe(object):
     def setatmpath(self,atmpath=None):
         self.atmmod = atmpath
 
+    def setvrot(self,rotvel=0.0):
+        self.vrot = rotvel
+
     def run(self,**kwargs):
         
         f12path_i=kwargs.get('f12path',None)
@@ -94,7 +97,11 @@ class Synthe(object):
         except AssertionError:
             print('Must define atm file')
             raise IOError
-        
+
+        vrot_i = self.kwargs.get('rotvel',0.0)
+        if vrot_i != 0.0:
+            self.vrot = vrot_i
+                
         verbose = kwargs.get('verbose',self.verbose)
                 
         # reset the directory to make sure files are in place
