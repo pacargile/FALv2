@@ -519,7 +519,7 @@ class RunPrep(object):
                 f93path=f'./ff/fort.93',
                 verbose=True,
                 )
-            print('A')
+            print('... initialized AK')
             # index the lines in just this segment
             # first stack f14 and f20 info
             sLL = {}
