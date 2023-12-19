@@ -236,7 +236,8 @@ class RunPrep(object):
             f20path=self.masterf20path,
             f93path=self.masterf93path)
 
-        print(f'... Starting Number of Lines: {AK.RK.f93in["nlines"] }')
+        print(f'... Starting Number of Lines in fort.12: {AK.RK.f93in["nlines"]} ({len(AK.RK.f14in["wl"])})')
+        print(f'... Starting Number of Lines in fort.19: {AK.RK.f93in["n19"]} ({len(AK.RK.f20in["wl"])})')
         # print('... First 10 lines')
         # print(AK.RK.f14in['wl'][:10])
         # print('... Last 10 lines')
@@ -246,7 +247,8 @@ class RunPrep(object):
         print(f'... Adj the starting and ending wavelengths: {startwl} - {endwl}')
         AK.adj93(newdict={'wl':[startwl,endwl]})
 
-        print(f'... Total Number of Lines after Ajd: {AK.RK.f93in["nlines"] }')
+        print(f'... Total Number of Lines in fort.12 after Ajd: {AK.RK.f93in["nlines"]} ({len(AK.RK.f14in["wl"])})')
+        print(f'... Total Number of Lines in fort.19 after Ajd: {AK.RK.f93in["n19"]}  ({len(AK.RK.f20in["wl"])})')
         # print('... First 10 lines')
         # print(AK.RK.f14in['wl'][:10])
         # print('... Last 10 lines')
