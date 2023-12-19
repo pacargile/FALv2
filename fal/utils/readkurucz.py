@@ -815,6 +815,8 @@ class ReadKurucz(object):
         s_o  = '{0}'.format(f19outpath)
         sb_o    = bytes(s_o,encoding='ascii')
 
+        print('WRITE19 NLINES19',self.nlines19)
+
         # extract variables from read in dict
         WLVACi   = self.f19in['wlvac']
         ELOi     = self.f19in['elo']
