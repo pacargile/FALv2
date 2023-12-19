@@ -341,6 +341,7 @@ class RunPrep(object):
                 print(f'... working on {atm_i}',flush=True)
                 # set atm file path
                 RS.setatmpath(atmpath=atm_i)
+                RS.setvrot(-2.02)
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
 
@@ -946,6 +947,7 @@ class RunPrep(object):
                 print(f'... working on {atm_i}',flush=True)
                 # set atm file path
                 RS.setatmpath(atmpath=atm_i)
+                RS.setvrot(rotvel=-2.02)
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
 
