@@ -553,7 +553,7 @@ class RunPrep(object):
 
             slindex.sort()
             print(f'... Found {len(slindex)} significant lines',flush=True)
-            AK.filterll({'index':slindex})
+            # AK.filterll({'index':slindex})
 
             print('... Writing out rebuilt fort files',flush=True)
             AK.wfort(        

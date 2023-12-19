@@ -415,8 +415,6 @@ class ReadKurucz(object):
         NBUFFi   = np.zeros(self.nlines19,dtype=np.int32)  
         LIMi     = np.zeros(self.nlines19,dtype=np.int32)
 
-        print('NLINES19',self.nlines19,flush=True)
-
         self.rfort.readfile19(
             c_char_p(sb_i), 
             c_int(self.nlines19),
@@ -435,8 +433,6 @@ class ReadKurucz(object):
             NBUFFi.ctypes.data_as(  c_int_p),    
             LIMi.ctypes.data_as(    c_int_p),        
         )
-
-        print(f'READ IN {len(WLVACi)}',flush=True)
         
         output = ({
             'wlvac':WLVACi, # vacuum wl
