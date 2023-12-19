@@ -32,29 +32,29 @@ class ReadKurucz(object):
         
         # read fort.93 to grab needed line information
         if self.verbose:
-            print(f'... reading in fort.93: {f93path}')
+            print(f'... reading in fort.93: {f93path}',flush=True)
         self.f93in = self.readfort93(f93path)
         self.nlines12 = self.f93in['nlines']
         self.nlines19 = self.f93in['n19']
 
         # read fort.12
         if self.verbose:
-            print(f'... reading in fort.12: {f12path}')
+            print(f'... reading in fort.12: {f12path}',flush=True)
         self.f12in = self.readfort12(f12path)
 
         # read fort.14
         if self.verbose:
-            print(f'... reading in fort.14: {f14path}')
+            print(f'... reading in fort.14: {f14path}',flush=True)
         self.f14in = self.readfort14(f14path)
 
         # read fort.19
         if self.verbose:
-            print(f'... reading in fort.19: {f19path}')
+            print(f'... reading in fort.19: {f19path}',flush=True)
         self.f19in = self.readfort19(f19path)
 
         # read fort.20
         if self.verbose:
-            print(f'... reading in fort.20: {f20path}')
+            print(f'... reading in fort.20: {f20path}',flush=True)
         self.f20in = self.readfort20(f20path)
         
     def writefiles(self,
@@ -69,25 +69,25 @@ class ReadKurucz(object):
 
         # write new fort.93
         if self.verbose:
-            print(f'... writing fort.93: {f93outpath}')
+            print(f'... writing fort.93: {f93outpath}',flush=True)
         self.writefort93(f93outpath)
     
         # write new fort.12 and fort.14
         if self.verbose:
-            print(f'... writing fort.12: {f12outpath}')
+            print(f'... writing fort.12: {f12outpath}',flush=True)
         self.writefort12(f12outpath)
 
         if self.verbose:
-            print(f'... writing fort.14: {f14outpath}')
+            print(f'... writing fort.14: {f14outpath}',flush=True)
         self.writefort14(f14outpath)
 
         # write new fort.19 fort.20
         if self.verbose:
-            print(f'... writing fort.19: {f19outpath}')
+            print(f'... writing fort.19: {f19outpath}',flush=True)
         self.writefort19(f19outpath)
 
         if self.verbose:
-            print(f'... writing fort.20: {f20outpath}')
+            print(f'... writing fort.20: {f20outpath}',flush=True)
         self.writefort20(f20outpath)
         
     def readfort93(self,f93path):
