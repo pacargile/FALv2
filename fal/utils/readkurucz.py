@@ -436,6 +436,8 @@ class ReadKurucz(object):
             LIMi.ctypes.data_as(    c_int_p),        
         )
 
+        print(f'READ IN {len(WLVACi)}',flush=True)
+        
         output = ({
             'wlvac':WLVACi, # vacuum wl
             'elo':ELOi, # energy of lower level
