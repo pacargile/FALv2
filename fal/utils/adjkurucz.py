@@ -173,9 +173,6 @@ class AdjKurucz(object):
         self.RK.nlines12 = self.RK.f93in['nlines']
         self.RK.nlines19 = self.RK.f93in['n19']
         
-        
-        
-
     def adj93(self,newdict={}):
         """
         Function to adjust the global parameters in fort.93 

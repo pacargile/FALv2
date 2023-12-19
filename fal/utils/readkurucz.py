@@ -153,6 +153,9 @@ class ReadKurucz(object):
             'linout':LINOUTi, # Limit on lines printing out to STDOUT
         })
         
+        print('READ93 N12',output['nlines'])
+        print('READ93 N19',output['n19'])
+        
         return output
 
     def readfort12(self,f12path):
@@ -417,6 +420,8 @@ class ReadKurucz(object):
         GAMMAWi  = np.zeros(self.nlines19,dtype=np.float32)   
         NBUFFi   = np.zeros(self.nlines19,dtype=np.int32)  
         LIMi     = np.zeros(self.nlines19,dtype=np.int32)
+
+        print('READ19 NLINES19',self.nlines19)
 
         self.rfort.readfile19(
             c_char_p(sb_i), 
