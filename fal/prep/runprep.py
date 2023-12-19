@@ -345,6 +345,8 @@ class RunPrep(object):
                 
                 tmpspec = Table()
                 tmpspec['wave'] = synout_i['wave']
+                tmpspec['qmu1'] = synout_i['qmu1']
+                tmpspec['qmu2'] = synout_i['qmu2']
                 tmpspec['flux'] = synout_i['qmu1']/synout_i['qmu2']
                 tmpspec.write(f'./data/specfull_{atm_i.split("/")[-1].replace(".atm",".fits")}',format='fits',overwrite=True)
 
@@ -951,6 +953,8 @@ class RunPrep(object):
                 # write spectrum to seg_num/data/
                 tmpspec = Table()
                 tmpspec['wave'] = synout_i['wave']
+                tmpspec['qmu1'] = synout_i['qmu1']
+                tmpspec['qmu2'] = synout_i['qmu2']
                 tmpspec['flux'] = synout_i['qmu1']/synout_i['qmu2']
                 tmpspec.write(f'./data/specSL_{atm_i.split("/")[-1].replace(".atm",".fits")}',format='fits',overwrite=True)
 

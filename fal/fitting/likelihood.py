@@ -194,9 +194,11 @@ class Like(object):
                 # # f20path='./ff/fort_tmp.20',
                 # # f93path='./ff/fort_tmp.93',
                 # )
-            print(mod_i.keys())
+
             wave = mod_i['wave']
-            flux = mod_i['qmu1']/mod_i['qmu2']
+            qmu1 = mod_i['qmu1']
+            qmu2 = mod_i['qmu2']
+            flux = qmu1/qmu2
 
             wlmod = np.interp(wave,self.specinfo['weaklinemod'][ii]['wave'],self.specinfo['weaklinemod'][ii]['flux'])
             flux = flux * wlmod
@@ -204,7 +206,7 @@ class Like(object):
             tmod = np.interp(wave,self.transmod['wave'],self.transmod['flux'])
             flux = flux * tmod
 
-            modarr.append([wave,flux])
+            modarr.append([wave,flux,qmu1,qmu2])
             print(f'RUN MODEL {ii} {datetime.now()-starttime}')
 
         return modarr
