@@ -327,6 +327,14 @@ class RunPrep(object):
             # glob all atm in atm/ into list
             atmlist_i = glob.glob('./atm/*.atm')
 
+            RS.setfpaths(
+                f12path='./ff/fort.12',
+                f14path='./ff/fort.14',
+                f19path='./ff/fort.19',
+                f20path='./ff/fort.20',
+                f93path='./ff/fort.93',
+                )
+
             # Do an inital synthesis for each atm saving resid info
             for ii,atm_i in enumerate(atmlist_i):
                 starttime = datetime.now()
@@ -334,12 +342,7 @@ class RunPrep(object):
                 # set atm file path
                 RS.setatmpath(atmpath=atm_i)
                 # run SYNTHE in seg directory
-                synout_i = RS.run(
-                    f12path=f'./ff/fort.12',
-                    f14path=f'./ff/fort.14',
-                    f19path=f'./ff/fort.19',
-                    f20path=f'./ff/fort.20',
-                    f93path=f'./ff/fort.93',)
+                synout_i = RS.run()
 
                 # write spectrum to seg_num/data/
                 
@@ -349,9 +352,6 @@ class RunPrep(object):
                 tmpspec['qmu2'] = synout_i['qmu2']
                 tmpspec['flux'] = synout_i['qmu1']/synout_i['qmu2']
                 tmpspec.write(f'./data/specfull_{atm_i.split("/")[-1].replace(".atm",".fits")}',format='fits',overwrite=True)
-
-                if ii == 0:
-                    print(synout_i)
 
                 print(f'specfull min/max flux {min(tmpspec["flux"])}/{max(tmpspec["flux"])}')
 
