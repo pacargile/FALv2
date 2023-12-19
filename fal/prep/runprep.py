@@ -517,13 +517,13 @@ class RunPrep(object):
                 f19path=f'./ff/fort.19',
                 f20path=f'./ff/fort.20',
                 f93path=f'./ff/fort.93',
+                verbose=True,
                 )
 
             # index the lines in just this segment
             # first stack f14 and f20 info
             sLL = {}
             for kk in AK.RK.f14in.keys():
-                print(kk)
                 sLL[kk] = AK.RK.f14in[kk]
                 # if kk in ['labelx','labelpx','other1x','other2x']:
                 #     sLL[kk] = np.concatenate((AK.RK.f14in[kk]),axis=1)
