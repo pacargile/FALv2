@@ -523,6 +523,7 @@ class RunPrep(object):
             # first stack f14 and f20 info
             sLL = {}
             for kk in AK.RK.f14in.keys():
+                print(kk)
                 sLL[kk] = AK.RK.f14in[kk]
                 # if kk in ['labelx','labelpx','other1x','other2x']:
                 #     sLL[kk] = np.concatenate((AK.RK.f14in[kk]),axis=1)
