@@ -32,29 +32,29 @@ class ReadKurucz(object):
         
         # read fort.93 to grab needed line information
         if self.verbose:
-            print('... reading in fort.93')
+            print(f'... reading in fort.93: {f93path}')
         self.f93in = self.readfort93(f93path)
         self.nlines12 = self.f93in['nlines']
         self.nlines19 = self.f93in['n19']
 
         # read fort.12
         if self.verbose:
-            print('... reading in fort.12')
+            print(f'... reading in fort.12: {f12path}')
         self.f12in = self.readfort12(f12path)
 
         # read fort.14
         if self.verbose:
-            print('... reading in fort.14')
+            print(f'... reading in fort.14: {f14path}')
         self.f14in = self.readfort14(f14path)
 
         # read fort.19
         if self.verbose:
-            print('... reading in fort.19')
+            print(f'... reading in fort.19: {f19path}')
         self.f19in = self.readfort19(f19path)
 
         # read fort.20
         if self.verbose:
-            print('... reading in fort.20')
+            print(f'... reading in fort.20: {f20path}')
         self.f20in = self.readfort20(f20path)
         
     def writefiles(self,
