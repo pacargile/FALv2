@@ -345,7 +345,6 @@ class RunPrep(object):
                 synout_i = RS.run()
 
                 # write spectrum to seg_num/data/
-                
                 tmpspec = Table()
                 tmpspec['wave'] = synout_i['wave']
                 tmpspec['qmu1'] = synout_i['qmu1']
