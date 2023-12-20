@@ -290,10 +290,8 @@ class Synthe(object):
             starttime_bro = datetime.now()
             print("Running broadening... [{0}]".format(starttime_bro))
         lsf = 2.355*R
-        nqmu1 = smoothspec(inspec['wave'], inspec['qmu1'], lsf, outwave=None, smoothtype='R',
-                           fftsmooth=True,inres=3E+5)
-        nqmu2 = smoothspec(inspec['wave'], inspec['qmu2'], lsf, outwave=None, smoothtype='R',
-                           fftsmooth=True,inres=3E+5)
+        nqmu1 = smoothspec(inspec['wave'], inspec['qmu1'], lsf, outwave=inspec['wave'], smoothtype='R',fftsmooth=True)
+        nqmu2 = smoothspec(inspec['wave'], inspec['qmu2'], lsf, outwave=inspec['wave'], smoothtype='R',fftsmooth=True)
         return [nqmu1,nqmu2]
 
     def _callpro(self,function,inputstr=None,inpipe=None,verbose=None):
