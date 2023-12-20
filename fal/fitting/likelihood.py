@@ -61,7 +61,7 @@ class Like(object):
 
         self.specinfo = {}
         self.specinfo['modatm']  = []
-        self.specinfo['macvel']  = []
+        self.specinfo['vmac']  = []
         self.specinfo['rotvel']  = []
         self.specinfo['R'] = []
         self.specinfo['C12/C13'] = []
@@ -77,10 +77,10 @@ class Like(object):
             else:
                 self.specinfo['modatm'].append('./data/atmmod.dat')
 
-            if 'macvel' in inspecinfo.keys():
-                self.specinfo['macvel'].append(inspecinfo['macvel'])
+            if 'vmac' in inspecinfo.keys():
+                self.specinfo['vmac'].append(inspecinfo['vmac'])
             else:
-                self.specinfo['macvel'].append(0.0)
+                self.specinfo['vmac'].append(0.0)
         
             if 'rotvel' in inspecinfo.keys():
                 self.specinfo['rotvel'].append(inspecinfo['rotvel'])
@@ -133,6 +133,7 @@ class Like(object):
             inputdict['atmmod'] = self.specinfo['modatm'][ii]
             inputdict['rotvel'] = self.specinfo['rotvel'][ii]
             inputdict['R'] = self.specinfo['R'][ii]
+            inputdict['vmac'] = self.specinfo['vmac'][ii]
 
             # init the class            
             RS_i = Synthe(**inputdict)
