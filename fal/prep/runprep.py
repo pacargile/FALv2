@@ -318,15 +318,17 @@ class RunPrep(object):
             # # glob all atm in atm/ into list
             # atmlist_i = glob.glob('./atm/*.atm')
 
+            inputdict = {}
+            inputdict['verbose']   = False
+            inputdict['exedir']    = './bin/'
+            inputdict['molecules'] = './data/molecules.dat'
+            inputdict['continuua'] = './data/continuua.dat'
+            inputdict['he1tables'] = './data/he1tables.dat'
+            inputdict['spectrv_infile'] = './data/spectrv.input'
+
             # first generate specfull spectrum for each atm input
-            RS = runsynthe.Synthe(
-                exedir='./bin/',
-                molecules='./data/molecules.dat',
-                continuua='./data/continuua.dat',
-                he1tables='./data/he1tables.dat',
-                spectrv_infile='./data/spectrv.input',                
-                verbose=False,
-                )
+            RS = runsynthe.Synthe(**inputdict,verbose=False)
+
             RS.setfpaths(
                 f12path='./ff/fort_specfull.12',
                 f14path='./ff/fort_specfull.14',
@@ -344,6 +346,9 @@ class RunPrep(object):
 
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
+
+                print(synout_i['qmu1'][:10])
+
 
                 # write spectrum to seg_num/data/
                 tmpspec = Table()
