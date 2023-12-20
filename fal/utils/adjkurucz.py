@@ -20,15 +20,12 @@ class AdjKurucz(object):
 
         self.RK = readkurucz.ReadKurucz(verbose=self.verbose)
         
-        print('A',flush=True)
-        
         self.RK.readfiles(
             f12path=self.f12path,
             f14path=self.f14path,
             f19path=self.f19path,
             f20path=self.f20path,
             f93path=self.f93path)
-        print('B',flush=True)
 
     def wfort(self,*args,**kwargs):
         outf12path=kwargs.get('f12path','./fort_new.12')

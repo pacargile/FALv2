@@ -347,7 +347,7 @@ class RunPrep(object):
             # Do an inital synthesis for each atm saving resid info
             for ii,atm_i in enumerate(atmlist_i):
                 starttime = datetime.now()
-                print(f'... working on {atm_i}',flush=True)
+                print(f'---->>> working on {atm_i}',flush=True)
                 # set atm file path
                 RS.setatmpath(atmpath=atm_i)
                 RS.setvrot(-2.02)
@@ -516,9 +516,9 @@ class RunPrep(object):
             resid_full   = resid_full[sortwl_full]
             src_full     = src_full[sortwl_full]
 
-            print(f'... Total Number of Strong Lines {len(code_full)}')
+            print(f'---->>> Total Number of Strong Lines {len(code_full)}')
 
-            print('... Rebuilding fort files with just significant lines',flush=True)
+            print(f'... Rebuilding fort files with just significant lines (N = {len(slindex)})',flush=True)
             # initialize AdjKurucz
             AK = adjkurucz.AdjKurucz(
                 f12path=f'./ff/fort.12',
@@ -528,7 +528,6 @@ class RunPrep(object):
                 f93path=f'./ff/fort.93',
                 verbose=True,
                 )
-            print('... initialized AK')
             # index the lines in just this segment
             # first stack f14 and f20 info
             sLL = {}
@@ -561,10 +560,9 @@ class RunPrep(object):
                     pass
 
             slindex.sort()
-            print(f'... Found {len(slindex)} significant lines',flush=True)
             AK.filterll({'index':slindex})
 
-            print('... Writing out rebuilt fort files',flush=True)
+            print('... Writing out rebuilt significant line fort files',flush=True)
             AK.wfort(        
                 f12path=f'./ff/fort_sl.12',
                 f14path=f'./ff/fort_sl.14',
@@ -574,7 +572,7 @@ class RunPrep(object):
                 )
             
             # read the segll files
-            print('... Read Seg fort files',flush=True)
+            print('... Read SL fort files back in',flush=True)
             RK = readkurucz.ReadKurucz(verbose=True)
             RK.readfiles(
                 f12path=f'./ff/fort_sl.12',
@@ -734,8 +732,8 @@ class RunPrep(object):
             src_f    = []
 
             wlind_j = 0
-            gfind_j = 0
-            gwind_j = 0
+            gfind_j = 1
+            gwind_j = 2
             
             for ii in range(len(code)):
                 
