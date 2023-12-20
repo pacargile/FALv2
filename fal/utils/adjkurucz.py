@@ -471,7 +471,8 @@ class AdjKurucz(object):
                     if 'dgammas' in lindict.keys():
                         if deltapar['dgammas'] != -1.0:
                             self.adjgammas(ind,deltapar['dgammas'],fort=fortfile)
-                    print(f'... adj pars {datetime.now()-starttime}',flush=True)
+                    if self.verbose:
+                        print(f'... adj pars {datetime.now()-starttime}',flush=True)
                     # for kk in self.RK.f14in.keys():
                     #     try:
                     #         print(kk, self.RK.f14in[kk][ind])
