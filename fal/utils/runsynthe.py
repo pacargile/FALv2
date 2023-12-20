@@ -140,7 +140,7 @@ class Synthe(object):
         outdat = self.RK.readspecbin('./ROT1')
 
         if self.vmac > 0.0:
-            sflux = self.broadenS(outdat,vstar=self.vmac,verbose_broS=verbose)
+            sflux = self.broadenS(outdat,vmac=self.vmac,verbose_broS=verbose)
             outdat['qmu1'] = sflux[0]
             outdat['qmu2'] = sflux[1]
 
