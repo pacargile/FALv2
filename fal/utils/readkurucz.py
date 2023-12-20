@@ -815,7 +815,8 @@ class ReadKurucz(object):
         s_o  = '{0}'.format(f19outpath)
         sb_o    = bytes(s_o,encoding='ascii')
 
-        print('WRITE19 NLINES19',self.nlines19)
+        print('WRITE19 NLINES19',self.nlines19,flush=True)
+        print('LENGTH WLAC N19', len(self.f19in['wlvac']))
 
         # extract variables from read in dict
         WLVACi   = self.f19in['wlvac']
