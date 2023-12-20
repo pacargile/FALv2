@@ -1031,6 +1031,9 @@ class RunPrep(object):
                 tmpspec = Table()
                 tmpspec['wave'] = specSL['wave']
                 tmpspec['flux'] = specfull_flux/specSL['flux']
+                # set values > 1.0 to be == 1.0
+                condfl = tmpspec['flux'] > 1.0
+                tmpspec['flux'][condfl] = 1.0
                 tmpspec.write(f'./data/specWL_{atm_i.split("/")[-1].replace(".atm",".fits")}',format='fits',overwrite=True)
 
     
