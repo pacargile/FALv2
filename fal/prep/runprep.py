@@ -98,7 +98,7 @@ class RunPrep(object):
         seginfo = np.loadtxt(segfile,
                              dtype={'names':('segnum','start_wl','end_wl'),
                                     'formats':(int,float,float)})
-        print(seginfo.shape)
+        print(seginfo)
         segdict = {}
         for ii in range(len(seginfo)):
             segdict[ii] = ({'segnum':seginfo['segnum'][ii],
