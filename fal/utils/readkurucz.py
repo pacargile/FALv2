@@ -56,10 +56,7 @@ class ReadKurucz(object):
         if self.verbose:
             print(f'... reading in fort.20: {f20path}',flush=True)
         self.f20in = self.readfort20(f20path)
-        
-        if self.verbose:
-            print(f'... Finished Reading fort files',flush=True)
-        
+                
     def writefiles(self,
                    f12outpath='./fort_NEW.12',f14outpath='./fort_NEW.14',
                    f19outpath='./fort_NEW.19',f20outpath='./fort_NEW.20',
