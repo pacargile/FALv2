@@ -327,7 +327,7 @@ class RunPrep(object):
             inputdict['spectrv_infile'] = './data/spectrv.input'
 
             # first generate specfull spectrum for each atm input
-            RS = runsynthe.Synthe(**inputdict,verbose=False)
+            RS = runsynthe.Synthe(**inputdict)
 
             RS.setfpaths(
                 f12path='./ff/fort_specfull.12',
