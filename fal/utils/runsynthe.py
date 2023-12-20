@@ -253,7 +253,7 @@ class Synthe(object):
         Reads In: 
              fort.1
         Writes Into:
-             fort.19
+             fort.39
         New Out: 
              ROTX (bin) X = # rotation velocities
         Delete At Completion:
