@@ -518,7 +518,6 @@ class RunPrep(object):
 
             print(f'---->>> Total Number of Strong Lines {len(code_full)}')
 
-            print(f'... Rebuilding fort files with just significant lines (N = {len(slindex)})',flush=True)
             # initialize AdjKurucz
             AK = adjkurucz.AdjKurucz(
                 f12path=f'./ff/fort.12',
@@ -562,7 +561,7 @@ class RunPrep(object):
             slindex.sort()
             AK.filterll({'index':slindex})
 
-            print('... Writing out rebuilt significant line fort files',flush=True)
+            print(f'... Writing out rebuilt significant line fort files with {len(slindex)} lines',flush=True)
             AK.wfort(        
                 f12path=f'./ff/fort_sl.12',
                 f14path=f'./ff/fort_sl.14',
