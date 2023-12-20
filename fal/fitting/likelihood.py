@@ -53,6 +53,8 @@ class Like(object):
         # look for user defined info for each spectra in input list        
         self.inputspecinfo = self.kwargs.get('specinfo',[{}])
 
+        self.verbose = self.kwargs.get('verbose',False)
+
         # check to see if user only input in one dictionary
         if isinstance(self.inputspecinfo,dict):
             self.inputspecinfo = [self.inputspecinfo for _ in range(self.nspec)]
@@ -156,9 +158,10 @@ class Like(object):
             f93path=self.kwargs.get('f93path','./ff/fort.93'),
             )
 
-        print(f'... READ IN LINES {len(self.AK.RK.f14in["wl"]+len(self.AK.RK.f20in["wl"]))}')
-        print(f'... Aprox MIN WL {self.AK.RK.f14in["wl"].min()}')
-        print(f'... Aprox MAX WL {self.AK.RK.f14in["wl"].max()}')
+        if self.verbose:
+            print(f'... Read in Number of lines: {len(self.AK.RK.f14in["wl"]+len(self.AK.RK.f20in["wl"]))}')
+            print(f'... Aprox MIN Line WL {self.AK.RK.f14in["wl"].min()}')
+            print(f'... Aprox MAX Line WL {self.AK.RK.f14in["wl"].max()}')
 
     def genmod(self,linepars={'dwl':[],'dloggf':[],'dgammaw':[],'dgammar':[],'dgammas':[]}):
         
@@ -207,7 +210,8 @@ class Like(object):
             flux = flux * tmod
 
             modarr.append([wave,flux,qmu1,qmu2])
-            print(f'RUN MODEL {ii} {datetime.now()-starttime}')
+            if self.verbose:
+                print(f'--->>> Total Model {ii} Eval Run Time: {datetime.now()-starttime}')
 
         return modarr
     
@@ -254,9 +258,7 @@ class Like(object):
         linepars = {'dwl':dwl,'dloggf':dloggf,'dgammaw':dgammaw,'dgammar':dgammar,'dgammas':dgammas}
         
         # generate the models
-        starttime = datetime.now()
         modarr = self.genmod(linepars=linepars)
-        print(f'... model eval {datetime.now()-starttime}',flush=True)
         
         # find which spectra need a RV shift and scaling
         for ii in range(self.nspec):
@@ -271,9 +273,7 @@ class Like(object):
                 kk += 1
                 
         # calculate the chi-sqaure
-        starttime = datetime.now()
         chisq = self.calcchisq(modarr)
-        print(f'... chisq eval {datetime.now()-starttime}',flush=True)
         
         # return the likelihood
         return (-0.5 * chisq, modarr)
