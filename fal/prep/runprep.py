@@ -271,6 +271,23 @@ class RunPrep(object):
             f93path=f'seg_{segnum}/ff/fort.93',
             )
     
+        # Now make expanded fort files for specfull synthesis
+        AK = adjkurucz.AdjKurucz(
+            f12path=self.masterf12path,
+            f14path=self.masterf14path,
+            f19path=self.masterf19path,
+            f20path=self.masterf20path,
+            f93path=self.masterf93path)
+        AK.adj93(newdict={'wl':[startwl-50.0,endwl+50.0]})
+        AK.wfort(        
+            f12path=f'seg_{segnum}/ff/fort_specfull.12',
+            f14path=f'seg_{segnum}/ff/fort_specfull.14',
+            f19path=f'seg_{segnum}/ff/fort_specfull.19',
+            f20path=f'seg_{segnum}/ff/fort_specfull.20',
+            f93path=f'seg_{segnum}/ff/fort_specfull.93',
+            )
+        
+    
     def selfitlines(self,segnum=0,startwl=0.0,endwl=np.inf):
         # function that selects which lines to be fit in segment (lineindex), assigns free parameter 
         # index for each line (linepars), and writes info files out for lineindex and linepars. 
@@ -290,10 +307,11 @@ class RunPrep(object):
         print('... Determining which lines need to be included in fit',flush=True)
         # temp change dir to seg_/ so that fortran is run there
         with cwd(f'seg_{segnum}/'):
+            
+            # glob all atm in atm/ into list
+            atmlist_i = glob.glob('./atm/*.atm')
 
-            # set up initial SYNTHE runs for different atm files.
-            # This is to determine which lines need to be included
-            # as fit parameters.
+            # first generate specfull spectrum for each atm input
             RS = runsynthe.Synthe(
                 exedir='./bin/',
                 molecules='./data/molecules.dat',
@@ -302,6 +320,29 @@ class RunPrep(object):
                 spectrv_infile='./data/spectrv.input',                
                 verbose=False,
                 )
+            RS.setfpaths(
+                f12path='./ff/fort_specfull.12',
+                f14path='./ff/fort_specfull.14',
+                f19path='./ff/fort_specfull.19',
+                f20path='./ff/fort_specfull.20',
+                f93path='./ff/fort_specfull.93',
+                )
+            for ii,atm_i in enumerate(atmlist_i):
+                print(f'---->>> specfull working on {atm_i}',flush=True)
+                # set atm file path
+                RS.setatmpath(atmpath=atm_i)
+                RS.setvrot(-2.02)
+                # run SYNTHE in seg directory
+                synout_i = RS.run()
+
+                # write spectrum to seg_num/data/
+                tmpspec = Table()
+                tmpspec['wave'] = synout_i['wave']
+                tmpspec['qmu1'] = synout_i['qmu1']
+                tmpspec['qmu2'] = synout_i['qmu2']
+                tmpspec['flux'] = synout_i['qmu1']/synout_i['qmu2']
+                tmpspec.write(f'./data/specfull_{atm_i.split("/")[-1].replace(".atm",".fits")}',format='fits',overwrite=True)
+            
 
             # init list for fit lines
             code    = []
@@ -333,8 +374,17 @@ class RunPrep(object):
             resid_full   = []
             src_full     = [] # index for atm that flagged line
 
-            # glob all atm in atm/ into list
-            atmlist_i = glob.glob('./atm/*.atm')
+            # set up initial SYNTHE runs for different atm files.
+            # This is to determine which lines need to be included
+            # as fit parameters.
+            RS = runsynthe.Synthe(
+                exedir='./bin/',
+                molecules='./data/molecules.dat',
+                continuua='./data/continuua.dat',
+                he1tables='./data/he1tables.dat',
+                spectrv_infile='./data/spectrv.input',                
+                verbose=False,
+                )
 
             RS.setfpaths(
                 f12path='./ff/fort.12',
@@ -354,15 +404,15 @@ class RunPrep(object):
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
 
-                # write spectrum to seg_num/data/
-                tmpspec = Table()
-                tmpspec['wave'] = synout_i['wave']
-                tmpspec['qmu1'] = synout_i['qmu1']
-                tmpspec['qmu2'] = synout_i['qmu2']
-                tmpspec['flux'] = synout_i['qmu1']/synout_i['qmu2']
-                tmpspec.write(f'./data/specfull_{atm_i.split("/")[-1].replace(".atm",".fits")}',format='fits',overwrite=True)
+                # # write spectrum to seg_num/data/
+                # tmpspec = Table()
+                # tmpspec['wave'] = synout_i['wave']
+                # tmpspec['qmu1'] = synout_i['qmu1']
+                # tmpspec['qmu2'] = synout_i['qmu2']
+                # tmpspec['flux'] = synout_i['qmu1']/synout_i['qmu2']
+                # tmpspec.write(f'./data/specfull_{atm_i.split("/")[-1].replace(".atm",".fits")}',format='fits',overwrite=True)
 
-                print(f'specfull min/max flux {min(tmpspec["flux"])}/{max(tmpspec["flux"])}')
+                # print(f'specfull min/max flux {min(tmpspec["flux"])}/{max(tmpspec["flux"])}')
 
                 code_fl    = synout_i['code']
                 wl_fl      = synout_i['wl']
@@ -976,9 +1026,11 @@ class RunPrep(object):
                 specfull = Table.read(f'./data/specfull_{atm_i.split("/")[-1].replace(".atm",".fits")}',format='fits')
                 specSL   = Table.read(f'./data/specSL_{atm_i.split("/")[-1].replace(".atm",".fits")}',format='fits')
                 
+                specfull_flux = np.interp(specSL['wave'],specfull['wave'],specfull['flux'])
+                
                 tmpspec = Table()
-                tmpspec['wave'] = specfull['wave']
-                tmpspec['flux'] = specfull['flux']/specSL['flux']
+                tmpspec['wave'] = specSL['wave']
+                tmpspec['flux'] = specfull_flux/specSL['flux']
                 tmpspec.write(f'./data/specWL_{atm_i.split("/")[-1].replace(".atm",".fits")}',format='fits',overwrite=True)
 
     
