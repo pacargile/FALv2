@@ -318,31 +318,33 @@ class RunPrep(object):
             # # glob all atm in atm/ into list
             # atmlist_i = glob.glob('./atm/*.atm')
 
-            inputdict = {}
-            inputdict['verbose']   = False
-            inputdict['exedir']    = './bin/'
-            inputdict['molecules'] = './data/molecules.dat'
-            inputdict['continuua'] = './data/continuua.dat'
-            inputdict['he1tables'] = './data/he1tables.dat'
-            inputdict['spectrv_infile'] = './data/spectrv.input'
-
-            # first generate specfull spectrum for each atm input
-            RS = runsynthe.Synthe(**inputdict)
-
-            RS.setfpaths(
-                f12path='./ff/fort_specfull.12',
-                f14path='./ff/fort_specfull.14',
-                f19path='./ff/fort_specfull.19',
-                f20path='./ff/fort_specfull.20',
-                f93path='./ff/fort_specfull.93',
-                )
             for ii,atm_i in enumerate(self.atmflist):
+                inputdict = {}
+                inputdict['verbose']   = False
+                inputdict['exedir']    = './bin/'
+                inputdict['molecules'] = './data/molecules.dat'
+                inputdict['continuua'] = './data/continuua.dat'
+                inputdict['he1tables'] = './data/he1tables.dat'
+                inputdict['spectrv_infile'] = './data/spectrv.input'
+
+                inputdict['atmmod'] = self.specinfo['modatm'][ii]
+                inputdict['rotvel'] = self.specinfo['rotvel'][ii]
+                inputdict['R'] = self.specinfo['R'][ii]
+                inputdict['vmac'] = self.specinfo['vmac'][ii]
+
+                # first generate specfull spectrum for each atm input
+                RS = runsynthe.Synthe(**inputdict)
+
+                RS.setfpaths(
+                    f12path='./ff/fort_specfull.12',
+                    f14path='./ff/fort_specfull.14',
+                    f19path='./ff/fort_specfull.19',
+                    f20path='./ff/fort_specfull.20',
+                    f93path='./ff/fort_specfull.93',
+                    )
+
                 print(f'---->>> specfull working on {atm_i}',flush=True)
                 # set atm file path
-                RS.setatmpath(atmpath=atm_i)
-                RS.setvrot(rotvel=self.specinfo[ii]['rotvel'])
-                RS.setres(R=self.specinfo[ii]['R'])
-                # RS.setvmac(vmac=self.specinfo[ii]['vmac'])
 
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
