@@ -1,4 +1,4 @@
-import os,sys,glob,filecmp
+import os,sys,glob
 from datetime import datetime
 import subprocess
 # import cStringIO
@@ -8,6 +8,7 @@ import numpy as np
 import fal
 from . import readkurucz
 import jax
+from Payne.jax.smoothing import smoothspec
 
 class Synthe(object):
     """ 
@@ -36,6 +37,8 @@ class Synthe(object):
         self.rotatevar = ("{NROT:5d}{NRADIUS:5d}\n{VROT:10.1f}\n")
         self.vrot = kwargs.get('rotvel',0.0)
 
+        self.R = kwargs.get('R',0.0)
+
         # initialize readkurucz
         self.RK = readkurucz.ReadKurucz()
 
@@ -58,6 +61,9 @@ class Synthe(object):
 
     def setvrot(self,rotvel=0.0):
         self.vrot = rotvel
+
+    def setres(self,R=0.0):
+        self.R = R
 
     def run(self,**kwargs):
         
@@ -101,6 +107,10 @@ class Synthe(object):
         vrot_i = self.kwargs.get('rotvel',0.0)
         if vrot_i != 0.0:
             self.vrot = vrot_i
+
+        R_i = self.kwargs.get('R',0.0)
+        if R_i != 0.0:
+            self.R = R_i
                 
         verbose = kwargs.get('verbose',self.verbose)
                 
@@ -118,10 +128,14 @@ class Synthe(object):
         self.synthe(verbose_syn=verbose)
         self.spectrv(verbose_sprv=verbose)
         self.rotate(vrot=self.vrot,verbose_rot=verbose)
-        self.broaden(verbose_bro=verbose)
 
         # read in binary output
         outdat = self.RK.readspecbin('./ROT1')
+
+        if self.R > 0.0:
+            sflux = self.broaden(outdat,R=self.R,verbose_bro=verbose)
+            outdat['qmu1'] = sflux[0]
+            outdat['qmu2'] = sflux[1]
 
         return outdat
 
@@ -271,8 +285,16 @@ class Synthe(object):
             endtime_rot = datetime.now()
             print("... Finished rotate [{0}: {1}]".format(endtime_rot,endtime_rot-starttime_rot))
 
-    def broaden(self,verbose_bro=False):
-        pass
+    def broaden(self,inspec,R=1E+5,verbose_bro=False):
+        if self.verbose:
+            starttime_bro = datetime.now()
+            print("Running broadening... [{0}]".format(starttime_bro))
+        lsf = 2.355*R
+        nqmu1 = smoothspec(inspec['wave'], inspec['qmu1'], lsf, outwave=None, smoothtype='R',
+                           fftsmooth=True,inres=3E+5)
+        nqmu2 = smoothspec(inspec['wave'], inspec['qmu2'], lsf, outwave=None, smoothtype='R',
+                           fftsmooth=True,inres=3E+5)
+        return [nqmu1,nqmu2]
 
     def _callpro(self,function,inputstr=None,inpipe=None,verbose=None):
         """

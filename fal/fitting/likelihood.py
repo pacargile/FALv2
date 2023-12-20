@@ -90,7 +90,7 @@ class Like(object):
             if 'R' in inspecinfo.keys():
                 self.specinfo['R'].append(inspecinfo['R'])
             else:
-                self.specinfo['R'].append(3E+5)
+                self.specinfo['R'].append(0.0)
             
             if 'C12/C13' in inspecinfo.keys():
                 self.specinfo['C12/C13'].append(inspecinfo['C12/C13'])
@@ -132,6 +132,7 @@ class Like(object):
 
             inputdict['atmmod'] = self.specinfo['modatm'][ii]
             inputdict['rotvel'] = self.specinfo['rotvel'][ii]
+            inputdict['R'] = self.specinfo['R'][ii]
 
             # init the class            
             RS_i = Synthe(**inputdict)
