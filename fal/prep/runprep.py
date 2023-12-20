@@ -330,7 +330,7 @@ class RunPrep(object):
                 inputdict['atmmod'] = self.specinfo[ii]['modatm']
                 inputdict['rotvel'] = self.specinfo[ii]['rotvel']
                 inputdict['R'] = self.specinfo[ii]['R']
-                inputdict['vmac'] = self.specinfo[ii]['vmac']
+                # inputdict['vmac'] = self.specinfo[ii]['vmac']
 
                 # first generate specfull spectrum for each atm input
                 RS = runsynthe.Synthe(**inputdict)
