@@ -730,11 +730,15 @@ class RunPrep(object):
             resid_f  = []
             src_f    = []
 
-            wlind_j = 0
-            gfind_j = 1
-            gwind_j = 2
+
+            parind_j = 0
+            # wlind_j = 0
+            # gfind_j = 1
+            # gwind_j = 2
             
             for ii in range(len(code)):
+
+                wlind_j,gfind_j,gwind_j = [parind_j,parind_j+1,parind_j+2]
                 
                 # figure out the indices
                 wlind_i = wlind_j
@@ -743,7 +747,7 @@ class RunPrep(object):
                     gwind_i = -1
                 else:
                     gwind_i = gwind_j
-                            
+                
                 # figure out segind
                 # cond_sel = (
                 #     (sLL_t['wl'] == wl[ii]) & 
@@ -918,11 +922,12 @@ class RunPrep(object):
                             resid_f.append(1.0)
                             src_f.append(src[ii])
                     
+                parind_j = max([wlind_i,gfind_i,gwind_i])+1
                 
-                wlind_j += 1
-                gfind_j += 1
-                if gwind_i != -1:
-                    gwind_j += 1
+                # wlind_j += 1 + wlind_j
+                # gfind_j += 1 + gfind_j
+                # if gwind_i != -1:
+                #     gwind_j += 1
             
             print(f'... Writing line fit pars file',flush=True)
             # write fit pars file out
