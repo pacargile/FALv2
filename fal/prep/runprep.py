@@ -98,9 +98,13 @@ class RunPrep(object):
         seginfo = np.loadtxt(segfile,
                              dtype={'names':('segnum','start_wl','end_wl'),
                                     'formats':(int,float,float)})
-        print(seginfo)
+        try:
+            numsegs = len(seginfo)
+        except TypeError:
+            seginfo = [seginfo]
+            numsegs = 1
         segdict = {}
-        for ii in range(len(seginfo)):
+        for ii in range(numsegs):
             segdict[ii] = ({'segnum':seginfo['segnum'][ii],
                                                'startwl':seginfo['start_wl'][ii],
                                                'endwl':seginfo['end_wl'][ii]
