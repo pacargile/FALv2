@@ -153,8 +153,8 @@ class ReadKurucz(object):
             'linout':LINOUTi, # Limit on lines printing out to STDOUT
         })
         
-        print('READ93 N12',output['nlines'])
-        print('READ93 N19',output['n19'])
+        print('READ93 N12',output['nlines'],flush=True)
+        print('READ93 N19',output['n19'],flush=True)
         
         return output
 
@@ -421,7 +421,7 @@ class ReadKurucz(object):
         NBUFFi   = np.zeros(self.nlines19,dtype=np.int32)  
         LIMi     = np.zeros(self.nlines19,dtype=np.int32)
 
-        print('READ19 NLINES19',self.nlines19)
+        print('READ19 NLINES19',self.nlines19,flush=True)
 
         self.rfort.readfile19(
             c_char_p(sb_i), 
@@ -441,6 +441,7 @@ class ReadKurucz(object):
             NBUFFi.ctypes.data_as(  c_int_p),    
             LIMi.ctypes.data_as(    c_int_p),        
         )
+        print('READ19 OUT',len(WLVACi),flush=True)
         
         output = ({
             'wlvac':WLVACi, # vacuum wl
@@ -466,6 +467,8 @@ class ReadKurucz(object):
         # turn path string into bytes
         s_i  = '{0}'.format(f20path)
         sb_i    = bytes(s_i,encoding='ascii')
+
+        print('READ20 LEN',self.nlines19,flush=True)
 
         # initialize variables for ctypes to fill 
         WLi       = np.zeros(self.nlines19,dtype=np.float64)
@@ -599,6 +602,8 @@ class ReadKurucz(object):
         # x = np.array([''.join(OTHER2i[i,:].tobytes('F').decode('ascii')) for i in range(self.nlines19)])
         # x = ''.join(x)
         # OTHER2i = np.array(list(map(''.join, zip(*[iter(x)]*10))))
+
+        print('READ20 OUT LEN',len(WLi),flush=True)
 
         output = ({
             'wl':WLi, # input wavelength
@@ -816,7 +821,7 @@ class ReadKurucz(object):
         sb_o    = bytes(s_o,encoding='ascii')
 
         print('WRITE19 NLINES19',self.nlines19,flush=True)
-        print('LENGTH WLAC N19', len(self.f19in['wlvac']))
+        print('WRITE LENGTH WLAC N19', len(self.f19in['wlvac']),flush=True)
 
         # extract variables from read in dict
         WLVACi   = self.f19in['wlvac']
@@ -858,6 +863,8 @@ class ReadKurucz(object):
         # turn path string into bytes
         s_o  = '{0}'.format(f20outpath)
         sb_o    = bytes(s_o,encoding='ascii')
+
+        print('WRITE LENGTH WLAC N20', len(self.f20in['wl']),flush=True)
         
         WLi       = self.f20in['wl']
         Ei        = self.f20in['e']
