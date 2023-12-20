@@ -41,10 +41,17 @@ class RunPrep(object):
         # define path for files that are the same for all SYNTHE
         self.commonfilespath = self.kwargs.get('commonfiles',None)
 
-        # define the list of atm files to generate fitted lines
-        # the number of atm files here define how many different stars
-        # to consider.
-        self.atmflist = self.kwargs.get('atmlist',['./atm/atmmod_sol.dat'])
+        # # define the list of atm files to generate fitted lines
+        # # the number of atm files here define how many different stars
+        # # to consider.
+        # self.atmflist = self.kwargs.get('atmlist',['./atm/atmmod_sol.dat'])
+
+        # read in spec info for atm and spectra used to fit
+        self.specinfo = self.kwargs.get('specinfo',{})
+
+        self.atmflist = []
+        for si_i in self.specinfo:
+            self.atmflist.append(si_i['modatm'])
 
         # define path to SYNTHE exe binaries
         self.masterbinpath = self.kwargs.get('masterbin',None)
@@ -308,8 +315,8 @@ class RunPrep(object):
         # temp change dir to seg_/ so that fortran is run there
         with cwd(f'seg_{segnum}/'):
             
-            # glob all atm in atm/ into list
-            atmlist_i = glob.glob('./atm/*.atm')
+            # # glob all atm in atm/ into list
+            # atmlist_i = glob.glob('./atm/*.atm')
 
             # first generate specfull spectrum for each atm input
             RS = runsynthe.Synthe(
@@ -327,11 +334,14 @@ class RunPrep(object):
                 f20path='./ff/fort_specfull.20',
                 f93path='./ff/fort_specfull.93',
                 )
-            for ii,atm_i in enumerate(atmlist_i):
+            for ii,atm_i in enumerate(self.atmflist):
                 print(f'---->>> specfull working on {atm_i}',flush=True)
                 # set atm file path
                 RS.setatmpath(atmpath=atm_i)
-                RS.setvrot(-2.02)
+                RS.setvrot(rotvel=self.specinfo[ii]['rotvel'])
+                RS.setres(R=self.specinfo[ii]['R'])
+                RS.setvmac(vmac=self.specinfo[ii]['vmac'])
+
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
 
@@ -395,12 +405,15 @@ class RunPrep(object):
                 )
 
             # Do an inital synthesis for each atm saving resid info
-            for ii,atm_i in enumerate(atmlist_i):
+            for ii,atm_i in enumerate(self.atmflist):
                 starttime = datetime.now()
                 print(f'---->>> working on {atm_i}',flush=True)
                 # set atm file path
                 RS.setatmpath(atmpath=atm_i)
-                RS.setvrot(-2.02)
+                RS.setvrot(rotvel=self.specinfo[ii]['rotvel'])
+                RS.setres(R=self.specinfo[ii]['R'])
+                RS.setvmac(vmac=self.specinfo[ii]['vmac'])
+
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
 
@@ -1005,12 +1018,14 @@ class RunPrep(object):
                 f20path=f'./ff/fort_sl.20',
                 f93path=f'./ff/fort_sl.93',
                 )
-            for ii,atm_i in enumerate(atmlist_i):
+            for ii,atm_i in enumerate(self.atmflist):
                 starttime = datetime.now()
                 print(f'... working on {atm_i}',flush=True)
                 # set atm file path
                 RS.setatmpath(atmpath=atm_i)
-                RS.setvrot(rotvel=-2.02)
+                RS.setvrot(rotvel=self.specinfo[ii]['rotvel'])
+                RS.setres(R=self.specinfo[ii]['R'])
+                RS.setvmac(vmac=self.specinfo[ii]['vmac'])
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
 
