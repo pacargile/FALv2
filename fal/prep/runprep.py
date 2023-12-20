@@ -327,10 +327,10 @@ class RunPrep(object):
                 inputdict['he1tables'] = './data/he1tables.dat'
                 inputdict['spectrv_infile'] = './data/spectrv.input'
 
-                inputdict['atmmod'] = self.specinfo['modatm'][ii]
-                inputdict['rotvel'] = self.specinfo['rotvel'][ii]
-                inputdict['R'] = self.specinfo['R'][ii]
-                inputdict['vmac'] = self.specinfo['vmac'][ii]
+                inputdict['atmmod'] = self.specinfo[ii]['modatm']
+                inputdict['rotvel'] = self.specinfo[ii]['rotvel']
+                inputdict['R'] = self.specinfo[ii]['R']
+                inputdict['vmac'] = self.specinfo[ii]['vmac']
 
                 # first generate specfull spectrum for each atm input
                 RS = runsynthe.Synthe(**inputdict)
