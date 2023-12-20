@@ -515,7 +515,6 @@ class AdjKurucz(object):
             self.RK.f20in['wlvac'][linind] = self.RK.f20in['wlvac'][linind] + dwl
 
             self.RK.f20in['dwl'][linind]   = dwl
-
             
     def adjloggf(self,linind,dloggf,fort=None):
         # construct a dlog(gf) -> 10^dlog(gf) as gf's are stored 
