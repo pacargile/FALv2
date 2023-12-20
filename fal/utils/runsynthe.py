@@ -36,7 +36,7 @@ class Synthe(object):
         # string for rotate
         self.rotatevar = ("{NROT:5d}{NRADIUS:5d}\n{VROT:10.1f}\n")
         self.vrot = kwargs.get('rotvel',0.0)
-
+        self.vmac = kwargs.get('vmac',0.0)
         self.R = kwargs.get('R',0.0)
 
         # initialize readkurucz
@@ -64,6 +64,9 @@ class Synthe(object):
 
     def setres(self,R=0.0):
         self.R = R
+
+    def setvmac(self,vmac=0.0):
+        self.vmac = vmac
 
     def run(self,**kwargs):
         
@@ -108,6 +111,10 @@ class Synthe(object):
         if vrot_i != 0.0:
             self.vrot = vrot_i
 
+        vmac_i = self.kwargs.get('vmac',0.0)
+        if vmac_i != 0.0:
+            self.vmac = vmac_i
+
         R_i = self.kwargs.get('R',0.0)
         if R_i != 0.0:
             self.R = R_i
@@ -132,8 +139,13 @@ class Synthe(object):
         # read in binary output
         outdat = self.RK.readspecbin('./ROT1')
 
+        if self.vmac > 0.0:
+            sflux = self.broadenS(outdat,vstar=self.vmac,verbose_broS=verbose)
+            outdat['qmu1'] = sflux[0]
+            outdat['qmu2'] = sflux[1]
+
         if self.R > 0.0:
-            sflux = self.broaden(outdat,R=self.R,verbose_bro=verbose)
+            sflux = self.broadenR(outdat,R=self.R,verbose_broR=verbose)
             outdat['qmu1'] = sflux[0]
             outdat['qmu2'] = sflux[1]
 
@@ -285,10 +297,18 @@ class Synthe(object):
             endtime_rot = datetime.now()
             print("... Finished rotate [{0}: {1}]".format(endtime_rot,endtime_rot-starttime_rot))
 
-    def broaden(self,inspec,R=1E+5,verbose_bro=False):
+    def broadenS(self,inspec,vmac=1.0,verbose_broS=False):
         if self.verbose:
             starttime_bro = datetime.now()
-            print("Running broadening... [{0}]".format(starttime_bro))
+            print("Running broadening S... [{0}]".format(starttime_bro))
+        nqmu1 = smoothspec(inspec['wave'], inspec['qmu1'], vmac, outwave=inspec['wave'], smoothtype='vsini',fftsmooth=True)
+        nqmu2 = smoothspec(inspec['wave'], inspec['qmu2'], vmac, outwave=inspec['wave'], smoothtype='vsini',fftsmooth=True)
+        return [nqmu1,nqmu2]
+
+    def broadenR(self,inspec,R=1E+5,verbose_broR=False):
+        if self.verbose:
+            starttime_bro = datetime.now()
+            print("Running broadening R... [{0}]".format(starttime_bro))
         lsf = 2.355*R
         nqmu1 = smoothspec(inspec['wave'], inspec['qmu1'], lsf, outwave=inspec['wave'], smoothtype='R',fftsmooth=True)
         nqmu2 = smoothspec(inspec['wave'], inspec['qmu2'], lsf, outwave=inspec['wave'], smoothtype='R',fftsmooth=True)
