@@ -278,7 +278,7 @@ class RunPrep(object):
             f19path=self.masterf19path,
             f20path=self.masterf20path,
             f93path=self.masterf93path)
-        AK.adj93(newdict={'wl':[startwl-50.0,endwl+50.0]})
+        AK.adj93(newdict={'wl':[startwl-5.0,endwl+5.0]})
         AK.wfort(        
             f12path=f'seg_{segnum}/ff/fort_specfull.12',
             f14path=f'seg_{segnum}/ff/fort_specfull.14',
