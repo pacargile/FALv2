@@ -341,7 +341,7 @@ class RunPrep(object):
                 # set atm file path
                 RS.setatmpath(atmpath=atm_i)
                 RS.setvrot(rotvel=self.specinfo[ii]['rotvel'])
-                # RS.setres(R=self.specinfo[ii]['R'])
+                RS.setres(R=self.specinfo[ii]['R'])
                 # RS.setvmac(vmac=self.specinfo[ii]['vmac'])
 
                 # run SYNTHE in seg directory
