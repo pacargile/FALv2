@@ -252,7 +252,7 @@ class RunPrep(object):
 
 
         print(f'... Adj the starting and ending wavelengths: {startwl} - {endwl}')
-        AK.adj93(newdict={'wl':[startwl,endwl]})
+        AK.adj93(newdict={'wl':[startwl-0.05,endwl+0.05]})
 
         print(f'... Total Number of Lines in fort.12 after Ajd: {AK.RK.f93in["nlines"]} ({len(AK.RK.f14in["wl"])})')
         print(f'... Total Number of Lines in fort.19 after Ajd: {AK.RK.f93in["n19"]}  ({len(AK.RK.f20in["wl"])})')
