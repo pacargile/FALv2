@@ -32,12 +32,15 @@ class Synthe(object):
 
         # define spectrv input file
         self.spectrv_infile = self.kwargs.get('spectrv_infile','./data/spectrv.input')
-        
-        # string for rotate
-        self.rotatevar = ("{NROT:5d}{NRADIUS:5d}\n{VROT:10.1f}\n")
+
+        # define broadening and other parameters
         self.vrot = kwargs.get('rotvel',0.0)
         self.vmac = kwargs.get('vmac',0.0)
         self.R = kwargs.get('R',0.0)
+        self.isofrac = kwargs.get('isofrac',None)
+        
+        # string for rotate
+        self.rotatevar = ("{NROT:5d}{NRADIUS:5d}\n{VROT:10.1f}\n")
 
         # initialize readkurucz
         self.RK = readkurucz.ReadKurucz()
@@ -67,6 +70,9 @@ class Synthe(object):
 
     def setvmac(self,vmac=0.0):
         self.vmac = vmac
+
+    def setisofrac(self,isofrac=None):
+        self.isofrac = isofrac
 
     def run(self,**kwargs):
         
@@ -118,6 +124,10 @@ class Synthe(object):
         R_i = self.kwargs.get('R',0.0)
         if R_i != 0.0:
             self.R = R_i
+                
+        isofrac_i = self.kwargs.get('isofrac',None)
+        if isofrac_i != None:
+            self.isofrac = isofrac_i
                 
         verbose = kwargs.get('verbose',self.verbose)
                 
@@ -216,14 +226,29 @@ class Synthe(object):
 
         """
         
-        if self.verbose:
-            starttime_syn = datetime.now()
-            print("Running synthe... [{0}]".format(starttime_syn))
-        self.synout = self._callpro("synthe_fast",verbose=verbose_syn)
-        if self.verbose:
-            endtime_syn = datetime.now()
-            print("... Finished synthe [{0}: {1}]".format(endtime_syn,endtime_syn-starttime_syn))
-                
+        if self.isofrac == None:                
+            if self.verbose:
+                starttime_syn = datetime.now()
+                print("Running synthe... [{0}]".format(starttime_syn))
+            self.synout = self._callpro("synthe_fast",verbose=verbose_syn)
+            if self.verbose:
+                endtime_syn = datetime.now()
+                print("... Finished synthe [{0}: {1}]".format(endtime_syn,endtime_syn-starttime_syn))
+        else:
+            isostr = f"{len(self.isofrac.keys())}\n"
+            for kk in self.isofrac.keys():
+                # format of isofrac {element:[iso1,iso2,isofrac_sun,isofrac_star]}
+                iso1,iso2,isofrac_sun,isofrac_star = self.isofrac[kk]
+                isostr += f"{iso1:d} {iso2:d} {isofrac_sun:.5f} {isofrac_star:.5f}\n"
+
+            if self.verbose:
+                starttime_syn = datetime.now()
+                print("Running synthe with iso fraction... [{0}]".format(starttime_syn))
+            self.synout = self._callpro("synthe_iso",isostr,verbose=verbose_syn)
+            if self.verbose:
+                endtime_syn = datetime.now()
+                print("... Finished synthe with iso fraction [{0}: {1}]".format(endtime_syn,endtime_syn-starttime_syn))
+                    
         return
     
     def spectrv(self,tau=False,verbose_sprv=False):
