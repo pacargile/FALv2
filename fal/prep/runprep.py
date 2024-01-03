@@ -331,6 +331,8 @@ class RunPrep(object):
                 inputdict['rotvel'] = self.specinfo[ii]['rotvel']
                 inputdict['R'] = self.specinfo[ii]['R']
                 # inputdict['vmac'] = self.specinfo[ii]['vmac']
+                if 'isofrac' in self.specinfo[ii].keys():
+                    inputdict['isofrac'] = self.specinfo[ii]['isofrac']
 
                 # first generate specfull spectrum for each atm input
                 RS = runsynthe.Synthe(**inputdict)
@@ -349,8 +351,7 @@ class RunPrep(object):
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
 
-                print(synout_i['qmu1'][:10])
-
+                # print(synout_i['qmu1'][:10])
 
                 # write spectrum to seg_num/data/
                 tmpspec = Table()
@@ -420,6 +421,9 @@ class RunPrep(object):
                 RS.setvrot(rotvel=self.specinfo[ii]['rotvel'])
                 RS.setres(R=self.specinfo[ii]['R'])
                 RS.setvmac(vmac=self.specinfo[ii]['vmac'])
+                if 'isofrac' in self.specinfo[ii].keys():
+                    isofrac = self.specinfo[ii]['isofrac']
+                    RS.setisofrac(isofrac=isofrac)
 
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
@@ -1033,6 +1037,10 @@ class RunPrep(object):
                 RS.setvrot(rotvel=self.specinfo[ii]['rotvel'])
                 RS.setres(R=self.specinfo[ii]['R'])
                 RS.setvmac(vmac=self.specinfo[ii]['vmac'])
+                if 'isofrac' in self.specinfo[ii].keys():
+                    isofrac = self.specinfo[ii]['isofrac']
+                    RS.setisofrac(isofrac=isofrac)
+
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
 
