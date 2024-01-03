@@ -317,12 +317,12 @@ C                 DO THE CORRECTION
             
                   IF(ISO1.EQ.ISOFRACISO1)THEN
                   GFLOGI = GFLOGI+LOG10(1.0+(1.0/ISOFRACSOL))
-1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
+     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
 C                       print *, LOG10(1.0+(1.0/ISOFRACSTAR))
                   ENDIF
                   IF(ISO1.EQ.ISOFRACISO2)THEN
                   GFLOGI = GFLOGI+LOG10(1.0+ISOFRACSOL)
-1                  -LOG10(1.0+ISOFRACSTAR)
+     1                  -LOG10(1.0+ISOFRACSTAR)
 C                       print *, LOG10(1.0+ISOFRACSTAR)
                   ENDIF
 
