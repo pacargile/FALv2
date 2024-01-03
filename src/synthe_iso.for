@@ -165,8 +165,10 @@ C                       print *, LOG10(1.0+ISOFRACSTAR)
                   CONGF=.026538D0/1.77245D0*GF/FREQ
 C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1, ISO2
                   ENDIF
-   3              CONTINUE  
- 3441 WRITE(13)LINDAT8,LINDAT4
+   3              CONTINUE
+            ENDIF  
+ 3441 CONTINUE
+      WRITE(13)LINDAT8,LINDAT4
       ENDIF
  3442 CLOSE(UNIT=20,DISP='DELETE')
       CLOSE(UNIT=14,DISP='DELETE')
@@ -303,7 +305,7 @@ C     ADD LINES TO BUFFER
       READ(14)LINDAT8,LINDAT4
 
       IF(NISOFRAC.GT.0)THEN
-            DO 3 K=1,NISOFRAC
+            DO 4 K=1,NISOFRAC
             ISOFRACISO1 = isoinfo(K,1) 
             ISOFRACISO2 = isoinfo(K,2) 
             ISOFRACSOL  = isoinfo(K,3)  
@@ -331,7 +333,7 @@ C                       print *, LOG10(1.0+ISOFRACSTAR)
             CONGF=.026538D0/1.77245D0*GF/FREQ
 C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1, ISO2
             ENDIF
-3           CONTINUE  
+4           CONTINUE  
       ENDIF
 
 c
