@@ -195,13 +195,13 @@ class Synthe(object):
 
         if self.verbose:
             starttime_xnf = datetime.now()
-            print("Running xnfpelsyn... [{0}]".format(starttime_xnf))
+            print("Running xnfpelsyn... [{0}]".format(starttime_xnf),flush=True)
         self.xnfpelsynout = self._callpro("xnfpelsyn",
                                           inpipe=self.atmmod,
                                           verbose=verbose_xnf)
         if self.verbose:
             endtime_xnf = datetime.now()
-            print("... Finished xnfpelsyn [{0}: {1}]".format(endtime_xnf,endtime_xnf-starttime_xnf))
+            print("... Finished xnfpelsyn [{0}: {1}]".format(endtime_xnf,endtime_xnf-starttime_xnf),flush=True)
         
         return
     
@@ -264,11 +264,11 @@ class Synthe(object):
 
         if self.verbose:
             starttime_syn = datetime.now()
-            print(f"Running {cmdname}... [{starttime_syn}]")
+            print(f"Running {cmdname}... [{starttime_syn}]",flush=True)
         self.synout = self._callpro(cmdname,verbose=False)
         if self.verbose:
             endtime_syn = datetime.now()
-            print("... Finished synthe [{0}: {1}]".format(endtime_syn,endtime_syn-starttime_syn))
+            print("... Finished synthe [{0}: {1}]".format(endtime_syn,endtime_syn-starttime_syn),flush=True)
                     
         return
     
@@ -297,19 +297,19 @@ class Synthe(object):
         if tau:
             if self.verbose:
                 starttime_sprv = datetime.now()
-                print("Running spectrv_tau... [{0}]".format(starttime_sprv))
+                print("Running spectrv_tau... [{0}]".format(starttime_sprv),flush=True)
             self.spectrvout = self._callpro("spectrv_tau",verbose=verbose_sprv)
             if self.verbose:
                 endtime_sprv = datetime.now()
-                print("... Finished spectrv_tau [{0}: {1}]".format(endtime_sprv,endtime_sprv-starttime_sprv))
+                print("... Finished spectrv_tau [{0}: {1}]".format(endtime_sprv,endtime_sprv-starttime_sprv),flush=True)
         else:
             if self.verbose:
                 starttime_sprv = datetime.now()
-                print("Running spectrv... [{0}]".format(starttime_sprv))
+                print("Running spectrv... [{0}]".format(starttime_sprv),flush=True)
             self.spectrvout = self._callpro("spectrv",verbose=verbose_sprv)
             if self.verbose:
                 endtime_sprv = datetime.now()
-                print("... Finished spectrv [{0}: {1}]".format(endtime_sprv,endtime_sprv-starttime_sprv))
+                print("... Finished spectrv [{0}: {1}]".format(endtime_sprv,endtime_sprv-starttime_sprv),flush=True)
 
         return
     
@@ -337,16 +337,16 @@ class Synthe(object):
             self.rotateout = self._callpro("rotate",rotatestr,verbose=verbose_rot)
         else:
             if self.verbose:
-                print('... No rotation, just copying output file')
+                print('... No rotation, just copying output file',flush=True)
             self._makesym('fort.1','ROT1')        
         if self.verbose:
             endtime_rot = datetime.now()
-            print("... Finished rotate [{0}: {1}]".format(endtime_rot,endtime_rot-starttime_rot))
+            print("... Finished rotate [{0}: {1}]".format(endtime_rot,endtime_rot-starttime_rot),flush=True)
 
     def broadenS(self,inspec,vmac=1.0,verbose_broS=False):
         if self.verbose:
             starttime_bro = datetime.now()
-            print("Running broadening S... [{0}]".format(starttime_bro))
+            print("Running broadening S... [{0}]".format(starttime_bro),flush=True)
         nqmu1 = smoothspec(inspec['wave'], inspec['qmu1'], vmac, outwave=inspec['wave'], smoothtype='vsini',fftsmooth=True)
         nqmu2 = smoothspec(inspec['wave'], inspec['qmu2'], vmac, outwave=inspec['wave'], smoothtype='vsini',fftsmooth=True)
         return [nqmu1,nqmu2]
@@ -354,7 +354,7 @@ class Synthe(object):
     def broadenR(self,inspec,R=1E+5,verbose_broR=False):
         if self.verbose:
             starttime_bro = datetime.now()
-            print("Running broadening R... [{0}]".format(starttime_bro))
+            print("Running broadening R... [{0}]".format(starttime_bro),flush=True)
         lsf = 2.355*R
         nqmu1 = smoothspec(inspec['wave'], inspec['qmu1'], lsf, outwave=inspec['wave'], smoothtype='R',fftsmooth=True)
         nqmu2 = smoothspec(inspec['wave'], inspec['qmu2'], lsf, outwave=inspec['wave'], smoothtype='R',fftsmooth=True)
