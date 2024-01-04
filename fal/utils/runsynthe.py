@@ -264,8 +264,8 @@ class Synthe(object):
 
         if self.verbose:
             starttime_syn = datetime.now()
-            print(f"Running synthe (iso: {isobool})... [{starttime_syn}]")
-        self.synout = self._callpro("synthe_fast",verbose=verbose_syn)
+            print(f"Running {cmdname}... [{starttime_syn}]")
+        self.synout = self._callpro(cmdname,verbose=False)
         if self.verbose:
             endtime_syn = datetime.now()
             print("... Finished synthe [{0}: {1}]".format(endtime_syn,endtime_syn-starttime_syn))
