@@ -39,6 +39,9 @@ class Synthe(object):
         self.R = kwargs.get('R',0.0)
         self.isofrac = kwargs.get('isofrac',None)
         
+        # define atm model
+        self.atmmod = kwargs.get('atmmod',None)
+        
         # string for rotate
         self.rotatevar = ("{NROT:5d}{NRADIUS:5d}\n{VROT:10.1f}\n")
 
