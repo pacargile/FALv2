@@ -320,7 +320,7 @@ class RunPrep(object):
 
             for ii,atm_i in enumerate(self.atmflist):
                 inputdict = {}
-                inputdict['verbose']   = False
+                inputdict['verbose']   = True
                 inputdict['exedir']    = './bin/'
                 inputdict['molecules'] = './data/molecules.dat'
                 inputdict['continuua'] = './data/continuua.dat'
