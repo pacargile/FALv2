@@ -155,7 +155,7 @@ class Synthe(object):
 
         # run synthe
         self.xnfpelsyn(verbose_xnf=verbose)
-        self.synthe(verbose_syn=verbose)
+        self.synthe(verbose_syn=True)
         self.spectrv(verbose_sprv=verbose)
         self.rotate(vrot=self.vrot,verbose_rot=verbose)
 
