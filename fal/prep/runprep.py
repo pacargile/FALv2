@@ -331,8 +331,8 @@ class RunPrep(object):
                 inputdict['rotvel'] = self.specinfo[ii]['rotvel']
                 inputdict['R'] = self.specinfo[ii]['R']
                 # inputdict['vmac'] = self.specinfo[ii]['vmac']
-                if 'isofrac' in self.specinfo[ii].keys():
-                    inputdict['isofrac'] = self.specinfo[ii]['isofrac']
+                # if 'isofrac' in self.specinfo[ii].keys():
+                #     inputdict['isofrac'] = self.specinfo[ii]['isofrac']
 
                 inputdict['synspeed'] = 'slow'
 
