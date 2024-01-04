@@ -52,6 +52,9 @@ class Synthe(object):
         self.f20path = None
         self.f93path = None
         
+        # define synthe run speed
+        self.synspeed = kwargs.get('synspeed','slow')
+        
     def setfpaths(self,**kwargs):
         self.f12path=kwargs.get('f12path',None)
         self.f14path=kwargs.get('f14path',None)
@@ -73,6 +76,9 @@ class Synthe(object):
 
     def setisofrac(self,isofrac=None):
         self.isofrac = isofrac
+
+    def setsynspeed(self,synspeed='slow'):
+        self.synspeed = synspeed
 
     def run(self,**kwargs):
         
@@ -103,7 +109,7 @@ class Synthe(object):
             print('Must define path to input fort files')
             raise IOError
         
-        atmmod_i = self.kwargs.get('atmmod',None)
+        atmmod_i = kwargs.get('atmmod',None)
         if atmmod_i != None:
             self.atmmod = atmmod_i
         
@@ -113,22 +119,26 @@ class Synthe(object):
             print('Must define atm file')
             raise IOError
 
-        vrot_i = self.kwargs.get('rotvel',0.0)
+        vrot_i = kwargs.get('rotvel',0.0)
         if vrot_i != 0.0:
             self.vrot = vrot_i
 
-        vmac_i = self.kwargs.get('vmac',0.0)
+        vmac_i = kwargs.get('vmac',0.0)
         if vmac_i != 0.0:
             self.vmac = vmac_i
 
-        R_i = self.kwargs.get('R',0.0)
+        R_i = kwargs.get('R',0.0)
         if R_i != 0.0:
             self.R = R_i
                 
-        isofrac_i = self.kwargs.get('isofrac',None)
+        isofrac_i = kwargs.get('isofrac',None)
         if isofrac_i != None:
             self.isofrac = isofrac_i
-                
+            
+        synspeed_i = kwargs.get('synspeed','slow')
+        if self.synspeed != synspeed_i:
+            self.synspeed = synspeed_i
+        
         verbose = kwargs.get('verbose',self.verbose)
                 
         # reset the directory to make sure files are in place
@@ -226,28 +236,36 @@ class Synthe(object):
 
         """
         
-        if self.isofrac == None:                
-            if self.verbose:
-                starttime_syn = datetime.now()
-                print("Running synthe... [{0}]".format(starttime_syn))
-            self.synout = self._callpro("synthe_fast",verbose=verbose_syn)
-            if self.verbose:
-                endtime_syn = datetime.now()
-                print("... Finished synthe [{0}: {1}]".format(endtime_syn,endtime_syn-starttime_syn))
+        if self.isofrac == None:
+            isobool = False
+    
         else:
+            isobool = True
             isostr = f"{len(self.isofrac.keys())}\n"
             for kk in self.isofrac.keys():
                 # format of isofrac {element:[iso1,iso2,isofrac_sun,isofrac_star]}
                 iso1,iso2,isofrac_sun,isofrac_star = self.isofrac[kk]
-                isostr += f"{iso1:d} {iso2:d} {isofrac_sun:.5f} {isofrac_star:.5f}\n"
+                isostr += f"{iso1:d} {iso2:d} {isofrac_sun:.5f} {isofrac_star:.5f}\n" 
 
-            if self.verbose:
-                starttime_syn = datetime.now()
-                print("Running synthe with iso fraction... [{0}]".format(starttime_syn))
-            self.synout = self._callpro("synthe_iso",isostr,verbose=verbose_syn)
-            if self.verbose:
-                endtime_syn = datetime.now()
-                print("... Finished synthe with iso fraction [{0}: {1}]".format(endtime_syn,endtime_syn-starttime_syn))
+        if self.synspeed == 'slow':
+            if isobool:
+                cmdname = 'synthe_iso'
+            else:
+                cmdname = 'synthe'
+        else:
+            if isobool:
+                cmdname = 'synthe_fast_iso'
+            else:
+                cmdname = 'synthe_fast'
+            
+
+        if self.verbose:
+            starttime_syn = datetime.now()
+            print(f"Running synthe (iso: {isobool})... [{starttime_syn}]")
+        self.synout = self._callpro("synthe_fast",verbose=verbose_syn)
+        if self.verbose:
+            endtime_syn = datetime.now()
+            print("... Finished synthe [{0}: {1}]".format(endtime_syn,endtime_syn-starttime_syn))
                     
         return
     

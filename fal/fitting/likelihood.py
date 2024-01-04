@@ -134,6 +134,7 @@ class Like(object):
             inputdict['rotvel'] = self.specinfo['rotvel'][ii]
             inputdict['R'] = self.specinfo['R'][ii]
             inputdict['vmac'] = self.specinfo['vmac'][ii]
+            inputdict['synspeed'] = 'fast'
 
             # init the class            
             RS_i = Synthe(**inputdict)

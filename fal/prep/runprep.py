@@ -320,7 +320,7 @@ class RunPrep(object):
 
             for ii,atm_i in enumerate(self.atmflist):
                 inputdict = {}
-                inputdict['verbose']   = True
+                inputdict['verbose']   = False
                 inputdict['exedir']    = './bin/'
                 inputdict['molecules'] = './data/molecules.dat'
                 inputdict['continuua'] = './data/continuua.dat'
@@ -333,6 +333,8 @@ class RunPrep(object):
                 # inputdict['vmac'] = self.specinfo[ii]['vmac']
                 if 'isofrac' in self.specinfo[ii].keys():
                     inputdict['isofrac'] = self.specinfo[ii]['isofrac']
+
+                inputdict['synspeed'] = 'slow'
 
                 # first generate specfull spectrum for each atm input
                 RS = runsynthe.Synthe(**inputdict)
@@ -402,6 +404,7 @@ class RunPrep(object):
                 he1tables='./data/he1tables.dat',
                 spectrv_infile='./data/spectrv.input',                
                 verbose=False,
+                synspeed='fast',
                 )
 
             RS.setfpaths(
@@ -1021,6 +1024,7 @@ class RunPrep(object):
                 he1tables='./data/he1tables.dat',
                 spectrv_infile='./data/spectrv.input',                
                 verbose=False,
+                synspeed='fast',
                 )
             RS.setfpaths(
                 f12path=f'./ff/fort_sl.12',
