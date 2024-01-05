@@ -337,7 +337,7 @@ class Synthe(object):
             print("Running rotate... [{0}]".format(starttime_rot))
         if np.abs(vrot) > 0.0:
             rotatestr = self.rotatevar.format(NROT=1,NRADIUS=0,VROT=vrot)
-            self.rotateout = self._callpro("rotate",rotatestr,verbose=verbose_rot)
+            self.rotateout = self._callpro("rotate",rotatestr,verbose=False)#verbose_rot)
         else:
             if self.verbose:
                 print('... No rotation, just copying output file',flush=True)
