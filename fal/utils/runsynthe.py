@@ -139,7 +139,7 @@ class Synthe(object):
             self.isofrac = isofrac_i
             
         synspeed_i = kwargs.get('synspeed',None)
-        if self.synspeed != None:
+        if synspeed_i != None:
             self.synspeed = synspeed_i
 
         if self.synspeed == None:
