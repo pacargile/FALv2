@@ -57,6 +57,8 @@ class Synthe(object):
         
         # define synthe run speed
         self.synspeed = self.kwargs.get('synspeed','slow')
+
+        print(f'________ SYNSPEED 1________ {self.synspeed}')
         
     def setfpaths(self,**kwargs):
         self.f12path=kwargs.get('f12path',None)
@@ -139,11 +141,11 @@ class Synthe(object):
             self.isofrac = isofrac_i
             
         synspeed_i = kwargs.get('synspeed','slow')
+        print(f'________ SYNSPEED_i ________ {synspeed_i}')
         if self.synspeed != synspeed_i:
             self.synspeed = synspeed_i
 
-        print(f'________ SYNSPEED ________ {self.synspeed}')
-        print(f'________ SYNSPEED_i ________ {synspeed_i}')
+        print(f'________ SYNSPEED 2________ {self.synspeed}')
         
         verbose = kwargs.get('verbose',self.verbose)
                 
