@@ -320,7 +320,7 @@ class RunPrep(object):
 
             for ii,atm_i in enumerate(self.atmflist):
                 inputdict = {}
-                inputdict['verbose']   = False
+                inputdict['verbose']   = True
                 inputdict['exedir']    = './bin/'
                 inputdict['molecules'] = './data/molecules.dat'
                 inputdict['continuua'] = './data/continuua.dat'
@@ -403,7 +403,7 @@ class RunPrep(object):
                 continuua='./data/continuua.dat',
                 he1tables='./data/he1tables.dat',
                 spectrv_infile='./data/spectrv.input',                
-                verbose=False,
+                verbose=True,
                 synspeed='fast',
                 )
 
@@ -418,7 +418,7 @@ class RunPrep(object):
             # Do an inital synthesis for each atm saving resid info
             for ii,atm_i in enumerate(self.atmflist):
                 starttime = datetime.now()
-                print(f'---->>> working on {atm_i}',flush=True)
+                print(f'---->>> Finding lines using {atm_i}',flush=True)
                 # set atm file path
                 RS.setatmpath(atmpath=atm_i)
                 RS.setvrot(rotvel=self.specinfo[ii]['rotvel'])
@@ -1023,7 +1023,7 @@ class RunPrep(object):
                 continuua='./data/continuua.dat',
                 he1tables='./data/he1tables.dat',
                 spectrv_infile='./data/spectrv.input',                
-                verbose=False,
+                verbose=True,
                 synspeed='fast',
                 )
             RS.setfpaths(
