@@ -143,6 +143,8 @@ C
                   ISOFRACSOL  = isoinfo(J,3)  
                   ISOFRACSTAR = isoinfo(J,4) 
 
+C                 FOR ATOM
+                  IF(CODE.LT.100.0)THEN
                   IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
 C                 DO THE CORRECTION
                         FREQ=2.99792458D17/WL
@@ -160,11 +162,65 @@ C                       print *, LOG10(1.0+(1.0/ISOFRACSTAR))
 C                       print *, LOG10(1.0+ISOFRACSTAR)
                         ENDIF
 
-                  GF = 10.0**(GFLOGI)
-                  GFLOG = GFLOGI
-                  CONGF=.026538D0/1.77245D0*GF/FREQ
-C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1, ISO2
+                        GF = 10.0**(GFLOGI)
+                        GFLOG = GFLOGI
+                        CONGF=.026538D0/1.77245D0*GF/FREQ
+C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
                   ENDIF
+                  ENDIF
+
+C                 FOR MOLE
+                  IF(CODE.GT.100.0)THEN
+C                 CHECK TO SEE IF C2 WITH 12C AND 13C
+                  IF(CODE.EQ.606.0.AND.ISO1.NE.ISO2)GO TO 1606
+C
+                  IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
+C                 DO THE CORRECTION
+                        FREQ=2.99792458D17/WL
+                        GF = CONGF*FREQ*1.77245D0/.026538D0
+                        GFLOGI = LOG10(GF)
+                  
+                        IF(ISO1.EQ.ISOFRACISO1)THEN
+                        GFLOGI = GFLOGI+LOG10(1.0+(1.0/ISOFRACSOL))
+     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
+C                       print *, LOG10(1.0+(1.0/ISOFRACSTAR))
+                        ENDIF
+                        IF(ISO1.EQ.ISOFRACISO2)THEN
+                        GFLOGI = GFLOGI+LOG10(1.0+ISOFRACSOL)
+     1                  -LOG10(1.0+ISOFRACSTAR)
+C                       print *, LOG10(1.0+ISOFRACSTAR)
+                        ENDIF
+
+                        GF = 10.0**(GFLOGI)
+                        GFLOG = GFLOGI
+                        CONGF=.026538D0/1.77245D0*GF/FREQ
+C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
+                  ENDIF
+                  
+                  IF(ISO2.EQ.ISOFRACISO1.OR.ISO2.EQ.ISOFRACISO2)THEN
+C                 DO THE CORRECTION
+                        FREQ=2.99792458D17/WL
+                        GF = CONGF*FREQ*1.77245D0/.026538D0
+                        GFLOGI = LOG10(GF)
+                  
+                        IF(ISO2.EQ.ISOFRACISO1)THEN
+                        GFLOGI = GFLOGI+LOG10(1.0+(1.0/ISOFRACSOL))
+     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
+C                       print *, LOG10(1.0+(1.0/ISOFRACSTAR))
+                        ENDIF
+                        IF(ISO2.EQ.ISOFRACISO2)THEN
+                        GFLOGI = GFLOGI+LOG10(1.0+ISOFRACSOL)
+     1                  -LOG10(1.0+ISOFRACSTAR)
+C                       print *, LOG10(1.0+ISOFRACSTAR)
+                        ENDIF
+
+                        GF = 10.0**(GFLOGI)
+                        GFLOG = GFLOGI
+                        CONGF=.026538D0/1.77245D0*GF/FREQ
+C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
+                  ENDIF                        
+ 1606             ENDIF
+
    3              CONTINUE
             ENDIF  
  3441 WRITE(13)LINDAT8,LINDAT4
@@ -311,28 +367,83 @@ C     ADD LINES TO BUFFER
             ISOFRACSOL  = isoinfo(K,3)  
             ISOFRACSTAR = isoinfo(K,4) 
 
+C           FOR ATOM
+            IF(CODE.LT.100.0)THEN
             IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
 C                 DO THE CORRECTION
+                  FREQ=2.99792458D17/WL
+                  GF = CONGF*FREQ*1.77245D0/.026538D0
+                  GFLOGI = LOG10(GF)
+                  
+                  IF(ISO1.EQ.ISOFRACISO1)THEN
+                  GFLOGI = GFLOGI+LOG10(1.0+(1.0/ISOFRACSOL))
+     1            -LOG10(1.0+(1.0/ISOFRACSTAR))
+C                 print *, LOG10(1.0+(1.0/ISOFRACSTAR))
+                  ENDIF
+                  IF(ISO1.EQ.ISOFRACISO2)THEN
+                  GFLOGI = GFLOGI+LOG10(1.0+ISOFRACSOL)
+     1            -LOG10(1.0+ISOFRACSTAR)
+C                  print *, LOG10(1.0+ISOFRACSTAR)
+                  ENDIF
+
+                  GF = 10.0**(GFLOGI)
+                  GFLOG = GFLOGI
+                  CONGF=.026538D0/1.77245D0*GF/FREQ
+C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
+            ENDIF
+            ENDIF
+
+C           FOR MOLE
+            IF(CODE.GT.100.0)THEN
+C           CHECK TO SEE IF C2 WITH 12C AND 13C
+            IF(CODE.EQ.606.0.AND.ISO1.NE.ISO2)GO TO 2606
+C
+            IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
+C           DO THE CORRECTION
                   FREQ=2.99792458D17/WL
                   GF = CONGF*FREQ*1.77245D0/.026538D0
                   GFLOGI = LOG10(GF)
             
                   IF(ISO1.EQ.ISOFRACISO1)THEN
                   GFLOGI = GFLOGI+LOG10(1.0+(1.0/ISOFRACSOL))
-     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
-C                       print *, LOG10(1.0+(1.0/ISOFRACSTAR))
+     1            -LOG10(1.0+(1.0/ISOFRACSTAR))
+C                 print *, LOG10(1.0+(1.0/ISOFRACSTAR))
                   ENDIF
                   IF(ISO1.EQ.ISOFRACISO2)THEN
                   GFLOGI = GFLOGI+LOG10(1.0+ISOFRACSOL)
-     1                  -LOG10(1.0+ISOFRACSTAR)
-C                       print *, LOG10(1.0+ISOFRACSTAR)
+     1            -LOG10(1.0+ISOFRACSTAR)
+C                 print *, LOG10(1.0+ISOFRACSTAR)
                   ENDIF
 
-            GF = 10.0**(GFLOGI)
-            GFLOG = GFLOGI
-            CONGF=.026538D0/1.77245D0*GF/FREQ
-C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1, ISO2
+                  GF = 10.0**(GFLOGI)
+                  GFLOG = GFLOGI
+                  CONGF=.026538D0/1.77245D0*GF/FREQ
+C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
             ENDIF
+                  
+            IF(ISO2.EQ.ISOFRACISO1.OR.ISO2.EQ.ISOFRACISO2)THEN
+C           DO THE CORRECTION
+                  FREQ=2.99792458D17/WL
+                  GF = CONGF*FREQ*1.77245D0/.026538D0
+                  GFLOGI = LOG10(GF)
+            
+                  IF(ISO2.EQ.ISOFRACISO1)THEN
+                  GFLOGI = GFLOGI+LOG10(1.0+(1.0/ISOFRACSOL))
+     1            -LOG10(1.0+(1.0/ISOFRACSTAR))
+C                 print *, LOG10(1.0+(1.0/ISOFRACSTAR))
+                  ENDIF
+                  IF(ISO2.EQ.ISOFRACISO2)THEN
+                  GFLOGI = GFLOGI+LOG10(1.0+ISOFRACSOL)
+     1            -LOG10(1.0+ISOFRACSTAR)
+C                 print *, LOG10(1.0+ISOFRACSTAR)
+                  ENDIF
+
+                  GF = 10.0**(GFLOGI)
+                  GFLOG = GFLOGI
+                  CONGF=.026538D0/1.77245D0*GF/FREQ
+C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
+            ENDIF                        
+ 2606       ENDIF
 4           CONTINUE  
       ENDIF
 
