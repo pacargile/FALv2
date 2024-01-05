@@ -250,6 +250,8 @@ class Synthe(object):
                 iso1,iso2,isofrac_sun,isofrac_star = self.isofrac[kk]
                 isostr += f"{iso1:d} {iso2:d} {isofrac_sun:.5f} {isofrac_star:.5f}\n" 
 
+        print(f'________ SYNSPEED ________ {self.synspeed}')
+
         if self.synspeed == 'slow':
             if isobool:
                 cmdname = 'synthe_iso'
@@ -265,7 +267,7 @@ class Synthe(object):
         if self.verbose:
             starttime_syn = datetime.now()
             print(f"Running {cmdname}... [{starttime_syn}]",flush=True)
-        self.synout = self._callpro(cmdname,verbose=False)
+        self.synout = self._callpro(cmdname,verbose=verbose_syn)
         if self.verbose:
             endtime_syn = datetime.now()
             print("... Finished synthe [{0}: {1}]".format(endtime_syn,endtime_syn-starttime_syn),flush=True)

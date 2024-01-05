@@ -320,7 +320,7 @@ class RunPrep(object):
 
             for ii,atm_i in enumerate(self.atmflist):
                 inputdict = {}
-                inputdict['verbose']   = True
+                inputdict['verbose']   = False
                 inputdict['exedir']    = './bin/'
                 inputdict['molecules'] = './data/molecules.dat'
                 inputdict['continuua'] = './data/continuua.dat'
@@ -329,7 +329,7 @@ class RunPrep(object):
 
                 inputdict['atmmod'] = self.specinfo[ii]['modatm']
                 inputdict['rotvel'] = self.specinfo[ii]['rotvel']
-                inputdict['R'] = self.specinfo[ii]['R']
+                inputdict['R']      = self.specinfo[ii]['R']
                 # inputdict['vmac'] = self.specinfo[ii]['vmac']
                 # if 'isofrac' in self.specinfo[ii].keys():
                 #     inputdict['isofrac'] = self.specinfo[ii]['isofrac']
@@ -397,15 +397,16 @@ class RunPrep(object):
             # set up initial SYNTHE runs for different atm files.
             # This is to determine which lines need to be included
             # as fit parameters.
-            RS = runsynthe.Synthe(
-                exedir='./bin/',
-                molecules='./data/molecules.dat',
-                continuua='./data/continuua.dat',
-                he1tables='./data/he1tables.dat',
-                spectrv_infile='./data/spectrv.input',                
-                verbose=True,
-                synspeed='fast',
-                )
+            inputdict = {}
+            inputdict['exedir']    = './bin/'
+            inputdict['molecules'] = './data/molecules.dat'
+            inputdict['continuua'] = './data/continuua.dat'
+            inputdict['he1tables'] = './data/he1tables.dat'
+            inputdict['spectrv_infile'] = './data/spectrv.input'
+            inputdict['verbose'] = True
+            inputdict['synspeed'] = 'fast'
+
+            RS = runsynthe.Synthe(**inputdict)
 
             RS.setfpaths(
                 f12path='./ff/fort.12',
