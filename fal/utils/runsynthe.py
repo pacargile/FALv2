@@ -34,13 +34,13 @@ class Synthe(object):
         self.spectrv_infile = self.kwargs.get('spectrv_infile','./data/spectrv.input')
 
         # define broadening and other parameters
-        self.vrot = kwargs.get('rotvel',0.0)
-        self.vmac = kwargs.get('vmac',0.0)
-        self.R = kwargs.get('R',0.0)
-        self.isofrac = kwargs.get('isofrac',None)
+        self.vrot = self.kwargs.get('rotvel',0.0)
+        self.vmac = self.kwargs.get('vmac',0.0)
+        self.R = self.kwargs.get('R',0.0)
+        self.isofrac = self.kwargs.get('isofrac',None)
         
         # define atm model
-        self.atmmod = kwargs.get('atmmod',None)
+        self.atmmod = self.kwargs.get('atmmod',None)
         
         # string for rotate
         self.rotatevar = ("{NROT:5d}{NRADIUS:5d}\n{VROT:10.1f}\n")
@@ -49,14 +49,14 @@ class Synthe(object):
         self.RK = readkurucz.ReadKurucz()
 
         # initialize pointers for f-paths
-        self.f12path = None
-        self.f14path = None
-        self.f19path = None
-        self.f20path = None
-        self.f93path = None
+        self.f12path = self.kwargs.get('f12path',None)
+        self.f14path = self.kwargs.get('f14path',None)
+        self.f19path = self.kwargs.get('f19path',None)
+        self.f20path = self.kwargs.get('f20path',None)
+        self.f93path = self.kwargs.get('f93path',None)
         
         # define synthe run speed
-        self.synspeed = kwargs.get('synspeed','slow')
+        self.synspeed = self.kwargs.get('synspeed','slow')
         
     def setfpaths(self,**kwargs):
         self.f12path=kwargs.get('f12path',None)
@@ -141,6 +141,9 @@ class Synthe(object):
         synspeed_i = kwargs.get('synspeed','slow')
         if self.synspeed != synspeed_i:
             self.synspeed = synspeed_i
+
+        print(f'________ SYNSPEED ________ {self.synspeed}')
+        print(f'________ SYNSPEED_i ________ {synspeed_i}')
         
         verbose = kwargs.get('verbose',self.verbose)
                 
@@ -249,8 +252,6 @@ class Synthe(object):
                 # format of isofrac {element:[iso1,iso2,isofrac_sun,isofrac_star]}
                 iso1,iso2,isofrac_sun,isofrac_star = self.isofrac[kk]
                 isostr += f"{iso1:d} {iso2:d} {isofrac_sun:.5f} {isofrac_star:.5f}\n" 
-
-        print(f'________ SYNSPEED ________ {self.synspeed}')
 
         if self.synspeed == 'slow':
             if isobool:
