@@ -144,7 +144,7 @@ class Synthe(object):
 
         if self.synspeed == None:
             self.synspeed = 'slow'
-        
+
         verbose = kwargs.get('verbose',self.verbose)
                 
         # reset the directory to make sure files are in place
@@ -201,7 +201,7 @@ class Synthe(object):
             print("Running xnfpelsyn... [{0}]".format(starttime_xnf),flush=True)
         self.xnfpelsynout = self._callpro("xnfpelsyn",
                                           inpipe=self.atmmod,
-                                          verbose=verbose_xnf)
+                                          verbose=False)#verbose_xnf)
         if self.verbose:
             endtime_xnf = datetime.now()
             print("... Finished xnfpelsyn [{0}: {1}]".format(endtime_xnf,endtime_xnf-starttime_xnf),flush=True)
@@ -268,7 +268,7 @@ class Synthe(object):
         if self.verbose:
             starttime_syn = datetime.now()
             print(f"Running {cmdname}... [{starttime_syn}]",flush=True)
-        self.synout = self._callpro(cmdname,verbose=verbose_syn)
+        self.synout = self._callpro(cmdname,verbose=False)#verbose_syn)
         if self.verbose:
             endtime_syn = datetime.now()
             print("... Finished synthe [{0}: {1}]".format(endtime_syn,endtime_syn-starttime_syn),flush=True)
@@ -301,7 +301,7 @@ class Synthe(object):
             if self.verbose:
                 starttime_sprv = datetime.now()
                 print("Running spectrv_tau... [{0}]".format(starttime_sprv),flush=True)
-            self.spectrvout = self._callpro("spectrv_tau",verbose=verbose_sprv)
+            self.spectrvout = self._callpro("spectrv_tau",verbose=False)#verbose_sprv)
             if self.verbose:
                 endtime_sprv = datetime.now()
                 print("... Finished spectrv_tau [{0}: {1}]".format(endtime_sprv,endtime_sprv-starttime_sprv),flush=True)
@@ -309,7 +309,7 @@ class Synthe(object):
             if self.verbose:
                 starttime_sprv = datetime.now()
                 print("Running spectrv... [{0}]".format(starttime_sprv),flush=True)
-            self.spectrvout = self._callpro("spectrv",verbose=verbose_sprv)
+            self.spectrvout = self._callpro("spectrv",verbose=False)#verbose_sprv)
             if self.verbose:
                 endtime_sprv = datetime.now()
                 print("... Finished spectrv [{0}: {1}]".format(endtime_sprv,endtime_sprv-starttime_sprv),flush=True)
