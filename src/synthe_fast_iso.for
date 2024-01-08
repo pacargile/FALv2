@@ -373,16 +373,16 @@ C           FOR ATOM
 C                 DO THE CORRECTION
                   FREQ=2.99792458D17/WL
                   GF = CONGF*FREQ*1.77245D0/.026538D0
-                  GFLOGI = DLOG10(GF)
+                  GFLOGI = LOG10(GF)
                   
                   IF(ISO1.EQ.ISOFRACISO1)THEN
-                  GFLOGI = GFLOGI+DLOG10(1.0+(1.0/ISOFRACSOL))
-     1            -DLOG10(1.0+(1.0/ISOFRACSTAR))
+                  GFLOGI = GFLOGI+LOG10(1.0+(1.0/ISOFRACSOL))
+     1            -LOG10(1.0+(1.0/ISOFRACSTAR))
 C                 print *, LOG10(1.0+(1.0/ISOFRACSTAR))
                   ENDIF
                   IF(ISO1.EQ.ISOFRACISO2)THEN
-                  GFLOGI = GFLOGI+DLOG10(1.0+ISOFRACSOL)
-     1            -DLOG10(1.0+ISOFRACSTAR)
+                  GFLOGI = GFLOGI+LOG10(1.0+ISOFRACSOL)
+     1            -LOG10(1.0+ISOFRACSTAR)
 C                  print *, LOG10(1.0+ISOFRACSTAR)
                   ENDIF
 
