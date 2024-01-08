@@ -497,7 +497,8 @@ class RunPrep(object):
 
                         for kk in ['wl','code','loggf','gammar','gammas','gammaw','nelion','e','ep','nblo','nbup','iso1','iso2','x1','x2','xj','xjp']:
                             print(kk,'\n',synout_i[kk][cond1_mol_2],flush=True)
-                        print(f'CORR: {corr1}',flush=True)
+                        print(f'CORR1: {corr1}',flush=True)
+                        print(f'CORR2: {corr2}',flush=True)
 
 
                 # # write spectrum to seg_num/data/
