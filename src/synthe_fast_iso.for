@@ -100,12 +100,12 @@ C
                   isoinfo(2,I) = ISOFRACISO2
                   isoinfo(3,I) = ISOFRACSOL
                   isoinfo(4,I) = ISOFRACSTAR
-                  WRITE(6,*)ISOFRACISO1, ISOFRACISO2, ISOFRACSOL, ISOFRACSTAR
+C                  WRITE(6,*)ISOFRACISO1, ISOFRACISO2, ISOFRACSOL, ISOFRACSTAR
    2        CONTINUE 
       ENDIF
 
-      WRITE(6,*) 'ISOINFO'
-      WRITE(6,*) isoinfo
+C      WRITE(6,*) 'ISOINFO'
+C      WRITE(6,*) isoinfo
 
       READ(93)NLINES,LENGTH,IFVAC,IFNLTE,N19,TURBV,DECKJ,IFPRED,
      1WLBEG,WLEND,RESOLU,RATIO,RATIOLG,CUTOFF,LINOUT
@@ -143,10 +143,10 @@ C
             READ(14)LINDAT8,LINDAT4
             IF(NISOFRAC.GT.0)THEN
                   DO 3 J=1,NISOFRAC
-                  ISOFRACISO1 = isoinfo(J,1) 
-                  ISOFRACISO2 = isoinfo(J,2) 
-                  ISOFRACSOL  = isoinfo(J,3)  
-                  ISOFRACSTAR = isoinfo(J,4) 
+                  ISOFRACISO1 = isoinfo(1,J) 
+                  ISOFRACISO2 = isoinfo(2,J) 
+                  ISOFRACSOL  = isoinfo(3,J)  
+                  ISOFRACSTAR = isoinfo(4,J) 
 
                   CORR1 = DLOG10(1.0+(1.0/ISOFRACSOL))
      1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
@@ -184,9 +184,9 @@ C                 FOR MOLE
 C                 CHECK TO SEE IF C2 WITH 12C AND 13C
                   IF(CODE.EQ.606.0.AND.ISO1.NE.ISO2)GO TO 1606
 C
-C                  WRITE(6,*)'ISOFRAC',ISOFRACSOL,ISOFRACSTAR
-C                  WRITE(6,*)'FAST CORR1',CORR1
-C                  WRITE(6,*)'FAST CORR2',CORR2
+                  WRITE(6,*)'ISOFRAC',ISOFRACSOL,ISOFRACSTAR
+                  WRITE(6,*)'FAST CORR1',CORR1
+                  WRITE(6,*)'FAST CORR2',CORR2
                   IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
 C                 DO THE CORRECTION
                         FREQ=2.99792458D17/WL
