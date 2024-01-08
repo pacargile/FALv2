@@ -432,10 +432,6 @@ class RunPrep(object):
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
 
-                prtcond = synout_i['wl'] == 517.0657
-
-                for kk in ['wl','code','loggf','gammar','gammas','gammaw','nelion','e','ep','nblo','nbup','iso1','iso2','x1','x2','xj','xjp']:
-                    print(kk,'\n',synout_i[kk][prtcond],flush=True)
 
                 # correct the log(gf)'s back to the pre-isofrac value to match with line lists
                 if 'isofrac' in self.specinfo[ii].keys():
@@ -496,6 +492,9 @@ class RunPrep(object):
                         synout_i['loggf'][cond2_mol_1] = synout_i['loggf'][cond2_mol_1] - corr2
                         synout_i['loggf'][cond1_mol_2] = synout_i['loggf'][cond1_mol_2] - corr1
                         synout_i['loggf'][cond2_mol_2] = synout_i['loggf'][cond2_mol_2] - corr2
+
+                        for kk in ['wl','code','loggf','gammar','gammas','gammaw','nelion','e','ep','nblo','nbup','iso1','iso2','x1','x2','xj','xjp']:
+                            print(kk,'\n',synout_i[kk][cond1_mol_2],flush=True)
 
 
 
