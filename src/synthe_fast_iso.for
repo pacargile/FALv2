@@ -96,10 +96,11 @@ C
       IF(NISOFRAC.GT.0)THEN
             DO 2 I=1,NISOFRAC
                   READ(5,*)ISOFRACISO1, ISOFRACISO2, ISOFRACSOL, ISOFRACSTAR
-                  isoinfo(I,1) = ISOFRACISO1
-                  isoinfo(I,2) = ISOFRACISO2
-                  isoinfo(I,3) = ISOFRACSOL
-                  isoinfo(I,4) = ISOFRACSTAR
+                  isoinfo(1,I) = ISOFRACISO1
+                  isoinfo(2,I) = ISOFRACISO2
+                  isoinfo(3,I) = ISOFRACSOL
+                  isoinfo(4,I) = ISOFRACSTAR
+                  WRITE(6,*)ISOFRACISO1, ISOFRACISO2, ISOFRACSOL, ISOFRACSTAR
    2        CONTINUE 
       ENDIF
 
