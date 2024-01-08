@@ -93,7 +93,7 @@ C
      1EXTABF(IFIX((X-FLOAT(IFIX(X)))*1000.+1.5))
     
 C
-      READ(5,*) NISOFRAC, ((isoinfo(I,J) J=1,4), I=1,NISOFRAC)
+      READ(5,*) NISOFRAC, ((isoinfo(I,J),J=1,4), I=1,NISOFRAC)
       WRITE(6,*)"NISOFRAC",NISOFRAC
 !       IF(NISOFRAC.GT.0)THEN
 !             DO 2 I=1,NISOFRAC
