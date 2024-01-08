@@ -144,13 +144,10 @@ C
                   ISOFRACSOL  = isoinfo(J,3)  
                   ISOFRACSTAR = isoinfo(J,4) 
 
-                  CORR1 = LOG10(1.0+(1.0/ISOFRACSOL))
+                  CORR1 = DLOG10(1.0+(1.0/ISOFRACSOL))
      1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
-                  CORR2 = LOG10(1.0+ISOFRACSOL)
+                  CORR2 = DLOG10(1.0+ISOFRACSOL)
      1                  -LOG10(1.0+ISOFRACSTAR)
-
-                  WRITE(6,*)'FAST CORR1',CORR1
-                  WRITE(6,*)'FAST CORR2',CORR2
 
 C                 FOR ATOM
                   IF(CODE.LT.100.0)THEN
@@ -183,6 +180,9 @@ C                 FOR MOLE
 C                 CHECK TO SEE IF C2 WITH 12C AND 13C
                   IF(CODE.EQ.606.0.AND.ISO1.NE.ISO2)GO TO 1606
 C
+                  WRITE(6,*)'ISOFRAC',ISOFRACSOL,ISOFRACSTAR
+                  WRITE(6,*)'FAST CORR1',CORR1
+                  WRITE(6,*)'FAST CORR2',CORR2
                   IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
 C                 DO THE CORRECTION
                         FREQ=2.99792458D17/WL
