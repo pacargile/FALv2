@@ -446,6 +446,9 @@ class RunPrep(object):
                         synout_i['loggf'][cond1_atm] = synout_i['loggf'][cond1_atm] - corr1
                         synout_i['loggf'][cond2_atm] = synout_i['loggf'][cond2_atm] - corr2
                         
+                        print(f'CORRECTING COND1_ATM {cond1_atm.sum()}',flush=True)
+                        print(f'CORRECTING COND2_ATM {cond2_atm.sum()}',flush=True)
+                        
                         # correct molecules
                         cond1_mol_1 = (
                             (synout_i['code'] > 100.0) & 
@@ -478,6 +481,11 @@ class RunPrep(object):
                                  (synout_i['code'] == 606.0) & (iso1 != iso2)
                             )
                         )
+
+                        print(f'CORRECTING COND1_MOL_1 {cond1_mol_1.sum()}',flush=True)
+                        print(f'CORRECTING COND2_MOL_1 {cond2_mol_1.sum()}',flush=True)
+                        print(f'CORRECTING COND1_MOL_2 {cond1_mol_2.sum()}',flush=True)
+                        print(f'CORRECTING COND2_MOL_2 {cond2_mol_2.sum()}',flush=True)
 
                         synout_i['loggf'][cond1_mol_1] = synout_i['loggf'][cond1_mol_1] - corr1
                         synout_i['loggf'][cond2_mol_1] = synout_i['loggf'][cond2_mol_1] - corr2
