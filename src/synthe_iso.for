@@ -149,9 +149,6 @@ C
                   CORR2 = LOG10(1.0+ISOFRACSOL)
      1                  -LOG10(1.0+ISOFRACSTAR)
 
-                  WRITE(6,*)'FAST CORR1',CORR1
-                  WRITE(6,*)'FAST CORR2',CORR2
-
 C                 FOR ATOM
                   IF(CODE.LT.100.0)THEN
                   IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
