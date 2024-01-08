@@ -897,17 +897,17 @@ module readfort
            GWi(I) = GW
            DGAMMAWi(I) = DGAMMAW
 
-           NELIONi(I) = NELIONi(I)
-           Ei(I) = Ei(I)
-           EPi(I) = EPi(I)
-           NBLOi(I) = NBLOi(I)
-           NBUPi(I) = NBUPi(I)
-           ISO1i(I) = ISO1i(I)
-           ISO2i(I) = ISO2i(I)
-           X1i(I) = X1i(I)
-           X2i(I) = X2i(I)
-           XJi(I) = XJi(I)
-           XJPi(I) = XJPi(I)
+           NELIONi(I) = NELION
+           Ei(I) = E
+           EPi(I) = EP
+           NBLOi(I) = NBLO
+           NBUPi(I) = NBUP
+           ISO1i(I) = ISO1
+           ISO2i(I) = ISO2
+           X1i(I) = X1
+           X2i(I) = X2
+           XJi(I) = XJ
+           XJPi(I) = XJP
            
            RESID=CENTER/CONCEN
         !    write(6,*)RESID,CENTER,CONCEN
