@@ -802,6 +802,7 @@ module readfort
         wavei, qmu1i, qmu2i, &
         WLi,DWLi,GFLOGi,DGFLOGi,CODEi,&
         GRi,DGAMMARi,GSi,DGAMMASi,GWi,DGAMMAWi,&
+        NELIONi,Ei,EPi,NBLOi,NBUPi,ISO1i,ISO2i,X1i,X2i,XJi,XJPi,&
         RESIDi) bind(c, name='readspecbin')
         use iso_c_binding, only: c_double, c_int, c_char, c_null_char, C_LOC, C_PTR, c_float, c_long
         character(kind=c_char,len=1), intent(in) :: s(*)
@@ -824,6 +825,19 @@ module readfort
         real(c_float), intent(out) :: DGAMMASi(NLINESi)
         real(c_float), intent(out) :: GWi(NLINESi)
         real(c_float), intent(out) :: DGAMMAWi(NLINESi)
+
+        integer(c_int), intent(out)  :: NELIONi(NLINESi)
+        real(c_double), intent(out) :: Ei(NLINESi)
+        real(c_double), intent(out) :: EPi(NLINESi)
+        integer(c_int), intent(out) :: NBLOi(NLINESi)
+        integer(c_int), intent(out) :: NBUPi(NLINESi)
+        integer(c_int), intent(out) :: ISO1i(NLINESi)
+        integer(c_int), intent(out) :: ISO2i(NLINESi)
+        real(c_float), intent(out)  :: X1i(NLINESi)
+        real(c_float), intent(out)  :: X2i(NLINESi)
+        real(c_float), intent(out) :: XJi(NLINESi)
+        real(c_float), intent(out) :: XJPi(NLINESi)
+
         real(c_double), intent(out) :: RESIDi(NLINESi)
       
         REAL*8 TEFF,GLOG,TITLE(74),WBEGIN,RESOLU,WLEDGE,RATIO,SWL
@@ -882,6 +896,19 @@ module readfort
            DGAMMASi(I) = DGAMMAS
            GWi(I) = GW
            DGAMMAWi(I) = DGAMMAW
+
+           NELIONi(I) = NELIONi(I)
+           Ei(I) = Ei(I)
+           EPi(I) = EPi(I)
+           NBLOi(I) = NBLOi(I)
+           NBUPi(I) = NBUPi(I)
+           ISO1i(I) = ISO1i(I)
+           ISO2i(I) = ISO2i(I)
+           X1i(I) = X1i(I)
+           X2i(I) = X2i(I)
+           XJi(I) = XJi(I)
+           XJPi(I) = XJPi(I)
+           
            RESID=CENTER/CONCEN
         !    write(6,*)RESID,CENTER,CONCEN
         !    write(6,*)RESIDi(I)

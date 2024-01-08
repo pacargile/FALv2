@@ -1000,6 +1000,19 @@ class ReadKurucz(object):
         DGAMMASi  = np.zeros(rsb_in['nlines'],dtype=np.float32)   
         GWi       = np.zeros(rsb_in['nlines'],dtype=np.float32)   
         DGAMMAWi  = np.zeros(rsb_in['nlines'],dtype=np.float32)   
+
+        NELIONi   = np.zeros(rsb_in['nlines'],dtype=np.int32)
+        Ei        = np.zeros(rsb_in['nlines'],dtype=np.float64)
+        EPi       = np.zeros(rsb_in['nlines'],dtype=np.float64)
+        NBLOi     = np.zeros(rsb_in['nlines'],dtype=np.int32)
+        NBUPi     = np.zeros(rsb_in['nlines'],dtype=np.int32)
+        ISO1i     = np.zeros(rsb_in['nlines'],dtype=np.int32)
+        ISO2i     = np.zeros(rsb_in['nlines'],dtype=np.int32)
+        X1i       = np.zeros(rsb_in['nlines'],dtype=np.float32)
+        X2i       = np.zeros(rsb_in['nlines'],dtype=np.float32)
+        XJi       = np.zeros(rsb_in['nlines'],dtype=np.float32)
+        XJPi      = np.zeros(rsb_in['nlines'],dtype=np.float32)
+
         RESIDi   = np.zeros(rsb_in['nlines'],dtype=np.float64)   
 
 
@@ -1021,6 +1034,17 @@ class ReadKurucz(object):
             DGAMMASi.ctypes.data_as(c_float_p),    
             GWi.ctypes.data_as(c_float_p),    
             DGAMMAWi.ctypes.data_as(c_float_p),    
+            NELIONi.ctypes.data_as(c_int_p),    
+            Ei.ctypes.data_as(c_double_p),    
+            EPi.ctypes.data_as(c_double_p),    
+            NBLOi.ctypes.data_as(c_int_p),    
+            NBUPi.ctypes.data_as(c_int_p),    
+            ISO1i.ctypes.data_as(c_int_p),    
+            ISO2i.ctypes.data_as(c_int_p),    
+            X1i.ctypes.data_as(c_float_p),    
+            X2i.ctypes.data_as(c_float_p),    
+            XJi.ctypes.data_as(c_float_p),    
+            XJPi.ctypes.data_as(c_float_p),    
             RESIDi.ctypes.data_as(c_double_p),    
         )
 
@@ -1039,6 +1063,17 @@ class ReadKurucz(object):
             'dgammas':DGAMMASi, 
             'gammaw':GWi,
             'dgammaw':DGAMMAWi, 
+            'nelion':NELIONi,
+            'e':Ei,
+            'ep':EPi,
+            'nblo':NBLOi,
+            'nbup':NBUPi,
+            'iso1':ISO1i,            
+            'iso2':ISO2i,
+            'x1':X1i,
+            'x2':X2i,
+            'xj':XJi,
+            'xjp':XJPi,
             'resid':RESIDi,
         })
 
