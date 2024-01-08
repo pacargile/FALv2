@@ -432,8 +432,8 @@ class RunPrep(object):
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
 
-                print(synout_i['iso1'])
-                print(synout_i['iso2'])
+                print(synout_i['iso1'][:10])
+                print(synout_i['iso2'][:10])
 
                 # correct the log(gf)'s back to the pre-isofrac value to match with line lists
                 if 'isofrac' in self.specinfo[ii].keys():
