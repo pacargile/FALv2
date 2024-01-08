@@ -145,10 +145,10 @@ C
             READ(14)LINDAT8,LINDAT4
             IF(NISOFRAC.GT.0)THEN
                   DO 3 J=1,NISOFRAC
-                  ISOFRACISO1 = isoinfo(1,J) 
-                  ISOFRACISO2 = isoinfo(2,J) 
-                  ISOFRACSOL  = isoinfo(3,J)  
-                  ISOFRACSTAR = isoinfo(4,J) 
+                  ISOFRACISO1 = isoinfo(J,1) 
+                  ISOFRACISO2 = isoinfo(J,2) 
+                  ISOFRACSOL  = isoinfo(J,3)  
+                  ISOFRACSTAR = isoinfo(J,4) 
 
                   CORR1 = DLOG10(1.0+(1.0/ISOFRACSOL))
      1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
