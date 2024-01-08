@@ -100,12 +100,12 @@ C
                   isoinfo(2,I) = ISOFRACISO2
                   isoinfo(3,I) = ISOFRACSOL
                   isoinfo(4,I) = ISOFRACSTAR
-C                  WRITE(6,*)ISOFRACISO1, ISOFRACISO2, ISOFRACSOL, ISOFRACSTAR
+                  WRITE(6,*)ISOFRACISO1, ISOFRACISO2, ISOFRACSOL, ISOFRACSTAR
    2        CONTINUE 
       ENDIF
 
-C      WRITE(6,*) 'ISOINFO'
-C      WRITE(6,*) isoinfo
+      WRITE(6,*) 'ISOINFO'
+      WRITE(6,*) isoinfo
 
       READ(93)NLINES,LENGTH,IFVAC,IFNLTE,N19,TURBV,DECKJ,IFPRED,
      1WLBEG,WLEND,RESOLU,RATIO,RATIOLG,CUTOFF,LINOUT
