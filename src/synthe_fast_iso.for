@@ -183,9 +183,9 @@ C                 FOR MOLE
 C                 CHECK TO SEE IF C2 WITH 12C AND 13C
                   IF(CODE.EQ.606.0.AND.ISO1.NE.ISO2)GO TO 1606
 C
-                  WRITE(6,*)'ISOFRAC',ISOFRACSOL,ISOFRACSTAR
-                  WRITE(6,*)'FAST CORR1',CORR1
-                  WRITE(6,*)'FAST CORR2',CORR2
+C                  WRITE(6,*)'ISOFRAC',ISOFRACSOL,ISOFRACSTAR
+C                  WRITE(6,*)'FAST CORR1',CORR1
+C                  WRITE(6,*)'FAST CORR2',CORR2
                   IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
 C                 DO THE CORRECTION
                         FREQ=2.99792458D17/WL
