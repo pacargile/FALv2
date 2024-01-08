@@ -86,6 +86,7 @@ C      REAL*8 ASYNTH,ALINEC,TITLE,TEFF,GLOG,IDMOL,MOMASS
       real*8 wavel
       REAL*8 isoinfo(5,4)
       REAL*8 ISOFRACSOL, ISOFRACSTAR, ISOFRACISO1, ISOFRACISO2, GFLOGI
+      REAL*8 CORR1, CORR2
       INTEGER*4 NISOFRAC
 C
       FASTEX(X)=EXTAB(IFIX(X)+1)*
@@ -142,6 +143,14 @@ C
                   ISOFRACISO2 = isoinfo(J,2) 
                   ISOFRACSOL  = isoinfo(J,3)  
                   ISOFRACSTAR = isoinfo(J,4) 
+
+                  CORR1 = LOG10(1.0+(1.0/ISOFRACSOL))
+     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
+                  CORR2 = LOG10(1.0+ISOFRACSOL)
+     1                  -LOG10(1.0+ISOFRACSTAR)
+
+                  WRITE(6,*)'FAST CORR1',CORR1
+                  WRITE(6,*)'FAST CORR2',CORR2
 
 C                 FOR ATOM
                   IF(CODE.LT.100.0)THEN
