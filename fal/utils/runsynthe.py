@@ -158,7 +158,7 @@ class Synthe(object):
 
         # run synthe
         self.xnfpelsyn(verbose_xnf=verbose)
-        self.synthe(verbose_syn=True)
+        self.synthe(verbose_syn=verbose)
         self.spectrv(verbose_sprv=verbose)
         self.rotate(vrot=self.vrot,verbose_rot=verbose)
 
@@ -268,7 +268,7 @@ class Synthe(object):
         if self.verbose:
             starttime_syn = datetime.now()
             print(f"Running {cmdname}... [{starttime_syn}]",flush=True)
-        self.synout = self._callpro(cmdname,isostr,verbose=False)#verbose_syn)
+        self.synout = self._callpro(cmdname,isostr,verbose=True)#verbose_syn)
         if self.verbose:
             endtime_syn = datetime.now()
             print("... Finished synthe [{0}: {1}]".format(endtime_syn,endtime_syn-starttime_syn),flush=True)
