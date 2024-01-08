@@ -444,8 +444,8 @@ class RunPrep(object):
                         # correct the atoms
                         cond1_atm = (synout_i['code'] < 100.0) & (synout_i['iso1'] == iso1)
                         cond2_atm = (synout_i['code'] < 100.0) & (synout_i['iso1'] == iso2)
-                        synout_i['loggf'][cond1_atm] = synout_i['loggf'][cond1_atm] - corr1
-                        synout_i['loggf'][cond2_atm] = synout_i['loggf'][cond2_atm] - corr2
+                        synout_i['loggf'][cond1_atm] = float(f'{synout_i["loggf"][cond1_atm] - corr1:0.3f}')
+                        synout_i['loggf'][cond2_atm] = float(f'{synout_i["loggf"][cond2_atm] - corr2:0.3f}')
                         
                         print(f'CORRECTING COND1_ATM {cond1_atm.sum()}',flush=True)
                         print(f'CORRECTING COND2_ATM {cond2_atm.sum()}',flush=True)
@@ -488,10 +488,10 @@ class RunPrep(object):
                         print(f'CORRECTING COND1_MOL_2 {cond1_mol_2.sum()}',flush=True)
                         print(f'CORRECTING COND2_MOL_2 {cond2_mol_2.sum()}',flush=True)
 
-                        synout_i['loggf'][cond1_mol_1] = synout_i['loggf'][cond1_mol_1] - corr1
-                        synout_i['loggf'][cond2_mol_1] = synout_i['loggf'][cond2_mol_1] - corr2
-                        synout_i['loggf'][cond1_mol_2] = synout_i['loggf'][cond1_mol_2] - corr1
-                        synout_i['loggf'][cond2_mol_2] = synout_i['loggf'][cond2_mol_2] - corr2
+                        synout_i['loggf'][cond1_mol_1] = float(f'{synout_i["loggf"][cond1_mol_1] - corr1:.3f}')
+                        synout_i['loggf'][cond2_mol_1] = float(f'{synout_i["loggf"][cond2_mol_1] - corr2:.3f}')
+                        synout_i['loggf'][cond1_mol_2] = float(f'{synout_i["loggf"][cond1_mol_2] - corr1:.3f}')
+                        synout_i['loggf'][cond2_mol_2] = float(f'{synout_i["loggf"][cond2_mol_2] - corr2:.3f}')
 
                         for kk in ['wl','code','loggf','gammar','gammas','gammaw','nelion','e','ep','nblo','nbup','iso1','iso2','x1','x2','xj','xjp']:
                             print(kk,'\n',synout_i[kk][cond1_mol_2],flush=True)
