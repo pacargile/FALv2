@@ -149,15 +149,15 @@ C
                   ISOFRACSOL  = isoinfo(J,3)  
                   ISOFRACSTAR = isoinfo(J,4) 
 
-                  CORR1 = DLOG10(1.0+(1.0/ISOFRACSOL))
-     1                  -DLOG10(1.0+(1.0/ISOFRACSTAR))
-                  CORR2 = DLOG10(1.0+ISOFRACSOL)
-     1                  -DLOG10(1.0+ISOFRACSTAR)
+                  CORR1 = DLOG10(DBLE(1.0+(1.0/ISOFRACSOL)))
+     1                  -DLOG10(DBLE(1.0+(1.0/ISOFRACSTAR)))
+                  CORR2 = DLOG10(DBLE(1.0+ISOFRACSOL))
+     1                  -DLOG10(DBLE(1.0+ISOFRACSTAR))
                   IF(I.EQ.1)THEN
                         WRITE(6,*)'FORT ISOFRACSOL  = ',ISOFRACSOL
                         WRITE(6,*)'FORT ISOFRACSTAR = ',ISOFRACSTAR
-                        WRITE(6,*)'FORT CORR1 = ',REAL(CORR1)
-                        WRITE(6,*)'FORT CORR2 = ',REAL(CORR2)
+                        WRITE(6,*)'FORT CORR1 = ',DBLE(CORR1)
+                        WRITE(6,*)'FORT CORR2 = ',DBLE(CORR2)
                   ENDIF
 
 C                 FOR ATOM
