@@ -435,72 +435,72 @@ class RunPrep(object):
                 synout_i = RS.run()
                 # synout_i['loggf'] = np.array([float(f'{x:.3f}') for x in synout_i['loggf']],dtype=float)
 
-                # correct the log(gf)'s back to the pre-isofrac value to match with line lists
-                if 'isofrac' in self.specinfo[ii].keys():
-                    # Must reverse the correction applied with synthe
-                    for kk in self.specinfo[ii]['isofrac'].keys():
-                        iso1,iso2,isofrac_sun,isofrac_star = self.specinfo[ii]['isofrac'][kk]
-                        corr1 = np.log10(1.0 + (1.0/isofrac_sun)) - np.log10(1.0 + (1.0/isofrac_star))
-                        corr2 = np.log10(1.0 + isofrac_sun) - np.log10(1.0 + isofrac_star)
-                        print(f'PY CORR1: {np.float32(corr1)}',flush=True)
-                        print(f'PY CORR2: {np.float32(corr2)}',flush=True)
+                # # correct the log(gf)'s back to the pre-isofrac value to match with line lists
+                # if 'isofrac' in self.specinfo[ii].keys():
+                #     # Must reverse the correction applied with synthe
+                #     for kk in self.specinfo[ii]['isofrac'].keys():
+                #         iso1,iso2,isofrac_sun,isofrac_star = self.specinfo[ii]['isofrac'][kk]
+                #         corr1 = np.log10(1.0 + (1.0/isofrac_sun)) - np.log10(1.0 + (1.0/isofrac_star))
+                #         corr2 = np.log10(1.0 + isofrac_sun) - np.log10(1.0 + isofrac_star)
+                #         print(f'PY CORR1: {np.float32(corr1)}',flush=True)
+                #         print(f'PY CORR2: {np.float32(corr2)}',flush=True)
 
-                        # correct the atoms
-                        cond1_atm = (synout_i['code'] < 100.0) & (synout_i['iso1'] == iso1)
-                        cond2_atm = (synout_i['code'] < 100.0) & (synout_i['iso1'] == iso2)
-                        synout_i['loggf'][cond1_atm] = synout_i["loggf"][cond1_atm] - corr1
-                        synout_i['loggf'][cond2_atm] = synout_i["loggf"][cond2_atm] - corr2
+                #         # correct the atoms
+                #         cond1_atm = (synout_i['code'] < 100.0) & (synout_i['iso1'] == iso1)
+                #         cond2_atm = (synout_i['code'] < 100.0) & (synout_i['iso1'] == iso2)
+                #         synout_i['loggf'][cond1_atm] = synout_i["loggf"][cond1_atm] - corr1
+                #         synout_i['loggf'][cond2_atm] = synout_i["loggf"][cond2_atm] - corr2
                         
-                        print(f'CORRECTING COND1_ATM {cond1_atm.sum()}',flush=True)
-                        print(f'CORRECTING COND2_ATM {cond2_atm.sum()}',flush=True)
+                #         print(f'CORRECTING COND1_ATM {cond1_atm.sum()}',flush=True)
+                #         print(f'CORRECTING COND2_ATM {cond2_atm.sum()}',flush=True)
                         
-                        # correct molecules
-                        cond1_mol_1 = (
-                            (synout_i['code'] > 100.0) & 
-                            (synout_i['iso1'] == iso1) & 
-                            ~ ( 
-                                 (synout_i['code'] == 606.0) & (iso1 != iso2)
-                            )
-                        )
+                #         # correct molecules
+                #         cond1_mol_1 = (
+                #             (synout_i['code'] > 100.0) & 
+                #             (synout_i['iso1'] == iso1) & 
+                #             ~ ( 
+                #                  (synout_i['code'] == 606.0) & (iso1 != iso2)
+                #             )
+                #         )
 
-                        cond2_mol_1 = (
-                            (synout_i['code'] > 100.0) & 
-                            (synout_i['iso2'] == iso1) & 
-                            ~ ( 
-                                 (synout_i['code'] == 606.0) & (iso1 != iso2)
-                            )
-                        )
+                #         cond2_mol_1 = (
+                #             (synout_i['code'] > 100.0) & 
+                #             (synout_i['iso2'] == iso1) & 
+                #             ~ ( 
+                #                  (synout_i['code'] == 606.0) & (iso1 != iso2)
+                #             )
+                #         )
 
-                        cond1_mol_2 = (
-                            (synout_i['code'] > 100.0) & 
-                            (synout_i['iso1'] == iso2) & 
-                            ~ ( 
-                                 (synout_i['code'] == 606.0) & (iso1 != iso2)
-                            )
-                        )
+                #         cond1_mol_2 = (
+                #             (synout_i['code'] > 100.0) & 
+                #             (synout_i['iso1'] == iso2) & 
+                #             ~ ( 
+                #                  (synout_i['code'] == 606.0) & (iso1 != iso2)
+                #             )
+                #         )
 
-                        cond2_mol_2 = (
-                            (synout_i['code'] > 100.0) & 
-                            (synout_i['iso2'] == iso2) & 
-                            ~ ( 
-                                 (synout_i['code'] == 606.0) & (iso1 != iso2)
-                            )
-                        )
+                #         cond2_mol_2 = (
+                #             (synout_i['code'] > 100.0) & 
+                #             (synout_i['iso2'] == iso2) & 
+                #             ~ ( 
+                #                  (synout_i['code'] == 606.0) & (iso1 != iso2)
+                #             )
+                #         )
 
-                        print(f'CORRECTING COND1_MOL_1 {cond1_mol_1.sum()}',flush=True)
-                        print(f'CORRECTING COND2_MOL_1 {cond2_mol_1.sum()}',flush=True)
-                        print(f'CORRECTING COND1_MOL_2 {cond1_mol_2.sum()}',flush=True)
-                        print(f'CORRECTING COND2_MOL_2 {cond2_mol_2.sum()}',flush=True)
+                #         print(f'CORRECTING COND1_MOL_1 {cond1_mol_1.sum()}',flush=True)
+                #         print(f'CORRECTING COND2_MOL_1 {cond2_mol_1.sum()}',flush=True)
+                #         print(f'CORRECTING COND1_MOL_2 {cond1_mol_2.sum()}',flush=True)
+                #         print(f'CORRECTING COND2_MOL_2 {cond2_mol_2.sum()}',flush=True)
 
-                        synout_i['loggf'][cond1_mol_1] = synout_i["loggf"][cond1_mol_1] - corr1
-                        synout_i['loggf'][cond2_mol_1] = synout_i["loggf"][cond2_mol_1] - corr2
-                        synout_i['loggf'][cond1_mol_2] = synout_i["loggf"][cond1_mol_2] - corr1
-                        synout_i['loggf'][cond2_mol_2] = synout_i["loggf"][cond2_mol_2] - corr2
+                #         synout_i['loggf'][cond1_mol_1] = synout_i["loggf"][cond1_mol_1] - corr1
+                #         synout_i['loggf'][cond2_mol_1] = synout_i["loggf"][cond2_mol_1] - corr2
+                #         synout_i['loggf'][cond1_mol_2] = synout_i["loggf"][cond1_mol_2] - corr1
+                #         synout_i['loggf'][cond2_mol_2] = synout_i["loggf"][cond2_mol_2] - corr2
 
-                        # synout_i['loggf'] = np.array([float(f'{x:.3f}') for x in synout_i['loggf']],dtype=float)
+                #         # synout_i['loggf'] = np.array([float(f'{x:.3f}') for x in synout_i['loggf']],dtype=float)
 
-                        for kk in ['wl','code','loggf','gammar','gammas','gammaw','nelion','e','ep','nblo','nbup','iso1','iso2','x1','x2','xj','xjp']:
-                            print(kk,'\n',synout_i[kk][cond1_mol_1],flush=True)
+                #         for kk in ['wl','code','loggf','gammar','gammas','gammaw','nelion','e','ep','nblo','nbup','iso1','iso2','x1','x2','xj','xjp']:
+                #             print(kk,'\n',synout_i[kk][cond1_mol_1],flush=True)
 
 
                 # # write spectrum to seg_num/data/
