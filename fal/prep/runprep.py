@@ -442,8 +442,8 @@ class RunPrep(object):
                         iso1,iso2,isofrac_sun,isofrac_star = self.specinfo[ii]['isofrac'][kk]
                         corr1 = np.log10(1.0 + (1.0/isofrac_sun)) - np.log10(1.0 + (1.0/isofrac_star))
                         corr2 = np.log10(1.0 + isofrac_sun) - np.log10(1.0 + isofrac_star)
-                        print(f'PY CORR1: {corr1}',flush=True)
-                        print(f'PY CORR2: {corr2}',flush=True)
+                        print(f'PY CORR1: {np.float32(corr1)}',flush=True)
+                        print(f'PY CORR2: {np.float32(corr2)}',flush=True)
 
                         # correct the atoms
                         cond1_atm = (synout_i['code'] < 100.0) & (synout_i['iso1'] == iso1)
