@@ -306,7 +306,7 @@ class Synthe(object):
             if self.verbose:
                 starttime_sprv = datetime.now()
                 print("Running spectrv_tau... [{0}]".format(starttime_sprv),flush=True)
-            self.spectrvout = self._callpro("spectrv_tau",verbose=False)#verbose_sprv)
+            self.spectrvout = self._callpro("spectrv_tau",verbose=verbose_sprv)
             if self.verbose:
                 endtime_sprv = datetime.now()
                 print("... Finished spectrv_tau [{0}: {1}]".format(endtime_sprv,endtime_sprv-starttime_sprv),flush=True)
@@ -314,7 +314,7 @@ class Synthe(object):
             if self.verbose:
                 starttime_sprv = datetime.now()
                 print("Running spectrv... [{0}]".format(starttime_sprv),flush=True)
-            self.spectrvout = self._callpro("spectrv",verbose=False)#verbose_sprv)
+            self.spectrvout = self._callpro("spectrv",verbose=verbose_sprv)
             if self.verbose:
                 endtime_sprv = datetime.now()
                 print("... Finished spectrv [{0}: {1}]".format(endtime_sprv,endtime_sprv-starttime_sprv),flush=True)
@@ -342,7 +342,7 @@ class Synthe(object):
             print("Running rotate... [{0}]".format(starttime_rot))
         if np.abs(vrot) > 0.0:
             rotatestr = self.rotatevar.format(NROT=1,NRADIUS=0,VROT=vrot)
-            self.rotateout = self._callpro("rotate",rotatestr,verbose=False)#verbose_rot)
+            self.rotateout = self._callpro("rotate",rotatestr,verbose=verbose_rot)
         else:
             if self.verbose:
                 print('... No rotation, just copying output file',flush=True)
