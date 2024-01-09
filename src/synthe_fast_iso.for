@@ -94,7 +94,7 @@ C
     
 C
       READ(5,*) NISOFRAC, ((isoinfo(I,J),J=1,4), I=1,NISOFRAC)
-      WRITE(6,*)"NISOFRAC",NISOFRAC
+!       WRITE(6,*)"NISOFRAC",NISOFRAC
 !       IF(NISOFRAC.GT.0)THEN
 !             DO 2 I=1,NISOFRAC
 !                   READ(5,*)ISOFRACISO1, ISOFRACISO2, ISOFRACSOL, ISOFRACSTAR
@@ -106,8 +106,8 @@ C
 !    2        CONTINUE 
 !       ENDIF
 
-      WRITE(6,*) 'ISOINFO'
-      WRITE(6,*) isoinfo
+!       WRITE(6,*) 'ISOINFO'
+!       WRITE(6,*) isoinfo
 
       READ(93)NLINES,LENGTH,IFVAC,IFNLTE,N19,TURBV,DECKJ,IFPRED,
      1WLBEG,WLEND,RESOLU,RATIO,RATIOLG,CUTOFF,LINOUT
@@ -164,13 +164,11 @@ C                 DO THE CORRECTION
                         GFLOGI = LOG10(GF)
                   
                         IF(ISO1.EQ.ISOFRACISO1)THEN
-                        GFLOGI = GFLOGI+LOG10(1.0+(1.0/ISOFRACSOL))
-     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
+                        GFLOGI = GFLOGI+CORR1
 C                       print *, LOG10(1.0+(1.0/ISOFRACSTAR))
                         ENDIF
                         IF(ISO1.EQ.ISOFRACISO2)THEN
-                        GFLOGI = GFLOGI+LOG10(1.0+ISOFRACSOL)
-     1                  -LOG10(1.0+ISOFRACSTAR)
+                        GFLOGI = GFLOGI+CORR2
 C                       print *, LOG10(1.0+ISOFRACSTAR)
                         ENDIF
 
@@ -186,9 +184,6 @@ C                 FOR MOLE
 C                 CHECK TO SEE IF C2 WITH 12C AND 13C
                   IF(CODE.EQ.606.0.AND.ISO1.NE.ISO2)GO TO 1606
 C
-                  WRITE(6,*)'ISOFRAC',ISOFRACSOL,ISOFRACSTAR
-                  WRITE(6,*)'FAST CORR1',CORR1
-                  WRITE(6,*)'FAST CORR2',CORR2
                   IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
 C                 DO THE CORRECTION
                         FREQ=2.99792458D17/WL
@@ -196,13 +191,11 @@ C                 DO THE CORRECTION
                         GFLOGI = LOG10(GF)
                   
                         IF(ISO1.EQ.ISOFRACISO1)THEN
-                        GFLOGI = GFLOGI+LOG10(1.0+(1.0/ISOFRACSOL))
-     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
+                        GFLOGI = GFLOGI+CORR1
 C                       print *, LOG10(1.0+(1.0/ISOFRACSTAR))
                         ENDIF
                         IF(ISO1.EQ.ISOFRACISO2)THEN
-                        GFLOGI = GFLOGI+LOG10(1.0+ISOFRACSOL)
-     1                  -LOG10(1.0+ISOFRACSTAR)
+                        GFLOGI = GFLOGI+CORR2
 C                       print *, LOG10(1.0+ISOFRACSTAR)
                         ENDIF
 
@@ -219,13 +212,11 @@ C                 DO THE CORRECTION
                         GFLOGI = LOG10(GF)
                   
                         IF(ISO2.EQ.ISOFRACISO1)THEN
-                        GFLOGI = GFLOGI+LOG10(1.0+(1.0/ISOFRACSOL))
-     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
+                        GFLOGI = GFLOGI+CORR1
 C                       print *, LOG10(1.0+(1.0/ISOFRACSTAR))
                         ENDIF
                         IF(ISO2.EQ.ISOFRACISO2)THEN
-                        GFLOGI = GFLOGI+LOG10(1.0+ISOFRACSOL)
-     1                  -LOG10(1.0+ISOFRACSTAR)
+                        GFLOGI = GFLOGI+CORR2
 C                       print *, LOG10(1.0+ISOFRACSTAR)
                         ENDIF
 
@@ -382,6 +373,11 @@ C     ADD LINES TO BUFFER
             ISOFRACSOL  = isoinfo(K,3)  
             ISOFRACSTAR = isoinfo(K,4) 
 
+            CORR1 = DLOG10(1.0+(1.0/ISOFRACSOL))
+     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
+            CORR2 = DLOG10(1.0+ISOFRACSOL)
+     1                  -LOG10(1.0+ISOFRACSTAR)
+
 C           FOR ATOM
             IF(CODE.LT.100.0)THEN
             IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
@@ -391,13 +387,11 @@ C                 DO THE CORRECTION
                   GFLOGI = LOG10(GF)
                   
                   IF(ISO1.EQ.ISOFRACISO1)THEN
-                  GFLOGI = GFLOGI+LOG10(1.0+(1.0/ISOFRACSOL))
-     1            -LOG10(1.0+(1.0/ISOFRACSTAR))
+                  GFLOGI = GFLOGI+CORR1
 C                 print *, LOG10(1.0+(1.0/ISOFRACSTAR))
                   ENDIF
                   IF(ISO1.EQ.ISOFRACISO2)THEN
-                  GFLOGI = GFLOGI+LOG10(1.0+ISOFRACSOL)
-     1            -LOG10(1.0+ISOFRACSTAR)
+                  GFLOGI = GFLOGI+CORR2
 C                  print *, LOG10(1.0+ISOFRACSTAR)
                   ENDIF
 
@@ -420,13 +414,11 @@ C           DO THE CORRECTION
                   GFLOGI = LOG10(GF)
             
                   IF(ISO1.EQ.ISOFRACISO1)THEN
-                  GFLOGI = GFLOGI+LOG10(1.0+(1.0/ISOFRACSOL))
-     1            -LOG10(1.0+(1.0/ISOFRACSTAR))
+                  GFLOGI = GFLOGI+CORR1
 C                 print *, LOG10(1.0+(1.0/ISOFRACSTAR))
                   ENDIF
                   IF(ISO1.EQ.ISOFRACISO2)THEN
-                  GFLOGI = GFLOGI+LOG10(1.0+ISOFRACSOL)
-     1            -LOG10(1.0+ISOFRACSTAR)
+                  GFLOGI = GFLOGI+CORR2
 C                 print *, LOG10(1.0+ISOFRACSTAR)
                   ENDIF
 
@@ -443,13 +435,11 @@ C           DO THE CORRECTION
                   GFLOGI = LOG10(GF)
             
                   IF(ISO2.EQ.ISOFRACISO1)THEN
-                  GFLOGI = GFLOGI+LOG10(1.0+(1.0/ISOFRACSOL))
-     1            -LOG10(1.0+(1.0/ISOFRACSTAR))
+                  GFLOGI = GFLOGI+CORR1
 C                 print *, LOG10(1.0+(1.0/ISOFRACSTAR))
                   ENDIF
                   IF(ISO2.EQ.ISOFRACISO2)THEN
-                  GFLOGI = GFLOGI+LOG10(1.0+ISOFRACSOL)
-     1            -LOG10(1.0+ISOFRACSTAR)
+                  GFLOGI = GFLOGI+CORR2
 C                 print *, LOG10(1.0+ISOFRACSTAR)
                   ENDIF
 
