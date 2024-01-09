@@ -270,10 +270,10 @@ class Synthe(object):
         if self.verbose:
             starttime_syn = datetime.now()
             print(f"Running {cmdname}... [{starttime_syn}]",flush=True)
-        if self.synspeed == 'slow':
-            self.synout = self._callpro(cmdname,isostr,verbose=False)#verbose_syn)
-        else:        
+        if isobool:
             self.synout = self._callpro(cmdname,isostr,verbose=True)#verbose_syn)
+        else:        
+            self.synout = self._callpro(cmdname,isostr,verbose=False)#verbose_syn)
         if self.verbose:
             endtime_syn = datetime.now()
             print("... Finished synthe [{0}: {1}]".format(endtime_syn,endtime_syn-starttime_syn),flush=True)
