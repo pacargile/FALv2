@@ -91,7 +91,6 @@ C      REAL*8 ASYNTH,ALINEC,TITLE,TEFF,GLOG,IDMOL,MOMASS
 C
       FASTEX(X)=EXTAB(IFIX(X)+1)*
      1EXTABF(IFIX((X-FLOAT(IFIX(X)))*1000.+1.5))
-    
 C
       READ(5,*) NISOFRAC, ((isoinfo(I,J),J=1,4), I=1,NISOFRAC)
 !       WRITE(6,*)"NISOFRAC",NISOFRAC
@@ -151,14 +150,14 @@ C
                   ISOFRACSTAR = isoinfo(J,4) 
 
                   CORR1 = DLOG10(1.0+(1.0/ISOFRACSOL))
-     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
+     1                  -DLOG10(1.0+(1.0/ISOFRACSTAR))
                   CORR2 = DLOG10(1.0+ISOFRACSOL)
-     1                  -LOG10(1.0+ISOFRACSTAR)
+     1                  -DLOG10(1.0+ISOFRACSTAR)
                   IF(I.EQ.1)THEN
                         WRITE(6,*)'CORR1 = ',CORR1
                         WRITE(6,*)'CORR2 = ',CORR2
                   ENDIF
-                  
+
 C                 FOR ATOM
                   IF(CODE.LT.100.0)THEN
                   IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
@@ -378,9 +377,9 @@ C     ADD LINES TO BUFFER
             ISOFRACSTAR = isoinfo(K,4) 
 
             CORR1 = DLOG10(1.0+(1.0/ISOFRACSOL))
-     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
+     1                  -DLOG10(1.0+(1.0/ISOFRACSTAR))
             CORR2 = DLOG10(1.0+ISOFRACSOL)
-     1                  -LOG10(1.0+ISOFRACSTAR)
+     1                  -DLOG10(1.0+ISOFRACSTAR)
 
 C           FOR ATOM
             IF(CODE.LT.100.0)THEN
