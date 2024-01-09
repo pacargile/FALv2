@@ -149,7 +149,7 @@ C
                   ISOFRACSOL  = isoinfo(J,3)  
                   ISOFRACSTAR = isoinfo(J,4) 
 
-                  CORR1 = LOG10(1.0+(1.0/ISOFRACSOL))
+                  CORR1 = DLOG10(1.0+(1.0/ISOFRACSOL))
      1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
                   CORR2 = LOG10(1.0+ISOFRACSOL)
      1                  -LOG10(1.0+ISOFRACSTAR)
