@@ -364,6 +364,8 @@ class RunPrep(object):
                 tmpspec['qmu2'] = synout_i['qmu2']
                 tmpspec['flux'] = synout_i['qmu1']/synout_i['qmu2']
                 tmpspec.write(f'./data/specfull_{atm_i.split("/")[-1].replace(".atm",".fits")}',format='fits',overwrite=True)
+                print(f'specfull min/max flux {min(tmpspec["flux"])}/{max(tmpspec["flux"])}',flush=True)
+
             
 
             # init list for fit lines
@@ -435,8 +437,6 @@ class RunPrep(object):
                     
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
-
-                # print(f'specfull min/max flux {min(tmpspec["flux"])}/{max(tmpspec["flux"])}')
 
                 code_fl    = synout_i['code']
                 wl_fl      = synout_i['wl']
