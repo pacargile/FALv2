@@ -154,6 +154,8 @@ C
                   CORR2 = LOG10(1.0+ISOFRACSOL)
      1                  -LOG10(1.0+ISOFRACSTAR)
                   IF(I.EQ.1)THEN
+                        WRITE(6,*)'ISOFRACSOL  = ',ISOFRACSOL
+                        WRITE(6,*)'ISOFRACSTAR = ',ISOFRACSTAR
                         WRITE(6,*)'CORR1 = ',CORR1
                         WRITE(6,*)'CORR2 = ',CORR2
                   ENDIF
