@@ -431,7 +431,7 @@ class RunPrep(object):
 
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
-                # synout_i['loggf'] = np.array([float(f'{x:.3f}') for x in synout_i['loggf']],dtype=float)
+                synout_i['loggf'] = np.array([float(f'{x:.3f}') for x in synout_i['loggf']],dtype=float)
 
                 # correct the log(gf)'s back to the pre-isofrac value to match with line lists
                 if 'isofrac' in self.specinfo[ii].keys():
