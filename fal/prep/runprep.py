@@ -440,8 +440,8 @@ class RunPrep(object):
                     # Must reverse the correction applied with synthe
                     for kk in self.specinfo[ii]['isofrac'].keys():
                         iso1,iso2,isofrac_sun,isofrac_star = self.specinfo[ii]['isofrac'][kk]
-                        corr1 = np.log10(1.0 + (1.0/isofrac_sun)) - np.log10(1.0 + (1.0/isofrac_star))
-                        corr2 = np.log10(1.0 + isofrac_sun) - np.log10(1.0 + isofrac_star)
+                        corr1 = np.float32(np.log10(1.0 + (1.0/isofrac_sun)) - np.log10(1.0 + (1.0/isofrac_star)))
+                        corr2 = np.float32(np.log10(1.0 + isofrac_sun) - np.log10(1.0 + isofrac_star))
 
                         # correct the atoms
                         cond1_atm = (synout_i['code'] < 100.0) & (synout_i['iso1'] == iso1)
