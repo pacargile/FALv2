@@ -154,10 +154,10 @@ C
                   CORR2 = DLOG10(1.0+ISOFRACSOL)
      1                  -DLOG10(1.0+ISOFRACSTAR)
                   IF(I.EQ.1)THEN
-                        WRITE(6,*)'ISOFRACSOL  = ',ISOFRACSOL
-                        WRITE(6,*)'ISOFRACSTAR = ',ISOFRACSTAR
-                        WRITE(6,*)'CORR1 = ',CORR1
-                        WRITE(6,*)'CORR2 = ',CORR2
+                        WRITE(6,*)'FORT ISOFRACSOL  = ',ISOFRACSOL
+                        WRITE(6,*)'FORT ISOFRACSTAR = ',ISOFRACSTAR
+                        WRITE(6,*)'FORT CORR1 = ',REAL(CORR1)
+                        WRITE(6,*)'FORT CORR2 = ',REAL(CORR2)
                   ENDIF
 
 C                 FOR ATOM
