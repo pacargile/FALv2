@@ -84,10 +84,10 @@ C      REAL*8 ASYNTH,ALINEC,TITLE,TEFF,GLOG,IDMOL,MOMASS
       REAL*8 WL,E,EP,WLVAC,CENTER,CONCEN
       REAL*8 LABEL,LABELP,OTHER1,OTHER2
       real*8 wavel
-      REAL*4 isoinfo(5,4)
-      REAL*4 ISOFRACSOL, ISOFRACSTAR, ISOFRACISO1, ISOFRACISO2
-      REAL*4 GFLOGI,GFI
-      REAL*4 CORR1, CORR2
+      REAL*8 isoinfo(5,4)
+      REAL*8 ISOFRACSOL, ISOFRACSTAR, ISOFRACISO1, ISOFRACISO2
+      REAL*8 GFLOGI,GFI,CONGFI
+      REAL*8 CORR1, CORR2
       INTEGER*4 NISOFRAC
 C
       FASTEX(X)=EXTAB(IFIX(X)+1)*
@@ -385,10 +385,10 @@ C     ADD LINES TO BUFFER
             ISOFRACSOL  = isoinfo(K,3)  
             ISOFRACSTAR = isoinfo(K,4) 
 
-            CORR1 = LOG10(1.0+(1.0/ISOFRACSOL))
-     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
-            CORR2 = LOG10(1.0+ISOFRACSOL)
-     1                  -LOG10(1.0+ISOFRACSTAR)
+            CORR1 = DLOG10(1.0+(1.0/ISOFRACSOL))
+     1                  -DLOG10(1.0+(1.0/ISOFRACSTAR))
+            CORR2 = DLOG10(1.0+ISOFRACSOL)
+     1                  -DLOG10(1.0+ISOFRACSTAR)
 
 C           FOR ATOM
             IF(CODE.LT.100.0)THEN
@@ -409,7 +409,7 @@ C                  print *, LOG10(1.0+ISOFRACSTAR)
 
                   GFI = 10.0**(GFLOGI)
 !                  GFLOG = GFLOGI
-                  CONGF=.026538D0/1.77245D0*GFI/FREQ
+                  CONGFI=.026538D0/1.77245D0*GFI/FREQ
 C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
             ENDIF
             ENDIF
@@ -436,7 +436,7 @@ C                 print *, LOG10(1.0+ISOFRACSTAR)
 
                   GFI = 10.0**(GFLOGI)
                   ! GFLOG = GFLOGI
-                  CONGF=.026538D0/1.77245D0*GFI/FREQ
+                  CONGFI=.026538D0/1.77245D0*GFI/FREQ
 C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
             ENDIF
                   
@@ -457,7 +457,7 @@ C                 print *, LOG10(1.0+ISOFRACSTAR)
 
                   GFI = 10.0**(GFLOGI)
 !                  GFLOG = GFLOGI
-                  CONGF=.026538D0/1.77245D0*GFI/FREQ
+                  CONGFI=.026538D0/1.77245D0*GFI/FREQ
 C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
             ENDIF                        
  2606       ENDIF
@@ -468,8 +468,8 @@ c
 c     include Barklem, Anstee, and O'Mara van der Waals
 c     READ(12)NBUFF,CONGF,NELION,ELO,GAMRF,GAMSF,GAMWF,alpha
 c
-      QCONGF=CONGF
-      KAPPA0=CONGF*QXNFDOP(NELION)
+      QCONGF=CONGFI
+      KAPPA0=CONGFI*QXNFDOP(NELION)
 C     KAPPA0=CONGF*XNFDOP(NELION)
 C     PROBLEMS WITH OVERFLOW ON VAX
 C     KAPPA0=CONGF/DOPPLE(NELION)*XNFPEL(NELION)
