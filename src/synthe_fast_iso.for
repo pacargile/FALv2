@@ -84,9 +84,9 @@ C      REAL*8 ASYNTH,ALINEC,TITLE,TEFF,GLOG,IDMOL,MOMASS
       REAL*8 WL,E,EP,WLVAC,CENTER,CONCEN
       REAL*8 LABEL,LABELP,OTHER1,OTHER2
       real*8 wavel
-      REAL*8 isoinfo(5,4)
-      REAL*8 ISOFRACSOL, ISOFRACSTAR, ISOFRACISO1, ISOFRACISO2, GFLOGI
-      REAL*8 CORR1, CORR2
+      REAL*4 isoinfo(5,4)
+      REAL*4 ISOFRACSOL, ISOFRACSTAR, ISOFRACISO1, ISOFRACISO2, GFLOGI
+      REAL*4 CORR1, CORR2
       INTEGER*4 NISOFRAC
 C
       FASTEX(X)=EXTAB(IFIX(X)+1)*
@@ -149,10 +149,10 @@ C
                   ISOFRACSOL  = isoinfo(J,3)  
                   ISOFRACSTAR = isoinfo(J,4) 
 
-                  CORR1 = DLOG10(1.0+(1.0/ISOFRACSOL))
-     1                  -DLOG10(1.0+(1.0/ISOFRACSTAR))
-                  CORR2 = DLOG10(1.0+ISOFRACSOL)
-     1                  -DLOG10(1.0+ISOFRACSTAR)
+                  CORR1 = LOG10(1.0+(1.0/ISOFRACSOL))
+     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
+                  CORR2 = LOG10(1.0+ISOFRACSOL)
+     1                  -LOG10(1.0+ISOFRACSTAR)
                   IF(I.EQ.1)THEN
                         WRITE(6,*)'CORR1 = ',CORR1
                         WRITE(6,*)'CORR2 = ',CORR2
@@ -376,10 +376,10 @@ C     ADD LINES TO BUFFER
             ISOFRACSOL  = isoinfo(K,3)  
             ISOFRACSTAR = isoinfo(K,4) 
 
-            CORR1 = DLOG10(1.0+(1.0/ISOFRACSOL))
-     1                  -DLOG10(1.0+(1.0/ISOFRACSTAR))
-            CORR2 = DLOG10(1.0+ISOFRACSOL)
-     1                  -DLOG10(1.0+ISOFRACSTAR)
+            CORR1 = LOG10(1.0+(1.0/ISOFRACSOL))
+     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
+            CORR2 = LOG10(1.0+ISOFRACSOL)
+     1                  -LOG10(1.0+ISOFRACSTAR)
 
 C           FOR ATOM
             IF(CODE.LT.100.0)THEN
