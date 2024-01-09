@@ -157,7 +157,8 @@ C
                   IF(I.EQ.1)THEN
                         WRITE(6,*)'CORR1 = ',CORR1
                         WRITE(6,*)'CORR2 = ',CORR2
-
+                  ENDIF
+                  
 C                 FOR ATOM
                   IF(CODE.LT.100.0)THEN
                   IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
