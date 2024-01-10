@@ -270,45 +270,61 @@ C     ADD LINES TO BUFFER
             ISOFRACSOL  = isoinfo(K,3)  
             ISOFRACSTAR = isoinfo(K,4) 
 
-            CORR1 = DLOG10(1.0+(1.0/ISOFRACSOL))
-     1                  -DLOG10(1.0+(1.0/ISOFRACSTAR))
-            CORR2 = DLOG10(1.0+ISOFRACSOL)
-     1                  -DLOG10(1.0+ISOFRACSTAR)
+            CORR1 = LOG10(1.0+(1.0/ISOFRACSOL))
+     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
+            CORR2 = LOG10(1.0+ISOFRACSOL)
+     1                  -LOG10(1.0+ISOFRACSTAR)
 
 C           FOR ATOM
             IF(CODE.LT.100.0)THEN
+C
+C           Set the initial GFLOG            
+            GFLOGI = GFLOG
+C
             IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
 C                 DO THE CORRECTION
-                  FREQ=2.99792458D17/WL
-                  GF = CONGF*FREQ*1.77245D0/.026538D0
-                  GFLOGI = LOG10(GF)
+C                  FREQ=REAL(2.99792458D17/WL)
+C                  GF = CONGF*FREQ*1.77245E0/.026538E0
+C                  GFLOGI = LOG10(GF)
                   
                   IF(ISO1.EQ.ISOFRACISO1)THEN
-                  GFLOGI = GFLOGI+CORR1
+                  GFLOGI = GFLOG+CORR1
 C                 print *, LOG10(1.0+(1.0/ISOFRACSTAR))
                   ENDIF
                   IF(ISO1.EQ.ISOFRACISO2)THEN
-                  GFLOGI = GFLOGI+CORR2
+                  GFLOGI = GFLOG+CORR2
 C                  print *, LOG10(1.0+ISOFRACSTAR)
                   ENDIF
 
-                  GFI = 10.0**(GFLOGI)
-!                  GFLOG = GFLOGI
-                  CONGFI=.026538D0/1.77245D0*GFI/FREQ
-C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
             ENDIF
+C            
+            FREQ = 2.99792458D17/WL
+            GFI = 10.0**(GFLOGI)
+            CONGFI=.026538D0/1.77245D0*GFI/FREQ
+C
+C            IF(GFLOG.NE.GFLOGI)THEN
+C            DGFLOG=GFLOG-GFLOGI
+C            WRITE(6,*)'ATM',CORR1,CORR2,ILINE,GFLOG,GFLOGI,DGFLOG,
+C     1       CONGF,CONGFI,CODE,ISO1,ISO2
+C            ENDIF
+C
+C           END OF ATOMIC BLOCK            
             ENDIF
 
 C           FOR MOLE
             IF(CODE.GT.100.0)THEN
+C
+C           SET THE INITIAL GFLOG
+            GFLOGI = GFLOG
+C
 C           CHECK TO SEE IF C2 WITH 12C AND 13C
             IF(CODE.EQ.606.0.AND.ISO1.NE.ISO2)GO TO 2606
 C
             IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
 C           DO THE CORRECTION
-                  FREQ=2.99792458D17/WL
-                  GF = CONGF*FREQ*1.77245D0/.026538D0
-                  GFLOGI = LOG10(GF)
+C                  FREQ=REAL(2.99792458D17/WL)
+C                  GF = CONGF*FREQ*1.77245E0/.026538E0
+C                  GFLOGI = LOG10(GF)
             
                   IF(ISO1.EQ.ISOFRACISO1)THEN
                   GFLOGI = GFLOGI+CORR1
@@ -319,17 +335,19 @@ C                 print *, LOG10(1.0+(1.0/ISOFRACSTAR))
 C                 print *, LOG10(1.0+ISOFRACSTAR)
                   ENDIF
 
-                  GFI = 10.0**(GFLOGI)
-                  ! GFLOG = GFLOGI
-                  CONGFI=.026538D0/1.77245D0*GFI/FREQ
-C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
+C                  GFI = 10.0**(GFLOGI)
+C                  ! GFLOG = GFLOGI
+C                  CONGFI=.026538E0/1.77245E0*GFI/FREQ
+C            DGFLOG=GFLOG-GFLOGI
+C            WRITE(6,*)'MOL1',CORR1,CORR2,ILINE,GFLOG,GFLOGI,DGFLOG,
+C     1       CONGF,CONGFI,CODE,ISO1,ISO2
             ENDIF
                   
             IF(ISO2.EQ.ISOFRACISO1.OR.ISO2.EQ.ISOFRACISO2)THEN
 C           DO THE CORRECTION
-                  FREQ=2.99792458D17/WL
-                  GF = CONGF*FREQ*1.77245D0/.026538D0
-                  GFLOGI = LOG10(GF)
+C                  FREQ=REAL(2.99792458D17/WL)
+C                  GF = CONGF*FREQ*1.77245E0/.026538E0
+C                  GFLOGI = LOG10(GF)
             
                   IF(ISO2.EQ.ISOFRACISO1)THEN
                   GFLOGI = GFLOGI+CORR1
@@ -340,12 +358,29 @@ C                 print *, LOG10(1.0+(1.0/ISOFRACSTAR))
 C                 print *, LOG10(1.0+ISOFRACSTAR)
                   ENDIF
 
-                  GFI = 10.0**(GFLOGI)
-!                  GFLOG = GFLOGI
-                  CONGFI=.026538D0/1.77245D0*GFI/FREQ
-C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
-            ENDIF                        
- 2606       ENDIF
+C                  GFI = 10.0**(GFLOGI)
+C!                  GFLOG = GFLOGI
+C                  CONGFI=.026538E0/1.77245E0*GFI/FREQ
+C            DGFLOG=GFLOG-GFLOGI
+C            WRITE(6,*)'MOL2',CORR1,CORR2,ILINE,GFLOG,GFLOGI,DGFLOG,
+C     1       CONGF,CONGFI,CODE,ISO1,ISO2
+            ENDIF
+C            
+ 2606       CONTINUE
+
+            FREQ = 2.99792458D17/WL
+            GFI = 10.0**(GFLOGI)
+            CONGFI=.026538D0/1.77245D0*GFI/FREQ
+
+C            IF(GFLOG.NE.GFLOGI)THEN
+C            DGFLOG=GFLOG-GFLOGI
+C            WRITE(6,*)'MOL',CORR1,CORR2,ILINE,GFLOG,GFLOGI,DGFLOG,
+C     1       CONGF,CONGFI,CODE,ISO1,ISO2
+C            ENDIF
+
+c           END OF MOL BLOCK            
+            ENDIF
+
 4           CONTINUE  
       ENDIF
 
