@@ -84,30 +84,16 @@ C      REAL*8 ASYNTH,ALINEC,TITLE,TEFF,GLOG,IDMOL,MOMASS
       REAL*8 WL,E,EP,WLVAC,CENTER,CONCEN
       REAL*8 LABEL,LABELP,OTHER1,OTHER2
       real*8 wavel
-      REAL*8 isoinfo(5,4)
-      REAL*8 ISOFRACSOL, ISOFRACSTAR, ISOFRACISO1, ISOFRACISO2
-      REAL*8 GFLOGI,GFI,CONGFI
-      REAL*8 CORR1, CORR2
+      REAL*4 isoinfo(5,4)
+      REAL*4 ISOFRACSOL, ISOFRACSTAR, ISOFRACISO1, ISOFRACISO2
+      REAL*4 GFLOGI,GFI,CONGFI
+      REAL*4 CORR1, CORR2
       INTEGER*4 NISOFRAC
 C
       FASTEX(X)=EXTAB(IFIX(X)+1)*
      1EXTABF(IFIX((X-FLOAT(IFIX(X)))*1000.+1.5))
 C
       READ(5,*) NISOFRAC, ((isoinfo(I,J),J=1,4), I=1,NISOFRAC)
-!       WRITE(6,*)"NISOFRAC",NISOFRAC
-!       IF(NISOFRAC.GT.0)THEN
-!             DO 2 I=1,NISOFRAC
-!                   READ(5,*)ISOFRACISO1, ISOFRACISO2, ISOFRACSOL, ISOFRACSTAR
-!                   isoinfo(1,I) = ISOFRACISO1
-!                   isoinfo(2,I) = ISOFRACISO2
-!                   isoinfo(3,I) = ISOFRACSOL
-!                   isoinfo(4,I) = ISOFRACSTAR
-!                   WRITE(6,*)ISOFRACISO1, ISOFRACISO2, ISOFRACSOL, ISOFRACSTAR
-!    2        CONTINUE 
-!       ENDIF
-
-!       WRITE(6,*) 'ISOINFO'
-!       WRITE(6,*) isoinfo
 
       READ(93)NLINES,LENGTH,IFVAC,IFNLTE,N19,TURBV,DECKJ,IFPRED,
      1WLBEG,WLEND,RESOLU,RATIO,RATIOLG,CUTOFF,LINOUT
@@ -284,17 +270,17 @@ C     ADD LINES TO BUFFER
             ISOFRACSOL  = isoinfo(K,3)  
             ISOFRACSTAR = isoinfo(K,4) 
 
-            CORR1 = DLOG10(1.0+(1.0/ISOFRACSOL))
-     1                  -DLOG10(1.0+(1.0/ISOFRACSTAR))
-            CORR2 = DLOG10(1.0+ISOFRACSOL)
-     1                  -DLOG10(1.0+ISOFRACSTAR)
+            CORR1 = LOG10(1.0+(1.0/ISOFRACSOL))
+     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
+            CORR2 = LOG10(1.0+ISOFRACSOL)
+     1                  -LOG10(1.0+ISOFRACSTAR)
 
 C           FOR ATOM
             IF(CODE.LT.100.0)THEN
             IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
 C                 DO THE CORRECTION
-                  FREQ=2.99792458D17/WL
-                  GF = CONGF*FREQ*1.77245D0/.026538D0
+                  FREQ=REAL(2.99792458D17/WL)
+                  GF = CONGF*FREQ*1.77245E0/.026538E0
                   GFLOGI = LOG10(GF)
                   
                   IF(ISO1.EQ.ISOFRACISO1)THEN
@@ -308,8 +294,9 @@ C                  print *, LOG10(1.0+ISOFRACSTAR)
 
                   GFI = 10.0**(GFLOGI)
 !                  GFLOG = GFLOGI
-                  CONGFI=.026538D0/1.77245D0*GFI/FREQ
-C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
+                  CONGFI=.026538E0/1.77245E0*GFI/FREQ
+            WRITE(6,*)CORR1,CORR2,ILINE,GFLOG,GFLOGI,CONGF,CONGFI,
+     1       CODE,ISO1,ISO2
             ENDIF
             ENDIF
 
@@ -320,8 +307,8 @@ C           CHECK TO SEE IF C2 WITH 12C AND 13C
 C
             IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
 C           DO THE CORRECTION
-                  FREQ=2.99792458D17/WL
-                  GF = CONGF*FREQ*1.77245D0/.026538D0
+                  FREQ=REAL(2.99792458D17/WL)
+                  GF = CONGF*FREQ*1.77245E0/.026538E0
                   GFLOGI = LOG10(GF)
             
                   IF(ISO1.EQ.ISOFRACISO1)THEN
@@ -335,14 +322,15 @@ C                 print *, LOG10(1.0+ISOFRACSTAR)
 
                   GFI = 10.0**(GFLOGI)
                   ! GFLOG = GFLOGI
-                  CONGFI=.026538D0/1.77245D0*GFI/FREQ
-C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
+                  CONGFI=.026538E0/1.77245E0*GFI/FREQ
+            WRITE(6,*)CORR1,CORR2,ILINE,GFLOG,GFLOGI,CONGF,CONGFI,
+     1       CODE,ISO1,ISO2
             ENDIF
                   
             IF(ISO2.EQ.ISOFRACISO1.OR.ISO2.EQ.ISOFRACISO2)THEN
 C           DO THE CORRECTION
-                  FREQ=2.99792458D17/WL
-                  GF = CONGF*FREQ*1.77245D0/.026538D0
+                  FREQ=REAL(2.99792458D17/WL)
+                  GF = CONGF*FREQ*1.77245E0/.026538E0
                   GFLOGI = LOG10(GF)
             
                   IF(ISO2.EQ.ISOFRACISO1)THEN
@@ -356,8 +344,9 @@ C                 print *, LOG10(1.0+ISOFRACSTAR)
 
                   GFI = 10.0**(GFLOGI)
 !                  GFLOG = GFLOGI
-                  CONGFI=.026538D0/1.77245D0*GFI/FREQ
-C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
+                  CONGFI=.026538E0/1.77245E0*GFI/FREQ
+            WRITE(6,*)CORR1,CORR2,ILINE,GFLOG,GFLOGI,CONGF,CONGFI,
+     1       CODE,ISO1,ISO2
             ENDIF                        
  2606       ENDIF
 4           CONTINUE  

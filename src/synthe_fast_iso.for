@@ -94,20 +94,6 @@ C
      1EXTABF(IFIX((X-FLOAT(IFIX(X)))*1000.+1.5))
 C
       READ(5,*) NISOFRAC, ((isoinfo(I,J),J=1,4), I=1,NISOFRAC)
-!       WRITE(6,*)"NISOFRAC",NISOFRAC
-!       IF(NISOFRAC.GT.0)THEN
-!             DO 2 I=1,NISOFRAC
-!                   READ(5,*)ISOFRACISO1, ISOFRACISO2, ISOFRACSOL, ISOFRACSTAR
-!                   isoinfo(1,I) = ISOFRACISO1
-!                   isoinfo(2,I) = ISOFRACISO2
-!                   isoinfo(3,I) = ISOFRACSOL
-!                   isoinfo(4,I) = ISOFRACSTAR
-!                   WRITE(6,*)ISOFRACISO1, ISOFRACISO2, ISOFRACSOL, ISOFRACSTAR
-!    2        CONTINUE 
-!       ENDIF
-
-!       WRITE(6,*) 'ISOINFO'
-!       WRITE(6,*) isoinfo
 
       READ(93)NLINES,LENGTH,IFVAC,IFNLTE,N19,TURBV,DECKJ,IFPRED,
      1WLBEG,WLEND,RESOLU,RATIO,RATIOLG,CUTOFF,LINOUT
