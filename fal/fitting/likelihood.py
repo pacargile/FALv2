@@ -219,7 +219,6 @@ class Like(object):
 
         return modarr
     
-    @jit
     def calcchisq(self,modarr):
 
         # compute chi-sq summing over each input spectrum
