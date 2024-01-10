@@ -165,18 +165,21 @@ class Synthe(object):
         # read in binary output
         outdat = self.RK.readspecbin('./ROT1')
 
-        print('RS QMU1 = ',outdat['qmu1'][:20],flush=True)
-        print('RS QMU2 = ',outdat['qmu2'][:20],flush=True)
-
         if self.vmac > 0.0:
             sflux = self.broadenS(outdat,vmac=self.vmac,verbose_broS=verbose)
             outdat['qmu1'] = sflux[0]
             outdat['qmu2'] = sflux[1]
 
+        print('RS1 QMU1 = ',outdat['qmu1'][:20],flush=True)
+        print('RS1 QMU2 = ',outdat['qmu2'][:20],flush=True)
+
         if self.R > 0.0:
             sflux = self.broadenR(outdat,R=self.R,verbose_broR=verbose)
             outdat['qmu1'] = sflux[0]
             outdat['qmu2'] = sflux[1]
+
+        print('RS2 QMU1 = ',outdat['qmu1'][:20],flush=True)
+        print('RS2 QMU2 = ',outdat['qmu2'][:20],flush=True)
 
         return outdat
 
