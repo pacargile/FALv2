@@ -64,7 +64,7 @@ class Like(object):
         self.specinfo['vmac']  = []
         self.specinfo['rotvel']  = []
         self.specinfo['R'] = []
-        self.specinfo['C12/C13'] = []
+        self.specinfo['isofrac'] = []
         self.specinfo['rvshiftbool'] = []
         self.specinfo['scalebool'] = []
         self.specinfo['weaklinemod'] = []
@@ -92,10 +92,10 @@ class Like(object):
             else:
                 self.specinfo['R'].append(0.0)
             
-            if 'C12/C13' in inspecinfo.keys():
-                self.specinfo['C12/C13'].append(inspecinfo['C12/C13'])
+            if 'isofrac' in inspecinfo.keys():
+                self.specinfo['isofrac'].append(inspecinfo['isofrac'])
             else:
-                self.specinfo['C12/C13'].append(None)
+                self.specinfo['isofrac'].append(None)
 
             if 'rvshiftbool' in inspecinfo.keys():
                 self.specinfo['rvshiftbool'].append(inspecinfo['rvshiftbool'])
@@ -130,6 +130,7 @@ class Like(object):
             inputdict['he1tables'] = './data/he1tables.dat'
             inputdict['spectrv_infile'] = './data/spectrv.input'
 
+            inputdict['isofrac']   = self.specinfo['isofrac'][ii]
             inputdict['atmmod'] = self.specinfo['modatm'][ii]
             inputdict['rotvel'] = self.specinfo['rotvel'][ii]
             inputdict['R'] = self.specinfo['R'][ii]
@@ -218,6 +219,7 @@ class Like(object):
 
         return modarr
     
+    @jit
     def calcchisq(self,modarr):
 
         # compute chi-sq summing over each input spectrum

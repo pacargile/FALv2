@@ -355,7 +355,7 @@ class RunPrep(object):
                 # run SYNTHE in seg directory
                 synout_i = RS.run()
 
-                print(synout_i['qmu1'][:10])
+                # print(synout_i['qmu1'][:10])
 
                 # write spectrum to seg_num/data/
                 tmpspec = Table()
