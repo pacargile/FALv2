@@ -276,7 +276,7 @@ class Synthe(object):
             starttime_syn = datetime.now()
             print(f"Running {cmdname}... [{starttime_syn}]",flush=True)
         if isobool:
-            self.synout = self._callpro(cmdname,isostr,verbose=False)#verbose_syn)
+            self.synout = self._callpro(cmdname,isostr,verbose=True)#verbose_syn)
         else:        
             self.synout = self._callpro(cmdname,isostr,verbose=False)#verbose_syn)
         if self.verbose:
