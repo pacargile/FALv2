@@ -170,8 +170,8 @@ class Synthe(object):
             outdat['qmu1'] = sflux[0]
             outdat['qmu2'] = sflux[1]
 
-        print('RS1 QMU1 = ',np.all(np.isfinite(outdat['qmu1'])),flush=True)
-        print('RS1 QMU2 = ',np.all(np.isfinite(outdat['qmu2'])),flush=True)
+        print('RS1 QMU1 = ',np.isfinite(outdat['qmu1']).sum(),flush=True)
+        print('RS1 QMU2 = ',np.isfinite(outdat['qmu2']).sum(),flush=True)
 
         if self.R > 0.0:
             sflux = self.broadenR(outdat,R=self.R,verbose_broR=verbose)
