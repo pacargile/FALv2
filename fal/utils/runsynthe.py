@@ -260,8 +260,6 @@ class Synthe(object):
                 iso1,iso2,isofrac_sun,isofrac_star = self.isofrac[kk]
                 isostr += f"{iso1:d} {iso2:d} {isofrac_sun:.5f} {isofrac_star:.5f}\n" 
 
-        print('SYNTHE:ISOSTR',isostr)
-
         if self.synspeed == 'slow':
             if isobool:
                 cmdname = 'synthe_iso'
