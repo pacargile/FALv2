@@ -298,8 +298,9 @@ C                  print *, LOG10(1.0+ISOFRACSTAR)
 
             ENDIF
 C            
+            FREQ = 2.99792458D17/WL
             GFI = 10.0**(GFLOGI)
-            CONGFI=.026538E0/1.77245E0*GFI/FREQ
+            CONGFI=.026538D0/1.77245D0*GFI/FREQ
 C
             IF(GFLOG.NE.GFLOGI)THEN
             DGFLOG=GFLOG-GFLOGI
@@ -367,8 +368,9 @@ C     1       CONGF,CONGFI,CODE,ISO1,ISO2
 C            
  2606       CONTINUE
 
+            FREQ = 2.99792458D17/WL
             GFI = 10.0**(GFLOGI)
-            CONGFI=.026538E0/1.77245E0*GFI/FREQ
+            CONGFI=.026538D0/1.77245D0*GFI/FREQ
 
             IF(GFLOG.NE.GFLOGI)THEN
             DGFLOG=GFLOG-GFLOGI
