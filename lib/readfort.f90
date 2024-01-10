@@ -874,8 +874,8 @@ module readfort
            FREQTOWAVE=2.99792458D17/SWL**2
            wavei(IWL) = SWL
            READ(1)(QMU(INMU),INMU=1,NMU2)
-        !    IF(IWL.EQ.1)WRITE(6,*) '1',QMU(1)*FREQTOWAVE
-        !    IF(IWL.EQ.1)WRITE(6,*) '2',QMU(2)*FREQTOWAVE
+           IF(IWL.EQ.1)WRITE(6,*) '1',QMU(1)*FREQTOWAVE
+           IF(IWL.EQ.1)WRITE(6,*) '2',QMU(2)*FREQTOWAVE
            qmu1i(IWL) = QMU(1)*FREQTOWAVE
            qmu2i(IWL) = QMU(2)*FREQTOWAVE
       6 CONTINUE
