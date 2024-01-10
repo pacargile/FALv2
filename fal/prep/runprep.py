@@ -320,7 +320,7 @@ class RunPrep(object):
 
             for ii,atm_i in enumerate(self.atmflist):
                 inputdict = {}
-                inputdict['verbose']   = True
+                inputdict['verbose']   = False
                 inputdict['exedir']    = './bin/'
                 inputdict['molecules'] = './data/molecules.dat'
                 inputdict['continuua'] = './data/continuua.dat'
@@ -407,7 +407,7 @@ class RunPrep(object):
             inputdict['continuua'] = './data/continuua.dat'
             inputdict['he1tables'] = './data/he1tables.dat'
             inputdict['spectrv_infile'] = './data/spectrv.input'
-            inputdict['verbose'] = True
+            inputdict['verbose'] = False
             inputdict['synspeed'] = 'fast'
 
             RS = runsynthe.Synthe(**inputdict)
