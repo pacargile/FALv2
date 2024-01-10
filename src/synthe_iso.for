@@ -279,16 +279,16 @@ C           FOR ATOM
             IF(CODE.LT.100.0)THEN
             IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
 C                 DO THE CORRECTION
-                  FREQ=REAL(2.99792458D17/WL)
-                  GF = CONGF*FREQ*1.77245E0/.026538E0
-                  GFLOGI = LOG10(GF)
+C                  FREQ=REAL(2.99792458D17/WL)
+C                  GF = CONGF*FREQ*1.77245E0/.026538E0
+C                  GFLOGI = LOG10(GF)
                   
                   IF(ISO1.EQ.ISOFRACISO1)THEN
-                  GFLOGI = GFLOGI+CORR1
+                  GFLOGI = GFLOG+CORR1
 C                 print *, LOG10(1.0+(1.0/ISOFRACSTAR))
                   ENDIF
                   IF(ISO1.EQ.ISOFRACISO2)THEN
-                  GFLOGI = GFLOGI+CORR2
+                  GFLOGI = GFLOG+CORR2
 C                  print *, LOG10(1.0+ISOFRACSTAR)
                   ENDIF
 
@@ -308,12 +308,12 @@ C           CHECK TO SEE IF C2 WITH 12C AND 13C
 C
             IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
 C           DO THE CORRECTION
-                  FREQ=REAL(2.99792458D17/WL)
-                  GF = CONGF*FREQ*1.77245E0/.026538E0
-                  GFLOGI = LOG10(GF)
+C                  FREQ=REAL(2.99792458D17/WL)
+C                  GF = CONGF*FREQ*1.77245E0/.026538E0
+C                  GFLOGI = LOG10(GF)
             
                   IF(ISO1.EQ.ISOFRACISO1)THEN
-                  GFLOGI = GFLOGI+CORR1
+                  GFLOGI = GFLOG+CORR1
 C                 print *, LOG10(1.0+(1.0/ISOFRACSTAR))
                   ENDIF
                   IF(ISO1.EQ.ISOFRACISO2)THEN
@@ -331,16 +331,16 @@ C                 print *, LOG10(1.0+ISOFRACSTAR)
                   
             IF(ISO2.EQ.ISOFRACISO1.OR.ISO2.EQ.ISOFRACISO2)THEN
 C           DO THE CORRECTION
-                  FREQ=REAL(2.99792458D17/WL)
-                  GF = CONGF*FREQ*1.77245E0/.026538E0
-                  GFLOGI = LOG10(GF)
+C                  FREQ=REAL(2.99792458D17/WL)
+C                  GF = CONGF*FREQ*1.77245E0/.026538E0
+C                  GFLOGI = LOG10(GF)
             
                   IF(ISO2.EQ.ISOFRACISO1)THEN
-                  GFLOGI = GFLOGI+CORR1
+                  GFLOGI = GFLOG+CORR1
 C                 print *, LOG10(1.0+(1.0/ISOFRACSTAR))
                   ENDIF
                   IF(ISO2.EQ.ISOFRACISO2)THEN
-                  GFLOGI = GFLOGI+CORR2
+                  GFLOGI = GFLOG+CORR2
 C                 print *, LOG10(1.0+ISOFRACSTAR)
                   ENDIF
 
