@@ -1020,7 +1020,7 @@ class RunPrep(object):
                 continuua='./data/continuua.dat',
                 he1tables='./data/he1tables.dat',
                 spectrv_infile='./data/spectrv.input',                
-                verbose=True,
+                verbose=False,
                 synspeed='fast',
                 )
             RS.setfpaths(
