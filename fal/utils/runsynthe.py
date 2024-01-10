@@ -170,6 +170,13 @@ class Synthe(object):
             outdat['qmu1'] = sflux[0]
             outdat['qmu2'] = sflux[1]
 
+        # make sure broadening didn't introduce nan's
+        cond = np.isfinite(outdat['qmu1'])
+        if cond.sum() != len(outdat['qmu1']):
+            outdat['wave'] = outdat['wave'][cond]
+            outdat['qmu1'] = outdat['qmu1'][cond]
+            outdat['qmu2'] = outdat['qmu2'][cond]
+
         print('RS1 QMU1 = ',np.isfinite(outdat['qmu1']).sum(),len(outdat['qmu1']),flush=True)
         print('RS1 QMU2 = ',np.isfinite(outdat['qmu2']).sum(),len(outdat['qmu2']),flush=True)
 
