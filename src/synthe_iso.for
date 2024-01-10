@@ -86,7 +86,7 @@ C      REAL*8 ASYNTH,ALINEC,TITLE,TEFF,GLOG,IDMOL,MOMASS
       real*8 wavel
       REAL*4 isoinfo(5,4)
       REAL*4 ISOFRACSOL, ISOFRACSTAR, ISOFRACISO1, ISOFRACISO2
-      REAL*4 GFLOGI,GFI,CONGFI
+      REAL*4 GFLOGI,GFI,CONGFI,DGFLOG
       REAL*4 CORR1, CORR2
       INTEGER*4 NISOFRAC
 C
@@ -295,7 +295,8 @@ C                  print *, LOG10(1.0+ISOFRACSTAR)
                   GFI = 10.0**(GFLOGI)
 !                  GFLOG = GFLOGI
                   CONGFI=.026538E0/1.77245E0*GFI/FREQ
-            WRITE(6,*)'ATM',CORR1,CORR2,ILINE,GFLOG,GFLOGI,GFLOG-GFLOGI,
+            DGFLOG=GFLOG-GFLOGI
+            WRITE(6,*)'ATM',CORR1,CORR2,ILINE,GFLOG,GFLOGI,DGFLOG,
      1       CONGF,CONGFI,CODE,ISO1,ISO2
             ENDIF
             ENDIF
@@ -323,7 +324,8 @@ C                 print *, LOG10(1.0+ISOFRACSTAR)
                   GFI = 10.0**(GFLOGI)
                   ! GFLOG = GFLOGI
                   CONGFI=.026538E0/1.77245E0*GFI/FREQ
-            WRITE(6,*)'MOL1',CORR1,CORR2,ILINE,GFLOG,GFLOGI,GFLOG-GFLOGI,
+            DGFLOG=GFLOG-GFLOGI
+            WRITE(6,*)'MOL1',CORR1,CORR2,ILINE,GFLOG,GFLOGI,DGFLOG,
      1       CONGF,CONGFI,CODE,ISO1,ISO2
             ENDIF
                   
@@ -345,7 +347,8 @@ C                 print *, LOG10(1.0+ISOFRACSTAR)
                   GFI = 10.0**(GFLOGI)
 !                  GFLOG = GFLOGI
                   CONGFI=.026538E0/1.77245E0*GFI/FREQ
-            WRITE(6,*)'MOL2',CORR1,CORR2,ILINE,GFLOG,GFLOGI,GFLOG-GFLOGI,
+            DGFLOG=GFLOG-GFLOGI
+            WRITE(6,*)'MOL2',CORR1,CORR2,ILINE,GFLOG,GFLOGI,DGFLOG,
      1       CONGF,CONGFI,CODE,ISO1,ISO2
             ENDIF                        
  2606       ENDIF
