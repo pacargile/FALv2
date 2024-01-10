@@ -1048,9 +1048,6 @@ class ReadKurucz(object):
             RESIDi.ctypes.data_as(c_double_p),    
         )
 
-        print('RKPY QMU1: ',qmu1i[:20],flush=True)
-        print('RKPY QMU2: ',qmu2i[:20],flush=True)
-
         output = ({
             'wave':wavei, 
             'qmu1':qmu1i, 
