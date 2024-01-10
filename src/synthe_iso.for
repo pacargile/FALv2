@@ -84,9 +84,10 @@ C      REAL*8 ASYNTH,ALINEC,TITLE,TEFF,GLOG,IDMOL,MOMASS
       REAL*8 WL,E,EP,WLVAC,CENTER,CONCEN
       REAL*8 LABEL,LABELP,OTHER1,OTHER2
       real*8 wavel
-      REAL*4 isoinfo(5,4)
-      REAL*4 ISOFRACSOL, ISOFRACSTAR, ISOFRACISO1, ISOFRACISO2, GFLOGI
-      REAL*4 CORR1, CORR2
+      REAL*8 isoinfo(5,4)
+      REAL*8 ISOFRACSOL, ISOFRACSTAR, ISOFRACISO1, ISOFRACISO2
+      REAL*8 GFLOGI,GFI,CONGFI
+      REAL*8 CORR1, CORR2
       INTEGER*4 NISOFRAC
 C
       FASTEX(X)=EXTAB(IFIX(X)+1)*
@@ -137,100 +138,11 @@ C
  3440 WRITE(13)LINDAT8,LINDAT4
       ENDIF
       IF(NLINES.GT.0)THEN
-            REWIND 12
-            REWIND 14
+      REWIND 14
       DO 3441 I=1,NLINES
-            READ(12)NBUFF,CONGF,NELION,ELO,GAMRF,GAMSF,GAMWF
-            READ(14)LINDAT8,LINDAT4
-            IF(NISOFRAC.GT.0)THEN
-                  DO 3 J=1,NISOFRAC
-                  ISOFRACISO1 = isoinfo(J,1) 
-                  ISOFRACISO2 = isoinfo(J,2) 
-                  ISOFRACSOL  = isoinfo(J,3)  
-                  ISOFRACSTAR = isoinfo(J,4) 
-
-                  CORR1 = LOG10(1.0+(1.0/ISOFRACSOL))
-     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
-                  CORR2 = LOG10(1.0+ISOFRACSOL)
-     1                  -LOG10(1.0+ISOFRACSTAR)
-
-C                 FOR ATOM
-                  IF(CODE.LT.100.0)THEN
-                  IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
-C                 DO THE CORRECTION
-                        FREQ=2.99792458D17/WL
-                        GF = CONGF*FREQ*1.77245D0/.026538D0
-                        GFLOGI = LOG10(GF)
-                  
-                        IF(ISO1.EQ.ISOFRACISO1)THEN
-                        GFLOGI = GFLOGI+CORR1
-C                       print *, LOG10(1.0+(1.0/ISOFRACSTAR))
-                        ENDIF
-                        IF(ISO1.EQ.ISOFRACISO2)THEN
-                        GFLOGI = GFLOGI+CORR2
-C                       print *, LOG10(1.0+ISOFRACSTAR)
-                        ENDIF
-
-                        GF = 10.0**(GFLOGI)
-                        GFLOG = GFLOGI
-                        CONGF=.026538D0/1.77245D0*GF/FREQ
-C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
-                  ENDIF
-                  ENDIF
-
-C                 FOR MOLE
-                  IF(CODE.GT.100.0)THEN
-C                 CHECK TO SEE IF C2 WITH 12C AND 13C
-                  IF(CODE.EQ.606.0.AND.ISO1.NE.ISO2)GO TO 1606
-C
-                  IF(ISO1.EQ.ISOFRACISO1.OR.ISO1.EQ.ISOFRACISO2)THEN
-C                 DO THE CORRECTION
-                        FREQ=2.99792458D17/WL
-                        GF = CONGF*FREQ*1.77245D0/.026538D0
-                        GFLOGI = LOG10(GF)
-                  
-                        IF(ISO1.EQ.ISOFRACISO1)THEN
-                        GFLOGI = GFLOGI+CORR1
-C                       print *, LOG10(1.0+(1.0/ISOFRACSTAR))
-                        ENDIF
-                        IF(ISO1.EQ.ISOFRACISO2)THEN
-                        GFLOGI = GFLOGI+CORR2
-C                       print *, LOG10(1.0+ISOFRACSTAR)
-                        ENDIF
-
-                        GF = 10.0**(GFLOGI)
-                        GFLOG = GFLOGI
-                        CONGF=.026538D0/1.77245D0*GF/FREQ
-C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
-                  ENDIF
-                  
-                  IF(ISO2.EQ.ISOFRACISO1.OR.ISO2.EQ.ISOFRACISO2)THEN
-C                 DO THE CORRECTION
-                        FREQ=2.99792458D17/WL
-                        GF = CONGF*FREQ*1.77245D0/.026538D0
-                        GFLOGI = LOG10(GF)
-                  
-                        IF(ISO2.EQ.ISOFRACISO1)THEN
-                        GFLOGI = GFLOGI+CORR1
-C                       print *, LOG10(1.0+(1.0/ISOFRACSTAR))
-                        ENDIF
-                        IF(ISO2.EQ.ISOFRACISO2)THEN
-                        GFLOGI = GFLOGI+CORR2
-C                       print *, LOG10(1.0+ISOFRACSTAR)
-                        ENDIF
-
-                        GF = 10.0**(GFLOGI)
-                        GFLOG = GFLOGI
-                        CONGF=.026538D0/1.77245D0*GF/FREQ
-C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
-                  ENDIF                        
- 1606             ENDIF
-
-   3              CONTINUE
-            ENDIF  
+      READ(14)LINDAT8,LINDAT4
  3441 WRITE(13)LINDAT8,LINDAT4
       ENDIF
-      WRITE(6,*)"CORRECTED ISO IN FORT.14"
  3442 CLOSE(UNIT=20,DISP='DELETE')
 C      CLOSE(UNIT=14,DISP='DELETE')
       OPEN(UNIT=41,TYPE='NEW',FORM='UNFORMATTED',RECORDTYPE='FIXED',
@@ -372,10 +284,10 @@ C     ADD LINES TO BUFFER
             ISOFRACSOL  = isoinfo(K,3)  
             ISOFRACSTAR = isoinfo(K,4) 
 
-            CORR1 = LOG10(1.0+(1.0/ISOFRACSOL))
-     1                  -LOG10(1.0+(1.0/ISOFRACSTAR))
-            CORR2 = LOG10(1.0+ISOFRACSOL)
-     1                  -LOG10(1.0+ISOFRACSTAR)
+            CORR1 = DLOG10(1.0+(1.0/ISOFRACSOL))
+     1                  -DLOG10(1.0+(1.0/ISOFRACSTAR))
+            CORR2 = DLOG10(1.0+ISOFRACSOL)
+     1                  -DLOG10(1.0+ISOFRACSTAR)
 
 C           FOR ATOM
             IF(CODE.LT.100.0)THEN
@@ -394,9 +306,9 @@ C                 print *, LOG10(1.0+(1.0/ISOFRACSTAR))
 C                  print *, LOG10(1.0+ISOFRACSTAR)
                   ENDIF
 
-                  GF = 10.0**(GFLOGI)
-                  GFLOG = GFLOGI
-                  CONGF=.026538D0/1.77245D0*GF/FREQ
+                  GFI = 10.0**(GFLOGI)
+!                  GFLOG = GFLOGI
+                  CONGFI=.026538D0/1.77245D0*GFI/FREQ
 C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
             ENDIF
             ENDIF
@@ -421,9 +333,9 @@ C                 print *, LOG10(1.0+(1.0/ISOFRACSTAR))
 C                 print *, LOG10(1.0+ISOFRACSTAR)
                   ENDIF
 
-                  GF = 10.0**(GFLOGI)
-                  GFLOG = GFLOGI
-                  CONGF=.026538D0/1.77245D0*GF/FREQ
+                  GFI = 10.0**(GFLOGI)
+                  ! GFLOG = GFLOGI
+                  CONGFI=.026538D0/1.77245D0*GFI/FREQ
 C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
             ENDIF
                   
@@ -442,9 +354,9 @@ C                 print *, LOG10(1.0+(1.0/ISOFRACSTAR))
 C                 print *, LOG10(1.0+ISOFRACSTAR)
                   ENDIF
 
-                  GF = 10.0**(GFLOGI)
-                  GFLOG = GFLOGI
-                  CONGF=.026538D0/1.77245D0*GF/FREQ
+                  GFI = 10.0**(GFLOGI)
+!                  GFLOG = GFLOGI
+                  CONGFI=.026538D0/1.77245D0*GFI/FREQ
 C                 print *, I, GFLOG, GFLOGI, CONGF, CODE, ISO1,ISO2
             ENDIF                        
  2606       ENDIF
@@ -455,8 +367,8 @@ c
 c     include Barklem, Anstee, and O'Mara van der Waals
 c     READ(12)NBUFF,CONGF,NELION,ELO,GAMRF,GAMSF,GAMWF,alpha
 c
-      QCONGF=CONGF
-      KAPPA0=CONGF*QXNFDOP(NELION)
+      QCONGF=CONGFI
+      KAPPA0=CONGFI*QXNFDOP(NELION)
 C     KAPPA0=CONGF*XNFDOP(NELION)
 C     PROBLEMS WITH OVERFLOW ON VAX
 C     KAPPA0=CONGF/DOPPLE(NELION)*XNFPEL(NELION)
