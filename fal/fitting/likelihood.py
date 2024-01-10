@@ -153,6 +153,9 @@ class Like(object):
             JSrun = RS_i.run
             self.RSarr.append(JSrun)
 
+        # jit chi-square function
+        self.Jchisq = jit(self.calcchisq)
+
         # init the adjust kurucz class
         self.AK = AdjKurucz(
             f12path=self.kwargs.get('f12path','./ff/fort.12'),
@@ -277,7 +280,8 @@ class Like(object):
                 kk += 1
                 
         # calculate the chi-sqaure
-        chisq = self.calcchisq(modarr)
+        # chisq = self.calcchisq(modarr)
+        chisq = self.Jchisq(modarr)
         
         # return the likelihood
         return (-0.5 * chisq, modarr)
