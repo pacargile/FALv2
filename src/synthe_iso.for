@@ -295,8 +295,8 @@ C                  print *, LOG10(1.0+ISOFRACSTAR)
                   GFI = 10.0**(GFLOGI)
 !                  GFLOG = GFLOGI
                   CONGFI=.026538E0/1.77245E0*GFI/FREQ
-            WRITE(6,*)CORR1,CORR2,ILINE,GFLOG,GFLOGI,CONGF,CONGFI,
-     1       CODE,ISO1,ISO2
+            WRITE(6,*)'ATM',CORR1,CORR2,ILINE,GFLOG,GFLOGI,GFLOG-GFLOGI,
+     1       CONGF,CONGFI,CODE,ISO1,ISO2
             ENDIF
             ENDIF
 
@@ -323,8 +323,8 @@ C                 print *, LOG10(1.0+ISOFRACSTAR)
                   GFI = 10.0**(GFLOGI)
                   ! GFLOG = GFLOGI
                   CONGFI=.026538E0/1.77245E0*GFI/FREQ
-            WRITE(6,*)CORR1,CORR2,ILINE,GFLOG,GFLOGI,CONGF,CONGFI,
-     1       CODE,ISO1,ISO2
+            WRITE(6,*)'MOL1',CORR1,CORR2,ILINE,GFLOG,GFLOGI,GFLOG-GFLOGI,
+     1       CONGF,CONGFI,CODE,ISO1,ISO2
             ENDIF
                   
             IF(ISO2.EQ.ISOFRACISO1.OR.ISO2.EQ.ISOFRACISO2)THEN
@@ -345,8 +345,8 @@ C                 print *, LOG10(1.0+ISOFRACSTAR)
                   GFI = 10.0**(GFLOGI)
 !                  GFLOG = GFLOGI
                   CONGFI=.026538E0/1.77245E0*GFI/FREQ
-            WRITE(6,*)CORR1,CORR2,ILINE,GFLOG,GFLOGI,CONGF,CONGFI,
-     1       CODE,ISO1,ISO2
+            WRITE(6,*)'MOL2',CORR1,CORR2,ILINE,GFLOG,GFLOGI,GFLOG-GFLOGI,
+     1       CONGF,CONGFI,CODE,ISO1,ISO2
             ENDIF                        
  2606       ENDIF
 4           CONTINUE  
