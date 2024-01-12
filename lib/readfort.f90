@@ -394,7 +394,7 @@ module readfort
             READ(COTHER1,'(2I5)')ISHIFT,ISHIFTP
             READ(COTHER2,'(A6,I1,A3)')IXFIXFP,LINESIZE,AUTO
 
-            ! IF(I.LE.10) WRITE(6,'(I5,I5,A6,I5,A3)') ISHIFT,ISHIFTP,IXFIXFP,LINESIZE,AUTO
+            IF(I.LE.10) WRITE(6,'(I5,I5,A6,I5,A3)') ISHIFT,ISHIFTP,IXFIXFP,LINESIZE,AUTO
 
             ISHIFTi(I) = ISHIFT
             ISHIFTPi(I) = ISHIFTP
@@ -454,11 +454,14 @@ module readfort
             GAMMARi(I) = GAMMAR
             GAMMASi(I) = GAMMAS
             GAMMAWi(I) = GAMMAW
-            ! WRITE(SLABEL,'(A5)') REF
+
+            WRITE(SLABEL,'(A5)') REF
+
             ! SLABEL = SLABEL//c_null_char
             ! DO J=1,5
             !   REFi(J,I) = SLABEL(J:J)
             ! END DO
+
             REFx(I) = REF
             NBLOi(I) = NBLO
             NBUPi(I) = NBUP
