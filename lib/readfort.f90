@@ -376,6 +376,10 @@ module readfort
             LABELx(1,I) = LABEL(1)
             LABELx(2,I) = LABEL(2)
 
+            IF(WL.GE.517.449.AND.WL.LE.517.450)THEN
+                WRITE(6,*)'1',LINDAT8,LINDAT4
+            ENDIF
+
 
             ! Craete label strings
             ! WRITE(SLABEL,'(A8)') LABELP(1)
@@ -394,7 +398,11 @@ module readfort
             ! END DO
             LABELPx(1,I) = LABELP(1)
             LABELPx(2,I) = LABELP(2)
-            
+
+            IF(WL.GE.517.449.AND.WL.LE.517.450)THEN
+                WRITE(6,*)'2',LINDAT8,LINDAT4
+            ENDIF
+
             READ(COTHER1,'(2I5)')ISHIFT,ISHIFTP
             READ(COTHER2,'(A6,I1,A3)')IXFIXFP,LINESIZE,AUTO
 
