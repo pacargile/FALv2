@@ -351,7 +351,7 @@ module readfort
         DO WHILE (1.eq.1)
           READ(1,end=100)LINDAT8,LINDAT4
 
-            IF(WL.EQ.18438.04) WRITE(6,*) 'A', LINDAT4
+            WRITE(6,*) 'A', LINDAT4
 
             WLi(I) = WL
             Ei(I) = E
@@ -494,7 +494,7 @@ module readfort
             ! IF(I.LE.10) WRITE(6,'(A8,A2)')LABELx(:,I)
             I = I + 1
             ! WRITE(6,*) 'A', OTHER1x(1,I), OTHER1x(2,I)
-            IF(WL.EQ.18438.04) WRITE(6,*) 'B', LINDAT4
+            WRITE(6,*) 'B', LINDAT4
 
         END DO
 100     CONTINUE
@@ -579,6 +579,9 @@ module readfort
         open(UNIT=1,FILE=c_to_f_string(s),STATUS='NEW',FORM='UNFORMATTED')
         JJ = 0
         do I=1,NLINESi
+
+            IF(I.EQ.1)WRITE(6,*)WLi(I)
+            IF(I.EQ.NLINESi)WRITE(6,*)WLi(I)
 
             WL = WLi(I)
             E = Ei(I)
