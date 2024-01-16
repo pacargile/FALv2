@@ -351,7 +351,7 @@ module readfort
         DO WHILE (1.eq.1)
           READ(1,end=100)LINDAT8,LINDAT4
             IF(WL.GE.517.4497.AND.WL.LE.517.450)THEN
-                WRITE(6,*)'0',LINDAT8,LINDAT4
+                WRITE(6,*)'0',WL,OTHER1(1),OTHER2(1)
             ENDIF
 
             WLi(I) = WL
@@ -394,7 +394,7 @@ module readfort
             LABELPx(1,I) = LABELP(1)
             LABELPx(2,I) = LABELP(2)
 
-            IF(WL.GE.517.4498.AND.WL.LE.517.44999)THEN
+            IF(WL.GE.517.4497.AND.WL.LE.517.44999)THEN
                 WRITE(6,*)'1',COTHER1
             ENDIF
 
@@ -638,7 +638,7 @@ module readfort
             EXTRA3 = EXTRA3i(I)
 
             IF(WL.GE.517.4497.AND.WL.LE.517.450)THEN
-                WRITE(6,*)'A',LINDAT8,LINDAT4
+                WRITE(6,*)'A',OTHER1(1),OTHER2(1)
             ENDIF
 
             
