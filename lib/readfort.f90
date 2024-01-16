@@ -350,7 +350,7 @@ module readfort
         I = 1
         DO WHILE (1.eq.1)
           READ(1,end=100)LINDAT8,LINDAT4
-            IF(WL.GE.517.4497.AND.WL.LE.517.4450)THEN
+            IF(WL.GE.517.4497.AND.WL.LE.517.450)THEN
                 WRITE(6,*)'0',LINDAT8,LINDAT4
             ENDIF
 
@@ -394,19 +394,19 @@ module readfort
             LABELPx(1,I) = LABELP(1)
             LABELPx(2,I) = LABELP(2)
 
-            IF(WL.GE.517.4497.AND.WL.LE.517.4450)THEN
+            IF(WL.GE.517.4497.AND.WL.LE.517.450)THEN
                 WRITE(6,*)'1',COTHER1
             ENDIF
 
             READ(COTHER1,'(2I5)')ISHIFT,ISHIFTP
 
-            IF(WL.GE.517.4497.AND.WL.LE.517.4450)THEN
+            IF(WL.GE.517.4497.AND.WL.LE.517.450)THEN
                 WRITE(6,*)'2',COTHER2
             ENDIF
 
             READ(COTHER2,'(A6,I1,A3)')IXFIXFP,LINESIZE,AUTO
 
-            IF(WL.GE.517.4497.AND.WL.LE.517.4450)THEN
+            IF(WL.GE.517.4497.AND.WL.LE.517.450)THEN
                 WRITE(6,*)'3'
             ENDIF
 
