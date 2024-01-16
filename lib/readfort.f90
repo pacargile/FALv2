@@ -350,7 +350,7 @@ module readfort
         I = 1
         DO WHILE (1.eq.1)
           READ(1,end=100)LINDAT8,LINDAT4
-            IF(WL.GE.517.449.AND.WL.LE.517.450)THEN
+            IF(WL.GE.517.4497.AND.WL.LE.517.4450)THEN
                 WRITE(6,*)'0',LINDAT8,LINDAT4
             ENDIF
 
@@ -376,11 +376,6 @@ module readfort
             LABELx(1,I) = LABEL(1)
             LABELx(2,I) = LABEL(2)
 
-            IF(WL.GE.517.449.AND.WL.LE.517.450)THEN
-                WRITE(6,*)'1',LINDAT8,LINDAT4
-            ENDIF
-
-
             ! Craete label strings
             ! WRITE(SLABEL,'(A8)') LABELP(1)
             ! SLABEL = SLABEL//c_null_char
@@ -399,15 +394,20 @@ module readfort
             LABELPx(1,I) = LABELP(1)
             LABELPx(2,I) = LABELP(2)
 
-            IF(WL.GE.517.449.AND.WL.LE.517.450)THEN
-                WRITE(6,*)'2',LINDAT8,LINDAT4
+            IF(WL.GE.517.4497.AND.WL.LE.517.4450)THEN
+                WRITE(6,*)'1',COTHER1
             ENDIF
 
             READ(COTHER1,'(2I5)')ISHIFT,ISHIFTP
+
+            IF(WL.GE.517.4497.AND.WL.LE.517.4450)THEN
+                WRITE(6,*)'2',COTHER2
+            ENDIF
+
             READ(COTHER2,'(A6,I1,A3)')IXFIXFP,LINESIZE,AUTO
 
-            IF(WL.GE.517.449.AND.WL.LE.517.450)THEN
-                WRITE(6,*)'A',LINDAT8,LINDAT4
+            IF(WL.GE.517.4497.AND.WL.LE.517.4450)THEN
+                WRITE(6,*)'3'
             ENDIF
 
             ! WRITE(6,'(F10.4,I5,I5,A6,I5,A3)') WL,ISHIFT,ISHIFTP,IXFIXFP,LINESIZE,AUTO
@@ -443,11 +443,6 @@ module readfort
             OTHER1x(2,I) = OTHER1(2)
 
             
-            IF(WL.GE.517.449.AND.WL.LE.517.450)THEN
-                WRITE(6,*)'B',LINDAT8,LINDAT4
-            ENDIF
-
-
             ! WRITE(SLABEL,'(A7)') OTHER2(1)
             ! SLABEL = SLABEL//c_null_char
             ! K = 1
@@ -470,10 +465,6 @@ module readfort
             OTHER2x(1,I) = OTHER2(1)
             OTHER2x(2,I) = OTHER2(2)
 
-            IF(WL.GE.517.449.AND.WL.LE.517.450)THEN
-                WRITE(6,*)'C',LINDAT8,LINDAT4
-            ENDIF
-
             WLVACi(I) = WLVAC
             CENTERi(I) = CENTER
             CONCENi(I) = CONCEN
@@ -488,12 +479,6 @@ module readfort
             ! DO J=1,5
             !   REFi(J,I) = SLABEL(J:J)
             ! END DO
-
-
-            IF(WL.GE.517.449.AND.WL.LE.517.450)THEN
-                WRITE(6,*)'D',LINDAT8,LINDAT4
-            ENDIF
-
 
             REFx(I) = REF
             NBLOi(I) = NBLO
@@ -519,12 +504,6 @@ module readfort
             DWLISOi(I) = DWLISO
             ISOSHIFTi(I) = ISOSHIFT
             EXTRA3i(I) = EXTRA3
-
-
-            IF(WL.GE.517.449.AND.WL.LE.517.450)THEN
-                WRITE(6,*)'E',LINDAT8,LINDAT4
-            ENDIF
-
 
             ! IF(I.LE.10) WRITE(6,'(A8,A2)')LABELx(:,I)
             I = I + 1
