@@ -398,7 +398,10 @@ module readfort
 
             ISHIFTi(I) = ISHIFT
             ISHIFTPi(I) = ISHIFTP
+            ! IXFIXFPi(I) = IXFIXFP
             LINESIZEi(I) = LINESIZE
+
+            WRITE(6,*)'A'
 
             ! IXFIXFPi(I) = IXFIXFP(I)
             ! AUTOi(I) = AUTO
@@ -455,7 +458,7 @@ module readfort
             GAMMASi(I) = GAMMAS
             GAMMAWi(I) = GAMMAW
 
-            WRITE(SLABEL,'(A5)') REF
+            ! WRITE(SLABEL,'(A5)') REF
 
             ! SLABEL = SLABEL//c_null_char
             ! DO J=1,5
