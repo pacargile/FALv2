@@ -350,6 +350,7 @@ module readfort
         I = 1
         DO WHILE (1.eq.1)
           READ(1,end=100)LINDAT8,LINDAT4
+            WRITE(6,*)LINDAT
             WLi(I) = WL
             Ei(I) = E
             EPi(I) = EP
@@ -394,7 +395,7 @@ module readfort
             READ(COTHER1,'(2I5)')ISHIFT,ISHIFTP
             READ(COTHER2,'(A6,I1,A3)')IXFIXFP,LINESIZE,AUTO
 
-            WRITE(6,'(F10.4,I5,I5,A6,I5,A3)') WL,ISHIFT,ISHIFTP,IXFIXFP,LINESIZE,AUTO
+            ! WRITE(6,'(F10.4,I5,I5,A6,I5,A3)') WL,ISHIFT,ISHIFTP,IXFIXFP,LINESIZE,AUTO
 
             ISHIFTi(I) = ISHIFT
             ISHIFTPi(I) = ISHIFTP
