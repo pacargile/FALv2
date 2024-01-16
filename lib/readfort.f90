@@ -350,6 +350,9 @@ module readfort
         I = 1
         DO WHILE (1.eq.1)
           READ(1,end=100)LINDAT8,LINDAT4
+            IF(WL.GE.517.449.AND.WL.LE.517.450)THEN
+                WRITE(6,*)'0',LINDAT8,LINDAT4
+            ENDIF
 
             WLi(I) = WL
             Ei(I) = E
@@ -395,7 +398,7 @@ module readfort
             READ(COTHER1,'(2I5)')ISHIFT,ISHIFTP
             READ(COTHER2,'(A6,I1,A3)')IXFIXFP,LINESIZE,AUTO
 
-            IF(WL.GT.517.449.AND.WL.GT.517.450)THEN
+            IF(WL.GE.517.449.AND.WL.LE.517.450)THEN
                 WRITE(6,*)'A',LINDAT8,LINDAT4
             ENDIF
 
@@ -432,7 +435,7 @@ module readfort
             OTHER1x(2,I) = OTHER1(2)
 
             
-            IF(WL.GT.517.449.AND.WL.GT.517.450)THEN
+            IF(WL.GE.517.449.AND.WL.LE.517.450)THEN
                 WRITE(6,*)'B',LINDAT8,LINDAT4
             ENDIF
 
@@ -459,7 +462,7 @@ module readfort
             OTHER2x(1,I) = OTHER2(1)
             OTHER2x(2,I) = OTHER2(2)
 
-            IF(WL.GT.517.449.AND.WL.GT.517.450)THEN
+            IF(WL.GE.517.449.AND.WL.LE.517.450)THEN
                 WRITE(6,*)'C',LINDAT8,LINDAT4
             ENDIF
 
@@ -479,7 +482,7 @@ module readfort
             ! END DO
 
 
-            IF(WL.GT.517.449.AND.WL.GT.517.450)THEN
+            IF(WL.GE.517.449.AND.WL.LE.517.450)THEN
                 WRITE(6,*)'D',LINDAT8,LINDAT4
             ENDIF
 
@@ -510,7 +513,7 @@ module readfort
             EXTRA3i(I) = EXTRA3
 
 
-            IF(WL.GT.517.449.AND.WL.GT.517.450)THEN
+            IF(WL.GE.517.449.AND.WL.LE.517.450)THEN
                 WRITE(6,*)'E',LINDAT8,LINDAT4
             ENDIF
 
