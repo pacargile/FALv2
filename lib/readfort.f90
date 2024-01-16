@@ -394,7 +394,7 @@ module readfort
             LABELPx(1,I) = LABELP(1)
             LABELPx(2,I) = LABELP(2)
 
-            IF(WL.GE.517.4497.AND.WL.LE.517.450)THEN
+            IF(WL.GE.517.4498.AND.WL.LE.517.44999)THEN
                 WRITE(6,*)'1',COTHER1
             ENDIF
 
@@ -593,9 +593,6 @@ module readfort
         JJ = 0
         do I=1,NLINESi
 
-            IF(I.EQ.1)WRITE(6,*)WLi(I)
-            IF(I.EQ.NLINESi)WRITE(6,*)WLi(I)
-
             WL = WLi(I)
             E = Ei(I)
             EP = EPi(I)
@@ -639,6 +636,10 @@ module readfort
             DWLISO = DWLISOi(I)
             ISOSHIFT =ISOSHIFTi(I)
             EXTRA3 = EXTRA3i(I)
+
+            IF(WL.GE.517.4497.AND.WL.LE.517.450)THEN
+                WRITE(6,*)'A',LINDAT8,LINDAT4
+            ENDIF
 
             ! IF(I.LE.10) WRITE(6,'(A8,A2)') LABEL
             ! WRITE(6,*) 'B',OTHER1
