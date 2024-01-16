@@ -641,6 +641,7 @@ module readfort
                 WRITE(6,*)'A',LINDAT8,LINDAT4
             ENDIF
 
+            
             ! IF(I.LE.10) WRITE(6,'(A8,A2)') LABEL
             ! WRITE(6,*) 'B',OTHER1
             write(1) LINDAT8,LINDAT4
