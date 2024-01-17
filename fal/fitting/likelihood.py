@@ -152,7 +152,7 @@ class Like(object):
             # JSrun = jit(RS_i.run)
             JSrun = RS_i.run
             self.RSarr.append(JSrun)
-        
+
         # init the adjust kurucz class
         self.AK = AdjKurucz(
             f12path=self.kwargs.get('f12path','./ff/fort.12'),
@@ -281,3 +281,6 @@ class Like(object):
         
         # return the likelihood
         return (-0.5 * chisq, modarr)
+    
+    def compute_loss(self,pars):
+        return self.run(pars)[0]
