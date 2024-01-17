@@ -1,4 +1,4 @@
-import numpy as np
+from jax import numpy as np
 from jax import jit
 from scipy import constants
 speedoflight = constants.c / 1000.0
