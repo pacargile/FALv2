@@ -1,4 +1,4 @@
-import numpy as np
+from jax import numpy as np
 from jax import jit
 from scipy import constants
 speedoflight = constants.c / 1000.0
@@ -250,15 +250,20 @@ class Like(object):
         
         for ii,pind in enumerate(self.linepars):
             if pind[0] != -1:
-                dwl[ii] = pars[pind[0]]
+                # dwl[ii] = pars[pind[0]]
+                dwl = dwl.at(ii).set(pars[pind[0]])
             if pind[1] != -1:
-                dloggf[ii] = pars[pind[1]]
+                # dloggf[ii] = pars[pind[1]]
+                dloggf = dloggf.at(ii).set(pars[pind[1]])
             if pind[2] != -1:
-                dgammaw[ii] = pars[pind[2]]
+                # dgammaw[ii] = pars[pind[2]]
+                dgammaw = dgammaw.at(ii).set(pars[pind[2]])
             if pind[3] != -1:
-                dgammar[ii] = pars[pind[3]]
+                # dgammar[ii] = pars[pind[3]]
+                dgammar = dgammar.at(ii).set(pars[pind[3]])
             if pind[4] != -1:
-                dgammas[ii] = pars[pind[4]]
+                # dgammas[ii] = pars[pind[4]]
+                dgammas = dgammas.at(ii).set(pars[pind[4]])
         linepars = {'dwl':dwl,'dloggf':dloggf,'dgammaw':dgammaw,'dgammar':dgammar,'dgammas':dgammas}
         
         # generate the models
