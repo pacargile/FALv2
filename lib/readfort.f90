@@ -394,26 +394,26 @@ module readfort
             LABELPx(1,I) = LABELP(1)
             LABELPx(2,I) = LABELP(2)
 
-            IF(WL.GE.517.4498.AND.WL.LE.517.44999)THEN
-                WRITE(6,*)'1',COTHER1
-            ENDIF
+            ! IF(WL.GE.517.4498.AND.WL.LE.517.44999)THEN
+            !     WRITE(6,*)'1',COTHER1
+            ! ENDIF
 
-            READ(COTHER1,'(2I5)')ISHIFT,ISHIFTP
+            ! READ(COTHER1,'(2I5)')ISHIFT,ISHIFTP
 
-            IF(WL.GE.517.4498.AND.WL.LE.517.450)THEN
-                WRITE(6,*)'2',COTHER2
-            ENDIF
+            ! IF(WL.GE.517.4498.AND.WL.LE.517.450)THEN
+            !     WRITE(6,*)'2',COTHER2
+            ! ENDIF
 
-            READ(COTHER2,'(A6,I1,A3)')IXFIXFP,LINESIZE,AUTO
+            ! READ(COTHER2,'(A6,I1,A3)')IXFIXFP,LINESIZE,AUTO
 
-            IF(WL.GE.517.4498.AND.WL.LE.517.450)THEN
-                WRITE(6,*)'3'
-            ENDIF
+            ! IF(WL.GE.517.4498.AND.WL.LE.517.450)THEN
+            !     WRITE(6,*)'3'
+            ! ENDIF
 
             ! WRITE(6,'(F10.4,I5,I5,A6,I5,A3)') WL,ISHIFT,ISHIFTP,IXFIXFP,LINESIZE,AUTO
 
-            ISHIFTi(I) = ISHIFT
-            ISHIFTPi(I) = ISHIFTP
+            ! ISHIFTi(I) = ISHIFT
+            ! ISHIFTPi(I) = ISHIFTP
             ! IXFIXFPi(I) = IXFIXFP
             LINESIZEi(I) = LINESIZE
 

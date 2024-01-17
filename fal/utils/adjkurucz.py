@@ -67,11 +67,6 @@ class AdjKurucz(object):
 
         if fortfile == 12:
 
-            condwl_i = (self.RK.f14in['wl'] > 517.4498) & (self.RK.f14in['wl'] < 517.44999)
-            for kk in  self.RK.f14in.keys():
-                if self.RK.f14in[kk].ndim == 1:
-                    print(kk,self.RK.f14in[kk][condwl_i])
-
             # parse the fort.12/14 lines
             for kk in self.RK.f12in.keys():
                 self.RK.f12in[kk] = self.RK.f12in[kk][linind]
