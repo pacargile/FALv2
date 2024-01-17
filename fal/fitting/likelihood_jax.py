@@ -250,8 +250,9 @@ class Like(object):
         
         for ii,pind in enumerate(self.linepars):
             if pind[0] != -1:
+                pp = pars[pind[0]]
                 # dwl[ii] = pars[pind[0]]
-                dwl = dwl.at(ii).set(pars[pind[0]])
+                dwl = dwl.at(ii).set(pp)
             if pind[1] != -1:
                 # dloggf[ii] = pars[pind[1]]
                 dloggf = dloggf.at(ii).set(pars[pind[1]])
