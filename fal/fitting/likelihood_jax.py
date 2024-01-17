@@ -6,7 +6,7 @@ from datetime import datetime
 from astropy.table import Table
 
 from ..utils.runsynthe import Synthe
-from ..utils.adjkurucz import AdjKurucz
+from ..utils.adjkurucz_jax import AdjKurucz
 
 class Like(object):
     """ 
