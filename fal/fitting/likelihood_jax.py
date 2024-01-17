@@ -242,29 +242,33 @@ class Like(object):
         
         # assemble the parameter dictionaries
         
-        dwl     = np.zeros(len(self.lineindex),dtype=float)
-        dloggf  = np.zeros(len(self.lineindex),dtype=float)
-        dgammaw = np.zeros(len(self.lineindex),dtype=float)
-        dgammar = np.zeros(len(self.lineindex),dtype=float)
-        dgammas = np.zeros(len(self.lineindex),dtype=float)
+        dwl     = np.zeros(len(self.lineindex),dtype=np.float32)
+        dloggf  = np.zeros(len(self.lineindex),dtype=np.float32)
+        dgammaw = np.zeros(len(self.lineindex),dtype=np.float32)
+        dgammar = np.zeros(len(self.lineindex),dtype=np.float32)
+        dgammas = np.zeros(len(self.lineindex),dtype=np.float32)
         
         for ii,pind in enumerate(self.linepars):
             if pind[0] != -1:
                 pp = pars[pind[0]]
                 # dwl[ii] = pars[pind[0]]
-                dwl = dwl.at(ii).set(pp)
+                dwl = dwl.at[ii].set(pp)
             if pind[1] != -1:
+                pp = pars[pind[1]]
                 # dloggf[ii] = pars[pind[1]]
-                dloggf = dloggf.at(ii).set(pars[pind[1]])
+                dloggf = dloggf.at[ii].set(pp)
             if pind[2] != -1:
+                pp = pars[pind[2]]
                 # dgammaw[ii] = pars[pind[2]]
-                dgammaw = dgammaw.at(ii).set(pars[pind[2]])
+                dgammaw = dgammaw.at[ii].set(pp)
             if pind[3] != -1:
+                pp = pars[pind[3]]
                 # dgammar[ii] = pars[pind[3]]
-                dgammar = dgammar.at(ii).set(pars[pind[3]])
+                dgammar = dgammar.at[ii].set(pp)
             if pind[4] != -1:
+                pp = pars[pind[4]]
                 # dgammas[ii] = pars[pind[4]]
-                dgammas = dgammas.at(ii).set(pars[pind[4]])
+                dgammas = dgammas.at[ii].set(pp)
         linepars = {'dwl':dwl,'dloggf':dloggf,'dgammaw':dgammaw,'dgammar':dgammar,'dgammas':dgammas}
         
         # generate the models
