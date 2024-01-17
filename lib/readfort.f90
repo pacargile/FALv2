@@ -350,9 +350,9 @@ module readfort
         I = 1
         DO WHILE (1.eq.1)
           READ(1,end=100)LINDAT8,LINDAT4
-            IF(WL.GE.517.4498.AND.WL.LE.517.450)THEN
-                WRITE(6,*)'0',WL,CODE,E,EP,OTHER1(1),OTHER2(1)
-            ENDIF
+            ! IF(WL.GE.517.4498.AND.WL.LE.517.450)THEN
+            !     WRITE(6,*)'0',WL,CODE,E,EP,OTHER1(1),OTHER2(1)
+            ! ENDIF
 
             WLi(I) = WL
             Ei(I) = E
@@ -637,11 +637,11 @@ module readfort
             ISOSHIFT =ISOSHIFTi(I)
             EXTRA3 = EXTRA3i(I)
 
-            IF(WL.GE.517.4497.AND.WL.LE.517.450)THEN
-                WRITE(6,*)'A',WL,CODE,E,EP,OTHER1(1),OTHER2(1)
-                WRITE(6,*)COTHER1
+            ! IF(WL.GE.517.4497.AND.WL.LE.517.450)THEN
+            !     WRITE(6,*)'A',WL,CODE,E,EP,OTHER1(1),OTHER2(1)
+            !     WRITE(6,*)COTHER1
 
-            ENDIF
+            ! ENDIF
 
             
             ! IF(I.LE.10) WRITE(6,'(A8,A2)') LABEL
