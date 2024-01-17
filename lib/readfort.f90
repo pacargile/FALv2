@@ -639,7 +639,7 @@ module readfort
 
             IF(WL.GE.517.4497.AND.WL.LE.517.450)THEN
                 WRITE(6,*)'A',WL,OTHER1(1),OTHER2(1)
-                WRITE(6,'(2I5)')COTHER1
+                WRITE(6,*)COTHER1
 
             ENDIF
 
