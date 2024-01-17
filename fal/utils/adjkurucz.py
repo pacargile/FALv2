@@ -70,6 +70,7 @@ class AdjKurucz(object):
             for kk in self.RK.f12in.keys():
                 self.RK.f12in[kk] = self.RK.f12in[kk][linind]
             for kk in self.RK.f14in.keys():
+                print(kk,self.RK.f14in[kk].shape,flush=True)
                 if self.RK.f14in[kk].ndim == 1:
                     self.RK.f14in[kk] = self.RK.f14in[kk][linind]
                 else:
