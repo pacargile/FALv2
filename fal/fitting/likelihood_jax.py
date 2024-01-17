@@ -242,11 +242,11 @@ class Like(object):
         
         # assemble the parameter dictionaries
         
-        dwl     = np.zeros(len(self.lineindex),dtype=np.float32)
-        dloggf  = np.zeros(len(self.lineindex),dtype=np.float32)
-        dgammaw = np.zeros(len(self.lineindex),dtype=np.float32)
-        dgammar = np.zeros(len(self.lineindex),dtype=np.float32)
-        dgammas = np.zeros(len(self.lineindex),dtype=np.float32)
+        dwl     = np.zeros(len(self.lineindex),dtype=float)
+        dloggf  = np.zeros(len(self.lineindex),dtype=float)
+        dgammaw = np.zeros(len(self.lineindex),dtype=float)
+        dgammar = np.zeros(len(self.lineindex),dtype=float)
+        dgammas = np.zeros(len(self.lineindex),dtype=float)
         
         for ii,pind in enumerate(self.linepars):
             if pind[0] != -1:
