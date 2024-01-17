@@ -566,7 +566,7 @@ class AdjKurucz(object):
             # self.RK.f14in['gw'][linind]      = self.RK.f14in['gw'][linind] + dgammaw
             # self.RK.f14in['dgammaw'][linind] = dgammaw
 
-            self.RK.f12in['gammaw'].at[linind].set(self.RK.f12in['gammaw'][linind] * dgw)
+            self.RK.f12in['gammaw'] = self.RK.f12in['gammaw'].at[linind].set(self.RK.f12in['gammaw'][linind] * dgw)
 
             self.RK.f14in['gammaw']  = self.RK.f14in['gammaw'].at[linind].set(self.RK.f14in['gammaw'][linind] * dgw)
             self.RK.f14in['gw']      = self.RK.f14in['gw'].at[linind].set(self.RK.f14in['gw'][linind] + dgammaw)
@@ -579,7 +579,7 @@ class AdjKurucz(object):
             # self.RK.f20in['gw'][linind]      = self.RK.f20in['gw'][linind] + dgammaw
             # self.RK.f20in['dgammaw'][linind] = dgammaw
 
-            self.RK.f19in['gammaw'].at[linind].set(self.RK.f19in['gammaw'][linind] * dgw)
+            self.RK.f19in['gammaw'] = self.RK.f19in['gammaw'].at[linind].set(self.RK.f19in['gammaw'][linind] * dgw)
 
             self.RK.f20in['gammaw']  = self.RK.f20in['gammaw'].at[linind].set(self.RK.f20in['gammaw'][linind] * dgw)
             self.RK.f20in['gw']      = self.RK.f20in['gw'].at[linind].set(self.RK.f20in['gw'][linind] + dgammaw)
@@ -589,14 +589,14 @@ class AdjKurucz(object):
         dgs = 10.0**dgammas
         
         if fort == 12:
-            self.RK.f12in['gammas'].at[linind].set(self.RK.f12in['gammas'][linind] * dgs)
+            self.RK.f12in['gammas'] = self.RK.f12in['gammas'].at[linind].set(self.RK.f12in['gammas'][linind] * dgs)
 
             self.RK.f14in['gammas']  = self.RK.f14in['gammas'].at[linind].set(self.RK.f14in['gammas'][linind] * dgs)
             self.RK.f14in['gs']      = self.RK.f14in['gs'].at[linind].set(self.RK.f14in['gs'][linind] + dgammas)
             self.RK.f14in['dgammas'] = self.RK.f14in['dgammas'].at[linind].set(dgammas)
             
         if fort == 19:
-            self.RK.f19in['gammas'].at[linind].set(self.RK.f19in['gammas'][linind] * dgs)
+            self.RK.f19in['gammas'] = self.RK.f19in['gammas'].at[linind].set(self.RK.f19in['gammas'][linind] * dgs)
 
             self.RK.f20in['gammas']  = self.RK.f20in['gammas'].at[linind].set(self.RK.f20in['gammas'][linind] * dgs)
             self.RK.f20in['gs']      = self.RK.f20in['gs'].at[linind].set(self.RK.f20in['gs'][linind] + dgammas)
@@ -606,14 +606,14 @@ class AdjKurucz(object):
         dgr = 10.0**dgammar
         
         if fort == 12:
-            self.RK.f12in['gammar'].at[linind].set(self.RK.f12in['gammar'][linind] * dgr)
+            self.RK.f12in['gammar'] = self.RK.f12in['gammar'].at[linind].set(self.RK.f12in['gammar'][linind] * dgr)
 
             self.RK.f14in['gammar']  = self.RK.f14in['gammar'].at[linind].set(self.RK.f14in['gammar'][linind] * dgr)
             self.RK.f14in['gr']      = self.RK.f14in['gr'].at[linind].set(self.RK.f14in['gr'][linind] + dgammar)
             self.RK.f14in['dgammar'] = self.RK.f14in['dgammar'].at[linind].set(dgammar)
             
         if fort == 19:
-            self.RK.f19in['gammar'].at[linind].set(self.RK.f19in['gammar'][linind] * dgw)
+            self.RK.f19in['gammar'] = self.RK.f19in['gammar'].at[linind].set(self.RK.f19in['gammar'][linind] * dgw)
 
             self.RK.f20in['gammar']  = self.RK.f20in['gammar'].at[linind].set(self.RK.f20in['gammar'][linind] * dgr)
             self.RK.f20in['gr']      = self.RK.f20in['gr'].at[linind].set(self.RK.f20in['gr'][linind] + dgammar)
