@@ -1,5 +1,6 @@
 from . import readkurucz
 from jax import numpy as np
+import numpy as nnp
 from datetime import datetime
 from collections import Counter
 
@@ -503,11 +504,11 @@ class AdjKurucz(object):
 
             # self.RK.f14in['dwl'][linind]   = dwl
 
-            self.RK.f12in['nbuff'] = np.array(self.RK.f12in['nbuff']).at[linind].set(nbuff)
-            self.RK.f14in['wl']    = np.array(self.RK.f14in['wl']).at[linind].set(self.RK.f14in['wl'][linind] + dwl)
-            self.RK.f14in['wlvac'] = np.array(self.RK.f14in['wlvac']).at[linind].set(self.RK.f14in['wlvac'][linind] + dwl)
+            self.RK.f12in['nbuff'] = nnp.array(np.array(self.RK.f12in['nbuff']).at[linind].set(nbuff))
+            self.RK.f14in['wl']    = nnp.array(np.array(self.RK.f14in['wl']).at[linind].set(self.RK.f14in['wl'][linind] + dwl))
+            self.RK.f14in['wlvac'] = nnp.array(np.array(self.RK.f14in['wlvac']).at[linind].set(self.RK.f14in['wlvac'][linind] + dwl))
 
-            self.RK.f14in['dwl']   = np.array(self.RK.f14in['dwl']).at[linind].set(dwl)
+            self.RK.f14in['dwl']   = nnp.array(np.array(self.RK.f14in['dwl']).at[linind].set(dwl))
 
 
         if fort == 19:
@@ -521,12 +522,12 @@ class AdjKurucz(object):
 
             # self.RK.f20in['dwl'][linind]   = dwl
 
-            self.RK.f19in['nbuff'] = np.array(self.RK.f19in['nbuff']).at[linind].set(nbuff)
-            self.RK.f19in['wlvac'] = np.array(self.RK.f19in['wlvac']).at[linind].set(self.RK.f19in['wlvac'][linind] + dwl)
-            self.RK.f20in['wl']    = np.array(self.RK.f20in['wl']).at[linind].set(self.RK.f20in['wl'][linind] + dwl)
-            self.RK.f20in['wlvac'] = np.array(self.RK.f20in['wlvac']).at[linind].set(self.RK.f20in['wlvac'][linind] + dwl)
+            self.RK.f19in['nbuff'] = nnp.array(np.array(self.RK.f19in['nbuff']).at[linind].set(nbuff))
+            self.RK.f19in['wlvac'] = nnp.array(np.array(self.RK.f19in['wlvac']).at[linind].set(self.RK.f19in['wlvac'][linind] + dwl))
+            self.RK.f20in['wl']    = nnp.array(np.array(self.RK.f20in['wl']).at[linind].set(self.RK.f20in['wl'][linind] + dwl))
+            self.RK.f20in['wlvac'] = nnp.array(np.array(self.RK.f20in['wlvac']).at[linind].set(self.RK.f20in['wlvac'][linind] + dwl))
 
-            self.RK.f20in['dwl'] = np.array(self.RK.f20in['dwl']).at[linind].set(dwl)
+            self.RK.f20in['dwl'] = nnp.array(np.array(self.RK.f20in['dwl']).at[linind].set(dwl))
             
     def adjloggf(self,linind,dloggf,fort=None):
         # construct a dlog(gf) -> 10^dlog(gf) as gf's are stored 
@@ -535,11 +536,11 @@ class AdjKurucz(object):
 
         if fort == 12:
             # shift log(gf) by dlog(gf) in terms of gf
-            self.RK.f12in['cgf']    = np.array(self.RK.f12in['cgf']).at[linind].set(self.RK.f12in['cgf'][linind] * dgf)
+            self.RK.f12in['cgf']    = nnp.array(np.array(self.RK.f12in['cgf']).at[linind].set(self.RK.f12in['cgf'][linind] * dgf))
 
-            self.RK.f14in['gf']     = np.array(self.RK.f14in['gf']).at[linind].set(self.RK.f14in['gf'][linind] * dgf)
-            self.RK.f14in['gflog']  = np.array(self.RK.f14in['gflog']).at[linind].set(self.RK.f14in['gflog'][linind] + dloggf)
-            self.RK.f14in['dgflog'] = np.array(self.RK.f14in['dgflog']).at[linind].set(dloggf)
+            self.RK.f14in['gf']     = nnp.array(np.array(self.RK.f14in['gf']).at[linind].set(self.RK.f14in['gf'][linind] * dgf))
+            self.RK.f14in['gflog']  = nnp.array(np.array(self.RK.f14in['gflog']).at[linind].set(self.RK.f14in['gflog'][linind] + dloggf))
+            self.RK.f14in['dgflog'] = nnp.array(np.array(self.RK.f14in['dgflog']).at[linind].set(dloggf))
 
         if fort == 19:
             # self.RK.f19in['gf'][linind]     = self.RK.f19['gf'][linind] * dgf
@@ -548,11 +549,11 @@ class AdjKurucz(object):
             # self.RK.f20in['gflog'][linind]  = self.RK.f20in['gflog'][linind] + dloggf
             # self.RK.f20in['dgflog'][linind] = dloggf
 
-            self.RK.f19in['gf']     = np.array(self.RK.f19in['gf']).at[linind].set(self.RK.f10in['gf'][linind] * dgf)
+            self.RK.f19in['gf']     = nnp.array(np.array(self.RK.f19in['gf']).at[linind].set(self.RK.f10in['gf'][linind] * dgf))
 
-            self.RK.f20in['gf']     = np.array(self.RK.f20in['gf']).at[linind].set(self.RK.f20in['gf'][linind] * dgf)
-            self.RK.f20in['gflog']  = np.array(self.RK.f20in['gflog']).at[linind].set(self.RK.f20in['gflog'][linind] + dloggf)
-            self.RK.f20in['dgflog'] = np.array(self.RK.f20in['dgflog']).at[linind].set(dloggf)
+            self.RK.f20in['gf']     = nnp.array(np.array(self.RK.f20in['gf']).at[linind].set(self.RK.f20in['gf'][linind] * dgf))
+            self.RK.f20in['gflog']  = nnp.array(np.array(self.RK.f20in['gflog']).at[linind].set(self.RK.f20in['gflog'][linind] + dloggf))
+            self.RK.f20in['dgflog'] = nnp.array(np.array(self.RK.f20in['dgflog']).at[linind].set(dloggf))
     
     def adjgammaw(self,linind,dgammaw,fort=None):
         # construct a dgammw -> 10^dgammw as gammaw's are stored 
@@ -566,11 +567,11 @@ class AdjKurucz(object):
             # self.RK.f14in['gw'][linind]      = self.RK.f14in['gw'][linind] + dgammaw
             # self.RK.f14in['dgammaw'][linind] = dgammaw
 
-            self.RK.f12in['gammaw']  = np.array(self.RK.f12in['gammaw']).at[linind].set(self.RK.f12in['gammaw'][linind] * dgw)
+            self.RK.f12in['gammaw']  = nnp.array(np.array(self.RK.f12in['gammaw']).at[linind].set(self.RK.f12in['gammaw'][linind] * dgw))
 
-            self.RK.f14in['gammaw']  = np.array(self.RK.f14in['gammaw']).at[linind].set(self.RK.f14in['gammaw'][linind] * dgw)
-            self.RK.f14in['gw']      = np.array(self.RK.f14in['gw']).at[linind].set(self.RK.f14in['gw'][linind] + dgammaw)
-            self.RK.f14in['dgammaw'] = np.array(self.RK.f14in['dgammaw']).at[linind].set(dgammaw)
+            self.RK.f14in['gammaw']  = nnp.array(np.array(self.RK.f14in['gammaw']).at[linind].set(self.RK.f14in['gammaw'][linind] * dgw))
+            self.RK.f14in['gw']      = nnp.array(np.array(self.RK.f14in['gw']).at[linind].set(self.RK.f14in['gw'][linind] + dgammaw))
+            self.RK.f14in['dgammaw'] = nnp.array(np.array(self.RK.f14in['dgammaw']).at[linind].set(dgammaw))
             
         if fort == 19:
             # self.RK.f19in['gammaw'][linind]  = self.RK.f19in['gammaw'][linind] * dgw
@@ -579,45 +580,45 @@ class AdjKurucz(object):
             # self.RK.f20in['gw'][linind]      = self.RK.f20in['gw'][linind] + dgammaw
             # self.RK.f20in['dgammaw'][linind] = dgammaw
 
-            self.RK.f19in['gammaw']  = np.array(self.RK.f19in['gammaw']).at[linind].set(self.RK.f19in['gammaw'][linind] * dgw)
+            self.RK.f19in['gammaw']  = nnp.array(np.array(self.RK.f19in['gammaw']).at[linind].set(self.RK.f19in['gammaw'][linind] * dgw))
 
-            self.RK.f20in['gammaw']  = np.array(self.RK.f20in['gammaw']).at[linind].set(self.RK.f20in['gammaw'][linind] * dgw)
-            self.RK.f20in['gw']      = np.array(self.RK.f20in['gw']).at[linind].set(self.RK.f20in['gw'][linind] + dgammaw)
-            self.RK.f20in['dgammaw'] = np.array(self.RK.f20in['dgammaw']).at[linind].set(dgammaw)
+            self.RK.f20in['gammaw']  = nnp.array(np.array(self.RK.f20in['gammaw']).at[linind].set(self.RK.f20in['gammaw'][linind] * dgw))
+            self.RK.f20in['gw']      = nnp.array(np.array(self.RK.f20in['gw']).at[linind].set(self.RK.f20in['gw'][linind] + dgammaw))
+            self.RK.f20in['dgammaw'] = nnp.array(np.array(self.RK.f20in['dgammaw']).at[linind].set(dgammaw))
 
     def adjgammas(self,linind,dgammas,fort=None):
         dgs = 10.0**dgammas
         
         if fort == 12:
-            self.RK.f12in['gammas']  = np.array(self.RK.f12in['gammas']).at[linind].set(self.RK.f12in['gammas'][linind] * dgs)
+            self.RK.f12in['gammas']  = nnp.array(np.array(self.RK.f12in['gammas']).at[linind].set(self.RK.f12in['gammas'][linind] * dgs))
 
-            self.RK.f14in['gammas']  = np.array(self.RK.f14in['gammas']).at[linind].set(self.RK.f14in['gammas'][linind] * dgs)
-            self.RK.f14in['gs']      = np.array(self.RK.f14in['gs']).at[linind].set(self.RK.f14in['gs'][linind] + dgammas)
-            self.RK.f14in['dgammas'] = np.array(self.RK.f14in['dgammas']).at[linind].set(dgammas)
+            self.RK.f14in['gammas']  = nnp.array(np.array(self.RK.f14in['gammas']).at[linind].set(self.RK.f14in['gammas'][linind] * dgs))
+            self.RK.f14in['gs']      = nnp.array(np.array(self.RK.f14in['gs']).at[linind].set(self.RK.f14in['gs'][linind] + dgammas))
+            self.RK.f14in['dgammas'] = nnp.array(np.array(self.RK.f14in['dgammas']).at[linind].set(dgammas))
             
         if fort == 19:
-            self.RK.f19in['gammas'] = np.array(self.RK.f19in['gammas']).at[linind].set(self.RK.f19in['gammas'][linind] * dgs)
+            self.RK.f19in['gammas'] = nnp.array(np.array(self.RK.f19in['gammas']).at[linind].set(self.RK.f19in['gammas'][linind] * dgs))
 
-            self.RK.f20in['gammas']  = np.array(self.RK.f20in['gammas']).at[linind].set(self.RK.f20in['gammas'][linind] * dgs)
-            self.RK.f20in['gs']      = np.array(self.RK.f20in['gs']).at[linind].set(self.RK.f20in['gs'][linind] + dgammas)
-            self.RK.f20in['dgammas'] = np.array(self.RK.f20in['dgammas']).at[linind].set(dgammas)
+            self.RK.f20in['gammas']  = nnp.array(np.array(self.RK.f20in['gammas']).at[linind].set(self.RK.f20in['gammas'][linind] * dgs))
+            self.RK.f20in['gs']      = nnp.array(np.array(self.RK.f20in['gs']).at[linind].set(self.RK.f20in['gs'][linind] + dgammas))
+            self.RK.f20in['dgammas'] = nnp.array(np.array(self.RK.f20in['dgammas']).at[linind].set(dgammas))
 
     def adjgammar(self,linind,dgammar,fort=None):
         dgr = 10.0**dgammar
         
         if fort == 12:
-            self.RK.f12in['gammar']  = np.array(self.RK.f12in['gammar']).at[linind].set(self.RK.f12in['gammar'][linind] * dgr)
+            self.RK.f12in['gammar']  = nnp.array(np.array(self.RK.f12in['gammar']).at[linind].set(self.RK.f12in['gammar'][linind] * dgr))
 
-            self.RK.f14in['gammar']  = np.array(self.RK.f14in['gammar']).at[linind].set(self.RK.f14in['gammar'][linind] * dgr)
-            self.RK.f14in['gr']      = np.array(self.RK.f14in['gr']).at[linind].set(self.RK.f14in['gr'][linind] + dgammar)
-            self.RK.f14in['dgammar'] = np.array(self.RK.f14in['dgammar']).at[linind].set(dgammar)
+            self.RK.f14in['gammar']  = nnp.array(np.array(self.RK.f14in['gammar']).at[linind].set(self.RK.f14in['gammar'][linind] * dgr))
+            self.RK.f14in['gr']      = nnp.array(np.array(self.RK.f14in['gr']).at[linind].set(self.RK.f14in['gr'][linind] + dgammar))
+            self.RK.f14in['dgammar'] = nnp.array(np.array(self.RK.f14in['dgammar']).at[linind].set(dgammar))
             
         if fort == 19:
-            self.RK.f19in['gammar']  = np.array(self.RK.f19in['gammar']).at[linind].set(self.RK.f19in['gammar'][linind] * dgw)
+            self.RK.f19in['gammar']  = nnp.array(np.array(self.RK.f19in['gammar']).at[linind].set(self.RK.f19in['gammar'][linind] * dgr))
 
-            self.RK.f20in['gammar']  = np.array(self.RK.f20in['gammar']).at[linind].set(self.RK.f20in['gammar'][linind] * dgr)
-            self.RK.f20in['gr']      = np.array(self.RK.f20in['gr']).at[linind].set(self.RK.f20in['gr'][linind] + dgammar)
-            self.RK.f20in['dgammar'] = np.array(self.RK.f20in['dgammar']).at[linind].set(dgammar)
+            self.RK.f20in['gr']      = nnp.array(np.array(self.RK.f20in['gr']).at[linind].set(self.RK.f20in['gr'][linind] + dgammar))
+            self.RK.f20in['gammar']  = nnp.array(np.array(self.RK.f20in['gammar']).at[linind].set(self.RK.f20in['gammar'][linind] * dgr))
+            self.RK.f20in['dgammar'] = nnp.array(np.array(self.RK.f20in['dgammar']).at[linind].set(dgammar))
     
 if __name__ == '__main__':
     AK = AdjKurucz()
