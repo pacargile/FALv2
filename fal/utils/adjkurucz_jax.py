@@ -566,11 +566,11 @@ class AdjKurucz(object):
             # self.RK.f14in['gw'][linind]      = self.RK.f14in['gw'][linind] + dgammaw
             # self.RK.f14in['dgammaw'][linind] = dgammaw
 
-            self.RK.f12in['gammaw'] = self.RK.f12in['gammaw'].at[linind].set(self.RK.f12in['gammaw'][linind] * dgw)
+            self.RK.f12in['gammaw']  = np.array(self.RK.f12in['gammaw']).at[linind].set(self.RK.f12in['gammaw'][linind] * dgw)
 
-            self.RK.f14in['gammaw']  = self.RK.f14in['gammaw'].at[linind].set(self.RK.f14in['gammaw'][linind] * dgw)
-            self.RK.f14in['gw']      = self.RK.f14in['gw'].at[linind].set(self.RK.f14in['gw'][linind] + dgammaw)
-            self.RK.f14in['dgammaw'] = self.RK.f14in['dgammaw'].at[linind].set(dgammaw)
+            self.RK.f14in['gammaw']  = np.array(self.RK.f14in['gammaw']).at[linind].set(self.RK.f14in['gammaw'][linind] * dgw)
+            self.RK.f14in['gw']      = np.array(self.RK.f14in['gw']).at[linind].set(self.RK.f14in['gw'][linind] + dgammaw)
+            self.RK.f14in['dgammaw'] = np.array(self.RK.f14in['dgammaw']).at[linind].set(dgammaw)
             
         if fort == 19:
             # self.RK.f19in['gammaw'][linind]  = self.RK.f19in['gammaw'][linind] * dgw
@@ -579,17 +579,17 @@ class AdjKurucz(object):
             # self.RK.f20in['gw'][linind]      = self.RK.f20in['gw'][linind] + dgammaw
             # self.RK.f20in['dgammaw'][linind] = dgammaw
 
-            self.RK.f19in['gammaw'] = self.RK.f19in['gammaw'].at[linind].set(self.RK.f19in['gammaw'][linind] * dgw)
+            self.RK.f19in['gammaw']  = np.array(self.RK.f19in['gammaw']).at[linind].set(self.RK.f19in['gammaw'][linind] * dgw)
 
-            self.RK.f20in['gammaw']  = self.RK.f20in['gammaw'].at[linind].set(self.RK.f20in['gammaw'][linind] * dgw)
-            self.RK.f20in['gw']      = self.RK.f20in['gw'].at[linind].set(self.RK.f20in['gw'][linind] + dgammaw)
-            self.RK.f20in['dgammaw'] = self.RK.f20in['dgammaw'].at[linind].set(dgammaw)
+            self.RK.f20in['gammaw']  = np.array(self.RK.f20in['gammaw']).at[linind].set(self.RK.f20in['gammaw'][linind] * dgw)
+            self.RK.f20in['gw']      = np.array(self.RK.f20in['gw']).at[linind].set(self.RK.f20in['gw'][linind] + dgammaw)
+            self.RK.f20in['dgammaw'] = np.array(self.RK.f20in['dgammaw']).at[linind].set(dgammaw)
 
     def adjgammas(self,linind,dgammas,fort=None):
         dgs = 10.0**dgammas
         
         if fort == 12:
-            self.RK.f12in['gammas'] = self.RK.f12in['gammas'].at[linind].set(self.RK.f12in['gammas'][linind] * dgs)
+            self.RK.f12in['gammas']  = self.RK.f12in['gammas'].at[linind].set(self.RK.f12in['gammas'][linind] * dgs)
 
             self.RK.f14in['gammas']  = self.RK.f14in['gammas'].at[linind].set(self.RK.f14in['gammas'][linind] * dgs)
             self.RK.f14in['gs']      = self.RK.f14in['gs'].at[linind].set(self.RK.f14in['gs'][linind] + dgammas)
