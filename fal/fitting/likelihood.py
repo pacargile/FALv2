@@ -237,6 +237,7 @@ class Like(object):
         return chisq
 
     def run(self,pars):
+        print(pars)
                         
         # last sets of pars are always RV shifts and then scale factors
         rvsnum = np.array(self.specinfo['rvshiftbool']).sum()
