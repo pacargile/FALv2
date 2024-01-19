@@ -236,9 +236,15 @@ class Like(object):
         
         return chisq
 
-    def run(self,pars):
-        print(pars)
-                        
+    def run(self,pars_i):
+        if isinstance(pars_i,dict):
+            pars = []
+            for ind in self.lineindex:
+                pars.append(pars_i[f'dwl_{ind}'])
+                pars.append(pars_i[f'dgf_{ind}'])
+                pars.append(pars_i[f'dgw_{ind}'])
+        else:
+            pars = pars_i
         # last sets of pars are always RV shifts and then scale factors
         rvsnum = np.array(self.specinfo['rvshiftbool']).sum()
         scanum = np.array(self.specinfo['scalebool']).sum()
