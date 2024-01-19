@@ -121,7 +121,12 @@ class Like(object):
         
         self.RSarr = []
 
+        self.numpix = 0
+
         for ii in range(self.nspec):
+            # compute number of pixels
+            self.numpix += len(self.data_wave[ii])
+            
             inputdict = {}
             inputdict['verbose']   = False
             inputdict['exedir']    = './bin/'
@@ -283,4 +288,4 @@ class Like(object):
         return (-0.5 * chisq, modarr)
     
     def compute_loss(self,pars):
-        return -1.0 * self.run(pars)[0] / 200000.0
+        return -1.0 * self.run(pars)[0] / self.numpix
