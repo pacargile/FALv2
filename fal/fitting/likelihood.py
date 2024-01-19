@@ -288,4 +288,4 @@ class Like(object):
         return (-0.5 * chisq, modarr)
     
     def compute_loss(self,pars):
-        return -1.0 * self.run(pars)[0] / self.numpix
+        return (self.run(pars)[0]/-0.5) / self.numpix
