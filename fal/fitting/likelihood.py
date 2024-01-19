@@ -241,9 +241,11 @@ class Like(object):
         # last sets of pars are always RV shifts and then scale factors
         rvsnum = np.array(self.specinfo['rvshiftbool']).sum()
         scanum = np.array(self.specinfo['scalebool']).sum()
-        
-        rvpars = pars[-(rvsnum+scanum):-scanum]
-        scpars = pars[-scanum:]
+
+        if rvsnum > 0:
+            rvpars = pars[-(rvsnum+scanum):-scanum]
+        if scanum > 0:
+            scpars = pars[-scanum:]
         
         # assemble the parameter dictionaries
         
