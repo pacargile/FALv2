@@ -275,8 +275,6 @@ class Like(object):
                 dgammas[ii] = pars[pind[4]]
         linepars = {'dwl':dwl,'dloggf':dloggf,'dgammaw':dgammaw,'dgammar':dgammar,'dgammas':dgammas}
         
-        print(linepars,flush=True)
-        
         # generate the models
         modarr = self.genmod(linepars=linepars)
         
