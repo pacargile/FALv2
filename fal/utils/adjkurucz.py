@@ -27,6 +27,43 @@ class AdjKurucz(object):
             f20path=self.f20path,
             f93path=self.f93path)
 
+        # init and store important arrays 
+        self.wlvac_14 = self.RK.f14in['wlvac']
+        self.wl_14 = self.RK.f14in['wl']
+
+        self.wlvac_19 = self.RK.f19in['wlvac']
+        self.wl_20 = self.RK.f20in['wl']
+        self.wlvac_20 = self.RK.f20in['wlvac']
+
+        self.cgf_12 = self.RK.f12in['cgf']
+        self.gf_14 = self.RK.f14in['gf']
+        self.gflog_14 = self.RK.f14in['gflog']
+
+        self.gf_19 = self.RK.f19in['gf']
+        self.gf_20 = self.RK.f20in['gf']
+        self.gflog_20 = self.RK.f20in['gflog']
+
+        self.gammaw_12 = self.RK.f12in['gammaw']
+        self.gammas_12 = self.RK.f12in['gammas']
+        self.gammar_12 = self.RK.f12in['gammar']
+        self.gammaw_14 = self.RK.f14in['gammaw']
+        self.gammas_14 = self.RK.f14in['gammas']
+        self.gammar_14 = self.RK.f14in['gammar']
+        self.gw_14 = self.RK.f14in['gw']
+        self.gr_14 = self.RK.f14in['gr']
+        self.gs_14 = self.RK.f14in['gs']
+
+        self.gammaw_19 = self.RK.f19in['gammaw']
+        self.gammas_19 = self.RK.f19in['gammas']
+        self.gammar_19 = self.RK.f19in['gammar']
+        self.gammaw_20 = self.RK.f20in['gammaw']
+        self.gammas_20 = self.RK.f20in['gammas']
+        self.gammar_20 = self.RK.f20in['gammar']
+        self.gw_20 = self.RK.f20in['gw']
+        self.gr_20 = self.RK.f20in['gr']
+        self.gs_20 = self.RK.f20in['gs']
+
+
     def initfiles(self,):
         self.RK = readkurucz.ReadKurucz(verbose=self.verbose)
         
@@ -505,24 +542,43 @@ class AdjKurucz(object):
             ixwlbeg += 1
         
         if fort == 12:
-            ixwl = np.log(self.RK.f14in['wlvac'][linind] + dwl)/ratiolg + 0.5
-            nbuff = ixwl - ixwlbeg + 1
+            # ixwl = np.log(self.RK.f14in['wlvac'][linind] + dwl)/ratiolg + 0.5
+            # nbuff = ixwl - ixwlbeg + 1
             
+            # self.RK.f12in['nbuff'][linind] = nbuff
+            # self.RK.f14in['wl'][linind]    = self.RK.f14in['wl'][linind] + dwl
+            # self.RK.f14in['wlvac'][linind] = self.RK.f14in['wlvac'][linind] + dwl
+
+            # self.RK.f14in['dwl'][linind]   = dwl
+
+            ixwl = np.log(self.wlvac_14[linind] + dwl)/ratiolg + 0.5
+            nbuff = ixwl - ixwlbeg + 1
+
             self.RK.f12in['nbuff'][linind] = nbuff
-            self.RK.f14in['wl'][linind]    = self.RK.f14in['wl'][linind] + dwl
-            self.RK.f14in['wlvac'][linind] = self.RK.f14in['wlvac'][linind] + dwl
+            self.RK.f14in['wl'][linind]    = self.wl_14[linind] + dwl
+            self.RK.f14in['wlvac'][linind] = self.wlvac_14[linind] + dwl
 
             self.RK.f14in['dwl'][linind]   = dwl
 
 
         if fort == 19:
-            ixwl = np.log(self.RK.f19in['wlvac'][linind] + dwl)/ratiolg + 0.5
+            # ixwl = np.log(self.RK.f19in['wlvac'][linind] + dwl)/ratiolg + 0.5
+            # nbuff = ixwl - ixwlbeg + 1
+
+            # self.RK.f19in['nbuff'][linind] = nbuff
+            # self.RK.f19in['wlvac'][linind] = self.RK.f19in['wlvac'][linind] + dwl
+            # self.RK.f20in['wl'][linind]    = self.RK.f20in['wl'][linind] + dwl
+            # self.RK.f20in['wlvac'][linind] = self.RK.f20in['wlvac'][linind] + dwl
+
+            # self.RK.f20in['dwl'][linind]   = dwl
+
+            ixwl = np.log(self.wlvac_19[linind] + dwl)/ratiolg + 0.5
             nbuff = ixwl - ixwlbeg + 1
 
             self.RK.f19in['nbuff'][linind] = nbuff
-            self.RK.f19in['wlvac'][linind] = self.RK.f19in['wlvac'][linind] + dwl
-            self.RK.f20in['wl'][linind]    = self.RK.f20in['wl'][linind] + dwl
-            self.RK.f20in['wlvac'][linind] = self.RK.f20in['wlvac'][linind] + dwl
+            self.RK.f19in['wlvac'][linind] = self.wlvac_19[linind] + dwl
+            self.RK.f20in['wl'][linind]    = self.wl_20[linind] + dwl
+            self.RK.f20in['wlvac'][linind] = self.wlvac_20[linind] + dwl
 
             self.RK.f20in['dwl'][linind]   = dwl
             
@@ -535,19 +591,31 @@ class AdjKurucz(object):
             # print('... before: ',self.RK.f12in['cgf'][linind],self.RK.f14in['gf'][linind],self.RK.f14in['gflog'][linind])
             
             # shift log(gf) by dlog(gf) in terms of gf
-            self.RK.f12in['cgf'][linind]    = self.RK.f12in['cgf'][linind] * dgf
+            # self.RK.f12in['cgf'][linind]    = self.RK.f12in['cgf'][linind] * dgf
 
-            self.RK.f14in['gf'][linind]     = self.RK.f14in['gf'][linind] * dgf
-            self.RK.f14in['gflog'][linind]  = self.RK.f14in['gflog'][linind] + dloggf
+            # self.RK.f14in['gf'][linind]     = self.RK.f14in['gf'][linind] * dgf
+            # self.RK.f14in['gflog'][linind]  = self.RK.f14in['gflog'][linind] + dloggf
+            # self.RK.f14in['dgflog'][linind] = dloggf
+
+            self.RK.f12in['cgf'][linind]    = self.cgf_12[linind] * dgf
+
+            self.RK.f14in['gf'][linind]     = self.gf_14[linind] * dgf
+            self.RK.f14in['gflog'][linind]  = self.gflog_14[linind] + dloggf
             self.RK.f14in['dgflog'][linind] = dloggf
 
             # print('... after: ',self.RK.f12in['cgf'][linind],self.RK.f14in['gf'][linind],self.RK.f14in['gflog'][linind])
 
         if fort == 19:
-            self.RK.f19in['gf'][linind]     = self.RK.f19['gf'][linind] * dgf
+            # self.RK.f19in['gf'][linind]     = self.RK.f19['gf'][linind] * dgf
             
-            self.RK.f20in['gf'][linind]     = self.RK.f20in['gf'][linind] * dgf
-            self.RK.f20in['gflog'][linind]  = self.RK.f20in['gflog'][linind] + dloggf
+            # self.RK.f20in['gf'][linind]     = self.RK.f20in['gf'][linind] * dgf
+            # self.RK.f20in['gflog'][linind]  = self.RK.f20in['gflog'][linind] + dloggf
+            # self.RK.f20in['dgflog'][linind] = dloggf
+
+            self.RK.f19in['gf'][linind]     = self.gf_19[linind] * dgf
+            
+            self.RK.f20in['gf'][linind]     = self.gf_20[linind] * dgf
+            self.RK.f20in['gflog'][linind]  = self.gflog_20[linind] + dloggf
             self.RK.f20in['dgflog'][linind] = dloggf
     
     def adjgammaw(self,linind,dgammaw,fort=None):
@@ -556,51 +624,87 @@ class AdjKurucz(object):
         dgw = 10.0**dgammaw
         
         if fort == 12:
-            self.RK.f12in['gammaw'][linind]  = self.RK.f12in['gammaw'][linind] * dgw
+            # self.RK.f12in['gammaw'][linind]  = self.RK.f12in['gammaw'][linind] * dgw
 
-            self.RK.f14in['gammaw'][linind]  = self.RK.f14in['gammaw'][linind] * dgw
-            self.RK.f14in['gw'][linind]      = self.RK.f14in['gw'][linind] + dgammaw
+            # self.RK.f14in['gammaw'][linind]  = self.RK.f14in['gammaw'][linind] * dgw
+            # self.RK.f14in['gw'][linind]      = self.RK.f14in['gw'][linind] + dgammaw
+            # self.RK.f14in['dgammaw'][linind] = dgammaw
+
+            self.RK.f12in['gammaw'][linind]  = self.gammaw_12[linind] * dgw
+
+            self.RK.f14in['gammaw'][linind]  = self.gammaw_14[linind] * dgw
+            self.RK.f14in['gw'][linind]      = self.gw_14[linind] + dgammaw
             self.RK.f14in['dgammaw'][linind] = dgammaw
             
         if fort == 19:
-            self.RK.f19in['gammaw'][linind]  = self.RK.f19in['gammaw'][linind] * dgw
+            # self.RK.f19in['gammaw'][linind]  = self.RK.f19in['gammaw'][linind] * dgw
 
-            self.RK.f20in['gammaw'][linind]  = self.RK.f20in['gammaw'][linind] * dgw
-            self.RK.f20in['gw'][linind]      = self.RK.f20in['gw'][linind] + dgammaw
+            # self.RK.f20in['gammaw'][linind]  = self.RK.f20in['gammaw'][linind] * dgw
+            # self.RK.f20in['gw'][linind]      = self.RK.f20in['gw'][linind] + dgammaw
+            # self.RK.f20in['dgammaw'][linind] = dgammaw
+
+            self.RK.f19in['gammaw'][linind]  = self.gammaw_19[linind] * dgw
+
+            self.RK.f20in['gammaw'][linind]  = self.gammaw_20[linind] * dgw
+            self.RK.f20in['gw'][linind]      = self.gw_20[linind] + dgammaw
             self.RK.f20in['dgammaw'][linind] = dgammaw
 
     def adjgammas(self,linind,dgammas,fort=None):
         dgs = 10.0**dgammas
         
         if fort == 12:
-            self.RK.f12in['gammas'][linind]  = self.RK.f12in['gammas'][linind] * dgs
+            # self.RK.f12in['gammas'][linind]  = self.RK.f12in['gammas'][linind] * dgs
 
-            self.RK.f14in['gammas'][linind]  = self.RK.f14in['gammas'][linind] * dgs
-            self.RK.f14in['gs'][linind]      = self.RK.f14in['gs'][linind] + dgammas
+            # self.RK.f14in['gammas'][linind]  = self.RK.f14in['gammas'][linind] * dgs
+            # self.RK.f14in['gs'][linind]      = self.RK.f14in['gs'][linind] + dgammas
+            # self.RK.f14in['dgammas'][linind] = dgammas
+
+            self.RK.f12in['gammas'][linind]  = self.gammas_12[linind] * dgs
+
+            self.RK.f14in['gammas'][linind]  = self.gammas_14[linind] * dgs
+            self.RK.f14in['gs'][linind]      = self.gs_14[linind] + dgammas
             self.RK.f14in['dgammas'][linind] = dgammas
             
         if fort == 19:
-            self.RK.f19in['gammas'][linind]  = self.RK.f19in['gammas'][linind] * dgs
+            # self.RK.f19in['gammas'][linind]  = self.RK.f19in['gammas'][linind] * dgs
 
-            self.RK.f20in['gammas'][linind]  = self.RK.f20in['gammas'][linind] * dgs
-            self.RK.f20in['gs'][linind]      = self.RK.f20in['gs'][linind] + dgammas
+            # self.RK.f20in['gammas'][linind]  = self.RK.f20in['gammas'][linind] * dgs
+            # self.RK.f20in['gs'][linind]      = self.RK.f20in['gs'][linind] + dgammas
+            # self.RK.f20in['dgammas'][linind] = dgammas
+
+            self.RK.f19in['gammas'][linind]  = self.gammas_19[linind] * dgs
+
+            self.RK.f20in['gammas'][linind]  = self.gammas_20[linind] * dgs
+            self.RK.f20in['gs'][linind]      = self.gs_20[linind] + dgammas
             self.RK.f20in['dgammas'][linind] = dgammas
 
     def adjgammar(self,linind,dgammar,fort=None):
         dgr = 10.0**dgammar
         
         if fort == 12:
-            self.RK.f12in['gammar'][linind]  = self.RK.f12in['gammar'][linind] * dgr
+            # self.RK.f12in['gammar'][linind]  = self.RK.f12in['gammar'][linind] * dgr
 
-            self.RK.f14in['gammar'][linind]  = self.RK.f14in['gammar'][linind] * dgr
-            self.RK.f14in['gr'][linind]      = self.RK.f14in['gr'][linind] + dgammar
+            # self.RK.f14in['gammar'][linind]  = self.RK.f14in['gammar'][linind] * dgr
+            # self.RK.f14in['gr'][linind]      = self.RK.f14in['gr'][linind] + dgammar
+            # self.RK.f14in['dgammar'][linind] = dgammar
+
+            self.RK.f12in['gammar'][linind]  = self.gammar_12[linind] * dgr
+
+            self.RK.f14in['gammar'][linind]  = self.gammar_14[linind] * dgr
+            self.RK.f14in['gr'][linind]      = self.gr_14[linind] + dgammar
             self.RK.f14in['dgammar'][linind] = dgammar
             
         if fort == 19:
-            self.RK.f19in['gammar'][linind]  = self.RK.f19in['gammar'][linind] * dgr
+            # self.RK.f19in['gammar'][linind]  = self.RK.f19in['gammar'][linind] * dgr
 
-            self.RK.f20in['gammar'][linind]  = self.RK.f20in['gammar'][linind] * dgr
-            self.RK.f20in['gr'][linind]      = self.RK.f20in['gr'][linind] + dgammar
+            # self.RK.f20in['gammar'][linind]  = self.RK.f20in['gammar'][linind] * dgr
+            # self.RK.f20in['gr'][linind]      = self.RK.f20in['gr'][linind] + dgammar
+            # self.RK.f20in['dgammar'][linind] = dgammar
+
+            self.RK.f19in['gammar'][linind]  = self.gammar_19[linind] * dgr
+
+            self.RK.f20in['gammar'][linind]  = self.gammar_20[linind] * dgr
+            self.RK.f20in['gr'][linind]      = self.gr_20[linind] + dgammar
             self.RK.f20in['dgammar'][linind] = dgammar
     
 if __name__ == '__main__':

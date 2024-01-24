@@ -174,7 +174,7 @@ class Like(object):
 
     def genmod(self,linepars={'dwl':[],'dloggf':[],'dgammaw':[],'dgammar':[],'dgammas':[]}):
         
-        self.AK.initfiles()
+        # self.AK.initfiles()
         
         # adjust the line parameters
         indictll = ({
