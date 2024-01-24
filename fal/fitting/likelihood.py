@@ -174,6 +174,8 @@ class Like(object):
 
     def genmod(self,linepars={'dwl':[],'dloggf':[],'dgammaw':[],'dgammar':[],'dgammas':[]}):
         
+        self.AK.initfiles()
+        
         # adjust the line parameters
         indictll = ({
             'lineind':self.lineindex,
