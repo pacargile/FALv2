@@ -395,11 +395,11 @@ class Synthe(object):
         if inpipe != None:
             with open(inpipe,'r') as finpipe:
                 pro = subprocess.Popen([self.exedir+function+".exe"],
-                                    stdin=finpipe,stdout=fnull,encoding='ascii',
+                                    stdin=finpipe,stdout=fstdout,encoding='ascii',
                                     universal_newlines=True)
         else:
             pro = subprocess.Popen([self.exedir+function+".exe"],
-                                   stdin=subprocess.PIPE,stdout=fnull,encoding='ascii',
+                                   stdin=subprocess.PIPE,stdout=fstdout,encoding='ascii',
                                    universal_newlines=True)
 
         # if input to pro, then communicte
