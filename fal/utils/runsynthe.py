@@ -389,9 +389,10 @@ class Synthe(object):
 
         # build the process
         if inpipe != None:
-            pro = subprocess.Popen([self.exedir+function+".exe"],
-                                   stdin=open(inpipe,'r'),stdout=fnull,encoding='ascii',
-                                   universal_newlines=True)
+            with open(inpipe,'r') as finpipe:
+                pro = subprocess.Popen([self.exedir+function+".exe"],
+                                    stdin=finpipe,stdout=fnull,encoding='ascii',
+                                    universal_newlines=True)
         else:
             pro = subprocess.Popen([self.exedir+function+".exe"],
                                    stdin=subprocess.PIPE,stdout=fnull,encoding='ascii',
