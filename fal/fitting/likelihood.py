@@ -300,3 +300,7 @@ class Like(object):
     
     def compute_loss(self,pars):
         return (self.run(pars)[0]/-0.5)/self.numpix 
+    
+    def compute_like(self,pars):
+        return self.run(pars)[0]
+        
