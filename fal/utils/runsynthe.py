@@ -379,13 +379,13 @@ class Synthe(object):
         """
         # set stdout piping
         if verbose == None:
-            fnull = self.FNULL
+            fnull = subprocess.DEVNULL
         elif verbose == True:
             fnull = sys.stdout
         elif verbose == False:
-            fnull = open(os.devnull, 'w')
+            fnull = subprocess.DEVNUL #open(os.devnull, 'w')
         else:
-            fnull = self.FNULL
+            fnull = subprocess.DEVNULL #self.FNULL
 
         # build the process
         if inpipe != None:
