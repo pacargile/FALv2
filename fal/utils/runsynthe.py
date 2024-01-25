@@ -405,8 +405,14 @@ class Synthe(object):
 
         # wait until pro is finished
         pro.wait()
-        pro.stdout.close()
-        pro.stderr.close()
+        try:
+            pro.stdout.close()
+        except AttributeError:
+            pass
+        try:
+            pro.stderr.close()
+        except AttributeError:
+            pass
         pro.kill()
         return output    
     
