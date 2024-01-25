@@ -405,6 +405,8 @@ class Synthe(object):
 
         # wait until pro is finished
         pro.wait()
+        pro.stdout.close()
+        pro.kill()
         return output    
     
     def _fastcopy(self,src,dst,buffer_size=-1):#10485760):
