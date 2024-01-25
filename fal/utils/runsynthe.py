@@ -406,6 +406,7 @@ class Synthe(object):
         # wait until pro is finished
         pro.wait()
         pro.stdout.close()
+        pro.stderr.close()
         pro.kill()
         return output    
     
