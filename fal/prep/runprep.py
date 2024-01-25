@@ -617,12 +617,16 @@ class RunPrep(object):
                 y = np.vstack([sLL['wl'],sLL['code'],sLL['gflog'],sLL['gr'],sLL['gs'],sLL['gw']]).T
                 x = [wl_full[ii],code_full[ii],loggf_full[ii],gammar_full[ii],gammas_full[ii],gammaw_full[ii]]
                 cond_sel = (y == x).all(axis=1)
-                
-                if cond_sel.sum() == 1:
-                    slindex.append(int(sLL['index'][cond_sel]))
-                elif cond_sel.sum() > 1:
+
+                if cond_sel.sum() > 0:
                     for ss in sLL['index'][cond_sel]:
-                        slindex.append(ss)
+                        slindex.append(int(ss))
+                                
+                # if cond_sel.sum() == 1:
+                #     slindex.append(int(sLL['index'][cond_sel]))
+                # elif cond_sel.sum() > 1:
+                #     for ss in sLL['index'][cond_sel]:
+                #         slindex.append(ss)
                 else:
                     print(f'Could not find match for this line:',flush=True)
                     print(wl_full[ii],code_full[ii],loggf_full[ii],gammaw_full[ii],flush=True)
