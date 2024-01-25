@@ -2,6 +2,8 @@ from . import readkurucz
 import numpy as np
 from datetime import datetime
 from collections import Counter
+import warnings
+warnings.filterwarnings('error')
 
 class AdjKurucz(object):
     def __init__(self, *args, **kwargs):
@@ -597,9 +599,13 @@ class AdjKurucz(object):
             # self.RK.f14in['gflog'][linind]  = self.RK.f14in['gflog'][linind] + dloggf
             # self.RK.f14in['dgflog'][linind] = dloggf
 
-            self.RK.f12in['cgf'][linind]    = self.cgf_12[linind] * dgf
-
-            self.RK.f14in['gf'][linind]     = self.gf_14[linind] * dgf
+            try:
+                self.RK.f12in['cgf'][linind]    = self.cgf_12[linind] * dgf
+                self.RK.f14in['gf'][linind]     = self.gf_14[linind] * dgf
+            except RuntimeWarning:
+                self.RK.f12in['cgf'][linind]    = 10.0**(np.log10(self.cgf_12[linind]) +  dloggf)
+                self.RK.f14in['gf'][linind]     = 10.0**(np.log10(self.gf_14[linind] ) +  dloggf)
+            
             self.RK.f14in['gflog'][linind]  = self.gflog_14[linind] + dloggf
             self.RK.f14in['dgflog'][linind] = dloggf
 
@@ -612,9 +618,13 @@ class AdjKurucz(object):
             # self.RK.f20in['gflog'][linind]  = self.RK.f20in['gflog'][linind] + dloggf
             # self.RK.f20in['dgflog'][linind] = dloggf
 
-            self.RK.f19in['gf'][linind]     = self.gf_19[linind] * dgf
+            try:
+                self.RK.f19in['gf'][linind]     = self.gf_19[linind] * dgf            
+                self.RK.f20in['gf'][linind]     = self.gf_20[linind] * dgf
+            except RuntimeWarning:
+                self.RK.f19in['gf'][linind]     = 10.0**(np.log10(self.gf_19[linind]) + dloggf)
+                self.RK.f20in['gf'][linind]     = 10.0**(np.log10(self.gf_20[linind]) + dloggf)
             
-            self.RK.f20in['gf'][linind]     = self.gf_20[linind] * dgf
             self.RK.f20in['gflog'][linind]  = self.gflog_20[linind] + dloggf
             self.RK.f20in['dgflog'][linind] = dloggf
     
@@ -630,9 +640,13 @@ class AdjKurucz(object):
             # self.RK.f14in['gw'][linind]      = self.RK.f14in['gw'][linind] + dgammaw
             # self.RK.f14in['dgammaw'][linind] = dgammaw
 
-            self.RK.f12in['gammaw'][linind]  = self.gammaw_12[linind] * dgw
-
-            self.RK.f14in['gammaw'][linind]  = self.gammaw_14[linind] * dgw
+            try:
+                self.RK.f12in['gammaw'][linind]  = self.gammaw_12[linind] * dgw
+                self.RK.f14in['gammaw'][linind]  = self.gammaw_14[linind] * dgw
+            except RuntimeWarning:
+                self.RK.f12in['gammaw'][linind]  = 10.0**(np.log10(self.gammaw_12[linind]) + dgammaw)
+                self.RK.f14in['gammaw'][linind]  = 10.0**(np.log10(self.gammaw_14[linind]) + dgammaw)
+            
             self.RK.f14in['gw'][linind]      = self.gw_14[linind] + dgammaw
             self.RK.f14in['dgammaw'][linind] = dgammaw
             
@@ -643,9 +657,13 @@ class AdjKurucz(object):
             # self.RK.f20in['gw'][linind]      = self.RK.f20in['gw'][linind] + dgammaw
             # self.RK.f20in['dgammaw'][linind] = dgammaw
 
-            self.RK.f19in['gammaw'][linind]  = self.gammaw_19[linind] * dgw
-
-            self.RK.f20in['gammaw'][linind]  = self.gammaw_20[linind] * dgw
+            try:
+                self.RK.f19in['gammaw'][linind]  = self.gammaw_19[linind] * dgw
+                self.RK.f20in['gammaw'][linind]  = self.gammaw_20[linind] * dgw
+            except RuntimeWarning:
+                self.RK.f19in['gammaw'][linind]  = 10.0**(np.log10(self.gammaw_19[linind]) + dgammaw)
+                self.RK.f20in['gammaw'][linind]  = 10.0**(np.log10(self.gammaw_20[linind]) + dgammaw)
+            
             self.RK.f20in['gw'][linind]      = self.gw_20[linind] + dgammaw
             self.RK.f20in['dgammaw'][linind] = dgammaw
 
@@ -659,9 +677,13 @@ class AdjKurucz(object):
             # self.RK.f14in['gs'][linind]      = self.RK.f14in['gs'][linind] + dgammas
             # self.RK.f14in['dgammas'][linind] = dgammas
 
-            self.RK.f12in['gammas'][linind]  = self.gammas_12[linind] * dgs
-
-            self.RK.f14in['gammas'][linind]  = self.gammas_14[linind] * dgs
+            try:
+                self.RK.f12in['gammas'][linind]  = self.gammas_12[linind] * dgs
+                self.RK.f14in['gammas'][linind]  = self.gammas_14[linind] * dgs
+            except RuntimeWarning:
+                self.RK.f12in['gammas'][linind]  = 10.0**(np.log10(self.gammas_12[linind]) + dgammas)
+                self.RK.f14in['gammas'][linind]  = 10.0**(np.log10(self.gammas_14[linind]) + dgammas)
+            
             self.RK.f14in['gs'][linind]      = self.gs_14[linind] + dgammas
             self.RK.f14in['dgammas'][linind] = dgammas
             
@@ -672,9 +694,13 @@ class AdjKurucz(object):
             # self.RK.f20in['gs'][linind]      = self.RK.f20in['gs'][linind] + dgammas
             # self.RK.f20in['dgammas'][linind] = dgammas
 
-            self.RK.f19in['gammas'][linind]  = self.gammas_19[linind] * dgs
-
-            self.RK.f20in['gammas'][linind]  = self.gammas_20[linind] * dgs
+            try:
+                self.RK.f19in['gammas'][linind]  = self.gammas_19[linind] * dgs
+                self.RK.f20in['gammas'][linind]  = self.gammas_20[linind] * dgs
+            except RuntimeWarning:
+                self.RK.f19in['gammas'][linind]  = 10.0**(np.log10(self.gammas_19[linind]) + dgammas)
+                self.RK.f20in['gammas'][linind]  = 10.0**(np.log10(self.gammas_20[linind]) + dgammas)
+            
             self.RK.f20in['gs'][linind]      = self.gs_20[linind] + dgammas
             self.RK.f20in['dgammas'][linind] = dgammas
 
@@ -688,9 +714,13 @@ class AdjKurucz(object):
             # self.RK.f14in['gr'][linind]      = self.RK.f14in['gr'][linind] + dgammar
             # self.RK.f14in['dgammar'][linind] = dgammar
 
-            self.RK.f12in['gammar'][linind]  = self.gammar_12[linind] * dgr
-
-            self.RK.f14in['gammar'][linind]  = self.gammar_14[linind] * dgr
+            try:
+                self.RK.f12in['gammar'][linind]  = self.gammar_12[linind] * dgr
+                self.RK.f14in['gammar'][linind]  = self.gammar_14[linind] * dgr
+            except RuntimeWarning:
+                self.RK.f12in['gammar'][linind]  = 10.0**(np.log10(self.gammar_12[linind]) + dgammar)
+                self.RK.f14in['gammar'][linind]  = 10.0**(np.log10(self.gammar_14[linind]) + dgammar)
+            
             self.RK.f14in['gr'][linind]      = self.gr_14[linind] + dgammar
             self.RK.f14in['dgammar'][linind] = dgammar
             
@@ -701,9 +731,13 @@ class AdjKurucz(object):
             # self.RK.f20in['gr'][linind]      = self.RK.f20in['gr'][linind] + dgammar
             # self.RK.f20in['dgammar'][linind] = dgammar
 
-            self.RK.f19in['gammar'][linind]  = self.gammar_19[linind] * dgr
-
-            self.RK.f20in['gammar'][linind]  = self.gammar_20[linind] * dgr
+            try:
+                self.RK.f19in['gammar'][linind]  = self.gammar_19[linind] * dgr
+                self.RK.f20in['gammar'][linind]  = self.gammar_20[linind] * dgr
+            except RuntimeWarning:
+                self.RK.f19in['gammar'][linind]  = 10.0**(np.log10(self.gammar_19[linind]) + dgammar)
+                self.RK.f20in['gammar'][linind]  = 10.0**(np.log10(self.gammar_20[linind]) + dgammar)
+            
             self.RK.f20in['gr'][linind]      = self.gr_20[linind] + dgammar
             self.RK.f20in['dgammar'][linind] = dgammar
     
