@@ -378,14 +378,18 @@ class Synthe(object):
         general function to call fortran code
         """
         # set stdout piping
-        if verbose == None:
-            fnull = subprocess.DEVNULL
-        elif verbose == True:
-            fnull = sys.stdout
-        elif verbose == False:
-            fnull = subprocess.DEVNUL #open(os.devnull, 'w')
+        if verbose == True:
+            fstdout = sys.stdout
         else:
-            fnull = subprocess.DEVNULL #self.FNULL
+            fstdout = subprocess.DEVNULL
+        # if verbose == None:
+        #     fnull = subprocess.DEVNULL
+        # elif verbose == True:
+        #     fnull = sys.stdout
+        # elif verbose == False:
+        #     fnull = subprocess.DEVNUL #open(os.devnull, 'w')
+        # else:
+        #     fnull = subprocess.DEVNULL #self.FNULL
 
         # build the process
         if inpipe != None:
