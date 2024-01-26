@@ -30,40 +30,35 @@ class AdjKurucz(object):
             f93path=self.f93path)
 
         # init and store important arrays 
-        self.wlvac_14 = self.RK.f14in['wlvac']
-        self.wl_14 = self.RK.f14in['wl']
-
-        self.wlvac_19 = self.RK.f19in['wlvac']
-        self.wl_20 = self.RK.f20in['wl']
-        self.wlvac_20 = self.RK.f20in['wlvac']
-
-        self.cgf_12 = self.RK.f12in['cgf']
-        self.gf_14 = self.RK.f14in['gf']
-        self.gflog_14 = self.RK.f14in['gflog']
-
-        self.gf_19 = self.RK.f19in['gf']
-        self.gf_20 = self.RK.f20in['gf']
-        self.gflog_20 = self.RK.f20in['gflog']
-
+        self.wlvac_14  = self.RK.f14in['wlvac']
+        self.wl_14     = self.RK.f14in['wl']
+        self.wlvac_19  = self.RK.f19in['wlvac']
+        self.wl_20     = self.RK.f20in['wl']
+        self.wlvac_20  = self.RK.f20in['wlvac']
+        self.cgf_12    = self.RK.f12in['cgf'].copy()
+        self.gf_14     = self.RK.f14in['gf'].copy()
+        self.gflog_14  = self.RK.f14in['gflog'].copy()
+        self.gf_19     = self.RK.f19in['gf'].copy()
+        self.gf_20     = self.RK.f20in['gf'].copy()
+        self.gflog_20  = self.RK.f20in['gflog'].copy()
         self.gammaw_12 = self.RK.f12in['gammaw']
         self.gammas_12 = self.RK.f12in['gammas']
         self.gammar_12 = self.RK.f12in['gammar']
         self.gammaw_14 = self.RK.f14in['gammaw']
         self.gammas_14 = self.RK.f14in['gammas']
         self.gammar_14 = self.RK.f14in['gammar']
-        self.gw_14 = self.RK.f14in['gw']
-        self.gr_14 = self.RK.f14in['gr']
-        self.gs_14 = self.RK.f14in['gs']
-
+        self.gw_14     = self.RK.f14in['gw']
+        self.gr_14     = self.RK.f14in['gr']
+        self.gs_14     = self.RK.f14in['gs']
         self.gammaw_19 = self.RK.f19in['gammaw']
         self.gammas_19 = self.RK.f19in['gammas']
         self.gammar_19 = self.RK.f19in['gammar']
         self.gammaw_20 = self.RK.f20in['gammaw']
         self.gammas_20 = self.RK.f20in['gammas']
         self.gammar_20 = self.RK.f20in['gammar']
-        self.gw_20 = self.RK.f20in['gw']
-        self.gr_20 = self.RK.f20in['gr']
-        self.gs_20 = self.RK.f20in['gs']
+        self.gw_20     = self.RK.f20in['gw']
+        self.gr_20     = self.RK.f20in['gr']
+        self.gs_20     = self.RK.f20in['gs']
 
 
     def initfiles(self,):
