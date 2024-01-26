@@ -3,7 +3,7 @@ import numpy as np
 from datetime import datetime
 from collections import Counter
 import warnings
-warnings.filterwarnings('error')
+# warnings.filterwarnings('error')
 
 class AdjKurucz(object):
     def __init__(self, *args, **kwargs):
