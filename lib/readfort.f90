@@ -359,20 +359,20 @@ module readfort
             EPi(I) = EP
 
             ! Craete label strings
-            ! WRITE(SLABEL,'(A8)') LABEL(1)
-            ! SLABEL = SLABEL//c_null_char
-            ! K = 1
-            ! DO J=1,8
-            !   LABELi(J,I) = SLABEL(K:K)
-            !   K = K + 1
-            ! END DO
-            ! WRITE(SLABEL,'(A2)') LABEL(2)
-            ! SLABEL = SLABEL//c_null_char
-            ! K = 1
-            ! DO J=9,10
-            !   LABELi(J,I) = SLABEL(K:K)
-            !   K = K + 1
-            ! END DO
+            WRITE(SLABEL,'(A8)') LABEL(1)
+            SLABEL = SLABEL//c_null_char
+            K = 1
+            DO J=1,8
+              LABELi(J,I) = SLABEL(K:K)
+              K = K + 1
+            END DO
+            WRITE(SLABEL,'(A2)') LABEL(2)
+            SLABEL = SLABEL//c_null_char
+            K = 1
+            DO J=9,10
+              LABELi(J,I) = SLABEL(K:K)
+              K = K + 1
+            END DO
             LABELx(1,I) = LABEL(1)
             LABELx(2,I) = LABEL(2)
 
