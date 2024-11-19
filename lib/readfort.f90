@@ -376,21 +376,23 @@ module readfort
             LABELx(1,I) = LABEL(1)
             LABELx(2,I) = LABEL(2)
 
+            WRITE(6,*)LABELx
+
             ! Craete label strings
-            ! WRITE(SLABEL,'(A8)') LABELP(1)
-            ! SLABEL = SLABEL//c_null_char
-            ! K = 1
-            ! DO J=1,8
-            !   LABELPi(J,I) = SLABEL(K:K)
-            !   K = K + 1
-            ! END DO
-            ! WRITE(SLABEL,'(A2)') LABELP(2)
-            ! SLABEL = SLABEL//c_null_char
-            ! K = 1
-            ! DO J=9,10
-            !   LABELPi(J,I) = SLABEL(K:K)
-            !   K = K + 1
-            ! END DO
+            WRITE(SLABEL,'(A8)') LABELP(1)
+            SLABEL = SLABEL//c_null_char
+            K = 1
+            DO J=1,8
+              LABELPi(J,I) = SLABEL(K:K)
+              K = K + 1
+            END DO
+            WRITE(SLABEL,'(A2)') LABELP(2)
+            SLABEL = SLABEL//c_null_char
+            K = 1
+            DO J=9,10
+              LABELPi(J,I) = SLABEL(K:K)
+              K = K + 1
+            END DO
             LABELPx(1,I) = LABELP(1)
             LABELPx(2,I) = LABELP(2)
 

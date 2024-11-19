@@ -1,4 +1,4 @@
-FC = ifort
+FC = ifx
 FFLAGS = -shared -fPIC
 
 readfort:
