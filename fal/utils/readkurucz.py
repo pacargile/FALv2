@@ -308,15 +308,17 @@ class ReadKurucz(object):
             ISOSHIFTi.ctypes.data_as(c_int_p),    
             EXTRA3i.ctypes.data_as(c_float_p),
             )
+        
+        print(LABELi)
+        
+        # convert ctype char into python string
+        x = np.array([''.join(LABELi[i,:].tobytes('F').decode('ascii')) for i in range(self.nlines12)])
+        x = ''.join(x)
+        LABELi = np.array(list(map(''.join, zip(*[iter(x)]*10))))
 
-        # # convert ctype char into python string
-        # x = np.array([''.join(LABELi[i,:].tobytes('F').decode('ascii')) for i in range(self.nlines12)])
-        # x = ''.join(x)
-        # LABELi = np.array(list(map(''.join, zip(*[iter(x)]*10))))
-
-        # x = np.array([''.join(LABELPi[i,:].tobytes('F').decode('ascii')) for i in range(self.nlines12)])
-        # x = ''.join(x)
-        # LABELPi = np.array(list(map(''.join, zip(*[iter(x)]*10))))
+        x = np.array([''.join(LABELPi[i,:].tobytes('F').decode('ascii')) for i in range(self.nlines12)])
+        x = ''.join(x)
+        LABELPi = np.array(list(map(''.join, zip(*[iter(x)]*10))))
 
         # x = np.array([''.join(REFi[i,:].tobytes('F').decode('ascii')) for i in range(self.nlines12)])
         # x = ''.join(x)
