@@ -376,8 +376,6 @@ module readfort
             LABELx(1,I) = LABEL(1)
             LABELx(2,I) = LABEL(2)
 
-            WRITE(6,*)LABELx
-
             ! Craete label strings
             WRITE(SLABEL,'(A8)') LABELP(1)
             SLABEL = SLABEL//c_null_char
