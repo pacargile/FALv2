@@ -197,202 +197,364 @@ class ReadKurucz(object):
         s_i  = '{0}'.format(f14path)
         sb_i    = bytes(s_i,encoding='ascii')
 
-        # initialize variables for ctypes to fill 
-        WLi       = np.zeros(self.nlines12,dtype=np.float64)
-        Ei        = np.zeros(self.nlines12,dtype=np.float64)
-        EPi       = np.zeros(self.nlines12,dtype=np.float64)
+        n = int(self.nlines12)
 
-        LABELi    = np.zeros((self.nlines12,10),dtype='str')
-        LABELPi   = np.zeros((self.nlines12,10),dtype='str')
-        LABELx    = np.zeros((2,self.nlines12),dtype=np.float64)
-        LABELPx   = np.zeros((2,self.nlines12),dtype=np.float64)
+        WLi = np.zeros(n, dtype=np.float64)
+        Ei  = np.zeros(n, dtype=np.float64)
+        EPi = np.zeros(n, dtype=np.float64)
 
-        # OTHER1i   = np.zeros((self.nlines12,10),dtype='str')
-        # OTHER2i   = np.zeros((self.nlines12,10),dtype='str')
+        # character buffers (Fortran expects 10×n and 5×n of bytes)
+        LABELi   = np.empty((10, n), dtype=np.uint8)
+        LABELPi  = np.empty((10, n), dtype=np.uint8)
+        REFi     = np.empty((5,  n), dtype=np.uint8)
+        IXFIXFPi = np.empty((n,),    dtype=np.uint8)
+        AUTOi    = np.empty((n,),    dtype=np.uint8)
 
-        ISHIFTi   = np.zeros(self.nlines12,dtype=np.int32)
-        ISHIFTPi  = np.zeros(self.nlines12,dtype=np.int32)
-        IXFIXFPi  = np.zeros(self.nlines12,dtype='str')
-        LINESIZEi = np.zeros(self.nlines12,dtype=np.int32)
-        AUTOi     = np.zeros(self.nlines12,dtype='str')
+        # numeric “x” versions stay as doubles
+        LABELx  = np.zeros((2, n), dtype=np.float64)
+        LABELPx = np.zeros((2, n), dtype=np.float64)
 
-        OTHER1x   = np.zeros((2,self.nlines12),dtype=np.float64)
-        OTHER2x   = np.zeros((2,self.nlines12),dtype=np.float64)
+        ISHIFTi   = np.zeros(n, dtype=np.int32)
+        ISHIFTPi  = np.zeros(n, dtype=np.int32)
+        LINESIZEi = np.zeros(n, dtype=np.int32)
 
-        WLVACi    = np.zeros(self.nlines12,dtype=np.float64)
-        CENTERi   = np.zeros(self.nlines12,dtype=np.float64)
-        CONCENi   = np.zeros(self.nlines12,dtype=np.float64)
-        NELIONi   = np.zeros(self.nlines12,dtype=np.int32)
-        GAMMARi   = np.zeros(self.nlines12,dtype=np.float32)
-        GAMMASi   = np.zeros(self.nlines12,dtype=np.float32)
-        GAMMAWi   = np.zeros(self.nlines12,dtype=np.float32)
-        REFi      = np.zeros((self.nlines12,5),dtype='str')
-        REFx      = np.zeros(self.nlines12,dtype=np.float32)
-        NBLOi     = np.zeros(self.nlines12,dtype=np.int32)
-        NBUPi     = np.zeros(self.nlines12,dtype=np.int32)
-        ISO1i     = np.zeros(self.nlines12,dtype=np.int32)
-        X1i       = np.zeros(self.nlines12,dtype=np.float32)
-        ISO2i     = np.zeros(self.nlines12,dtype=np.int32)
-        X2i       = np.zeros(self.nlines12,dtype=np.float32)
-        GFLOGi    = np.zeros(self.nlines12,dtype=np.float32)
-        XJi       = np.zeros(self.nlines12,dtype=np.float32)
-        XJPi      = np.zeros(self.nlines12,dtype=np.float32)
-        CODEi     = np.zeros(self.nlines12,dtype=np.float32)
-        ELOi      = np.zeros(self.nlines12,dtype=np.float32)
-        GFi       = np.zeros(self.nlines12,dtype=np.float32)
-        GSi       = np.zeros(self.nlines12,dtype=np.float32)
-        GRi       = np.zeros(self.nlines12,dtype=np.float32)
-        GWi       = np.zeros(self.nlines12,dtype=np.float32)
-        DWLi      = np.zeros(self.nlines12,dtype=np.float32)
-        DGFLOGi   = np.zeros(self.nlines12,dtype=np.float32)
-        DGAMMARi  = np.zeros(self.nlines12,dtype=np.float32)
-        DGAMMASi  = np.zeros(self.nlines12,dtype=np.float32)
-        DGAMMAWi  = np.zeros(self.nlines12,dtype=np.float32)
-        DWLISOi   = np.zeros(self.nlines12,dtype=np.float32)
-        ISOSHIFTi = np.zeros(self.nlines12,dtype=np.int32)
-        EXTRA3i   = np.zeros(self.nlines12,dtype=np.float32)
+        OTHER1x = np.zeros((2, n), dtype=np.float64)
+        OTHER2x = np.zeros((2, n), dtype=np.float64)
+
+        WLVACi  = np.zeros(n, dtype=np.float64)
+        CENTERi = np.zeros(n, dtype=np.float64)
+        CONCENi = np.zeros(n, dtype=np.float64)
+        NELIONi = np.zeros(n, dtype=np.int32)
+
+        GAMMARi = np.zeros(n, dtype=np.float32)
+        GAMMASi = np.zeros(n, dtype=np.float32)
+        GAMMAWi = np.zeros(n, dtype=np.float32)
+
+        REFx   = np.zeros(n, dtype=np.float32)
+        NBLOi  = np.zeros(n, dtype=np.int32)
+        NBUPi  = np.zeros(n, dtype=np.int32)
+        ISO1i  = np.zeros(n, dtype=np.int32)
+        X1i    = np.zeros(n, dtype=np.float32)
+        ISO2i  = np.zeros(n, dtype=np.int32)
+        X2i    = np.zeros(n, dtype=np.float32)
+        GFLOGi = np.zeros(n, dtype=np.float32)
+        XJi    = np.zeros(n, dtype=np.float32)
+        XJPi   = np.zeros(n, dtype=np.float32)
+        CODEi  = np.zeros(n, dtype=np.float32)
+        ELOi   = np.zeros(n, dtype=np.float32)
+        GFi    = np.zeros(n, dtype=np.float32)
+        GSi    = np.zeros(n, dtype=np.float32)
+        GRi    = np.zeros(n, dtype=np.float32)
+        GWi    = np.zeros(n, dtype=np.float32)
+        DWLi   = np.zeros(n, dtype=np.float32)
+        DGFLOGi   = np.zeros(n, dtype=np.float32)
+        DGAMMARi  = np.zeros(n, dtype=np.float32)
+        DGAMMASi  = np.zeros(n, dtype=np.float32)
+        DGAMMAWi  = np.zeros(n, dtype=np.float32)
+        DWLISOi   = np.zeros(n, dtype=np.float32)
+        ISOSHIFTi = np.zeros(n, dtype=np.int32)
+        EXTRA3i   = np.zeros(n, dtype=np.float32)
 
         self.rfort.readfile14_20(
-            c_char_p(sb_i), 
-            c_int(self.nlines12),
-            WLi.ctypes.data_as(c_double_p),    
-            Ei.ctypes.data_as(c_double_p),    
-            EPi.ctypes.data_as(c_double_p),    
-            LABELi.ctypes.data_as(c_char_p),
-            LABELx.ctypes.data_as(c_double_p),  
-            LABELPi.ctypes.data_as(c_char_p),
-            LABELPx.ctypes.data_as(c_double_p),  
+            c_char_p(sb_i),
+            c_int(n),
+            WLi.ctypes.data_as(c_double_p),
+            Ei.ctypes.data_as(c_double_p),
+            EPi.ctypes.data_as(c_double_p),
 
-            # OTHER1i.ctypes.data_as(c_int_p),
-            # OTHER2i.ctypes.data_as(c_char_p),
+            LABELi.ctypes.data_as(POINTER(c_char)),   # was c_char_p
+            LABELx.ctypes.data_as(c_double_p),
+            LABELPi.ctypes.data_as(POINTER(c_char)),  # was c_char_p
+            LABELPx.ctypes.data_as(c_double_p),
 
             ISHIFTi.ctypes.data_as(c_int_p),
             ISHIFTPi.ctypes.data_as(c_int_p),
-            IXFIXFPi.ctypes.data_as(c_char_p),
+            IXFIXFPi.ctypes.data_as(POINTER(c_char)), # was c_char_p (and wrong dtype)
             LINESIZEi.ctypes.data_as(c_int_p),
-            AUTOi.ctypes.data_as(c_char_p),
+            AUTOi.ctypes.data_as(POINTER(c_char)),    # was c_char_p
 
-            OTHER1x.ctypes.data_as(c_double_p),    
-            OTHER2x.ctypes.data_as(c_double_p),  
-              
-            WLVACi.ctypes.data_as(c_double_p),    
-            CENTERi.ctypes.data_as(c_double_p),    
-            CONCENi.ctypes.data_as(c_double_p),    
-            NELIONi.ctypes.data_as(c_int_p),    
-            GAMMARi.ctypes.data_as(c_float_p),    
-            GAMMASi.ctypes.data_as(c_float_p),    
-            GAMMAWi.ctypes.data_as(c_float_p),    
-            REFi.ctypes.data_as(c_char_p),     
-            REFx.ctypes.data_as(c_float_p),    
-            NBLOi.ctypes.data_as(c_int_p),    
-            NBUPi.ctypes.data_as(c_int_p),    
-            ISO1i.ctypes.data_as(c_int_p),    
-            X1i.ctypes.data_as(c_float_p),    
-            ISO2i.ctypes.data_as(c_int_p),    
-            X2i.ctypes.data_as(c_float_p),    
-            GFLOGi.ctypes.data_as(c_float_p),    
-            XJi.ctypes.data_as(c_float_p),    
-            XJPi.ctypes.data_as(c_float_p),    
-            CODEi.ctypes.data_as(c_float_p),    
-            ELOi.ctypes.data_as(c_float_p),    
-            GFi.ctypes.data_as(c_float_p),    
-            GSi.ctypes.data_as(c_float_p),    
-            GRi.ctypes.data_as(c_float_p),    
-            GWi.ctypes.data_as(c_float_p),    
-            DWLi.ctypes.data_as(c_float_p),    
-            DGFLOGi.ctypes.data_as(c_float_p),    
-            DGAMMARi.ctypes.data_as(c_float_p),    
-            DGAMMASi.ctypes.data_as(c_float_p),    
-            DGAMMAWi.ctypes.data_as(c_float_p),    
-            DWLISOi.ctypes.data_as(c_float_p),    
-            ISOSHIFTi.ctypes.data_as(c_int_p),    
+            OTHER1x.ctypes.data_as(c_double_p),
+            OTHER2x.ctypes.data_as(c_double_p),
+
+            WLVACi.ctypes.data_as(c_double_p),
+            CENTERi.ctypes.data_as(c_double_p),
+            CONCENi.ctypes.data_as(c_double_p),
+            NELIONi.ctypes.data_as(c_int_p),
+            GAMMARi.ctypes.data_as(c_float_p),
+            GAMMASi.ctypes.data_as(c_float_p),
+            GAMMAWi.ctypes.data_as(c_float_p),
+
+            REFi.ctypes.data_as(POINTER(c_char)),     # was c_char_p
+            REFx.ctypes.data_as(c_float_p),
+
+            NBLOi.ctypes.data_as(c_int_p),
+            NBUPi.ctypes.data_as(c_int_p),
+            ISO1i.ctypes.data_as(c_int_p),
+            X1i.ctypes.data_as(c_float_p),
+            ISO2i.ctypes.data_as(c_int_p),
+            X2i.ctypes.data_as(c_float_p),
+            GFLOGi.ctypes.data_as(c_float_p),
+            XJi.ctypes.data_as(c_float_p),
+            XJPi.ctypes.data_as(c_float_p),
+            CODEi.ctypes.data_as(c_float_p),
+            ELOi.ctypes.data_as(c_float_p),
+            GFi.ctypes.data_as(c_float_p),
+            GSi.ctypes.data_as(c_float_p),
+            GRi.ctypes.data_as(c_float_p),
+            GWi.ctypes.data_as(c_float_p),
+            DWLi.ctypes.data_as(c_float_p),
+            DGFLOGi.ctypes.data_as(c_float_p),
+            DGAMMARi.ctypes.data_as(c_float_p),
+            DGAMMASi.ctypes.data_as(c_float_p),
+            DGAMMAWi.ctypes.data_as(c_float_p),
+            DWLISOi.ctypes.data_as(c_float_p),
+            ISOSHIFTi.ctypes.data_as(c_int_p),
             EXTRA3i.ctypes.data_as(c_float_p),
-            )
-                
-        # convert ctype char into python string
-        x = np.array([''.join(LABELi[i,:].tobytes('F').decode('ascii')) for i in range(self.nlines12)])
-        x = ''.join(x)
-        LABELi = np.array(list(map(''.join, zip(*[iter(x)]*10))))
+        )
 
-        x = np.array([''.join(LABELPi[i,:].tobytes('F').decode('ascii')) for i in range(self.nlines12)])
-        x = ''.join(x)
-        LABELPi = np.array(list(map(''.join, zip(*[iter(x)]*10))))
+        # bytes(10,n) -> Unicode arrays length 10
+        _lbl  = np.ascontiguousarray(LABELi.T)   # (n,10)
+        _lblp = np.ascontiguousarray(LABELPi.T)  # (n,10)
+        _ref  = np.ascontiguousarray(REFi.T)     # (n,5)
 
-        # x = np.array([''.join(REFi[i,:].tobytes('F').decode('ascii')) for i in range(self.nlines12)])
-        # x = ''.join(x)
-        # REFi = np.array(list(map(''.join, zip(*[iter(x)]*5))))
+        label  = _lbl.view('S10').ravel().astype('U10')
+        labelp = _lblp.view('S10').ravel().astype('U10')
+        ref    = _ref.view('S5').ravel().astype('U5')
 
-        # IXFIXFPi = np.array([IXFIXFPi[ii].tobytes('F').decode('ascii') for ii in range(self.nlines12)])
-        # AUTOi = np.array([AUTOi[ii].tobytes('F').decode('ascii') for ii in range(self.nlines12)])
-
-        # for ii in range(10):
-        #     print(ISHIFTi[ii], ISHIFTPi[ii],IXFIXFPi[ii],LINESIZEi[ii],AUTOi[ii])
-
-        # x = np.array([''.join(OTHER1i[i,:].tobytes('F').decode('ascii')) for i in range(self.nlines12)])
-        # x = ''.join(x)
-        # OTHER1i = np.array(list(map(''.join, zip(*[iter(x)]*10))))
-
-        # x = np.array([''.join(OTHER2i[i,:].tobytes('F').decode('ascii')) for i in range(self.nlines12)])
-        # x = ''.join(x)
-        # OTHER2i = np.array(list(map(''.join, zip(*[iter(x)]*10))))
-
-        # for ii in range(10):
-        #     print(OTHER2i[ii])
-
-
-        # OTHER1x = np.array([[x for x in ISHIFTi],[x for x in ISHIFTPi]])
-
-        output = ({
-            'wl':WLi, # input wavelength
-            'e':Ei, # first energy level
-            'ep':EPi, # second energy level
-            'label':LABELi, # first level label
-            'labelx':LABELx, # unformatted first level label
-            'labelp':LABELPi, # second level label
-            'labelpx':LABELPx, # unformatted second level label
-            # 'other1':OTHER1i, # Other1 info
-            # 'other2':OTHER2i, # Other2 info
-            'ishift':ISHIFTi,
-            'ishiftp':ISHIFTPi,
-            'ixfixfp':IXFIXFPi,
-            'linesize':LINESIZEi,
-            'auto':AUTOi,
-            'other1x':OTHER1x, # Other1 info unformatted
-            'other2x':OTHER2x, # Other2 info unformatted
-            'wlvac':WLVACi, # wavelength in vacuum
-            'center':CENTERi, # Intensity at center nu
-            'concen':CONCENi, # Continuum at central nu
-            'nelion':NELIONi, # Index for specific element
-            'gammar':GAMMARi, # unlogged and shifted Gamma R
-            'gammas':GAMMASi, # unlogged and shifted Gamma S
-            'gammaw':GAMMAWi, # unlogged and shifted Gamma W
-            'ref':REFi, # Reference for line
-            'refx':REFx, # Unformatted reference for line
-            'nblo':NBLOi, # Departure coeff for lower level
-            'nbup':NBUPi, # Departure coeff for upper level
-            'iso1':ISO1i, # Isotopic number for level 1
-            'x1':X1i, # Log of fractional isotopic abundance for level 1
-            'iso2':ISO2i, # Isotopic number for level 2
-            'x2':X2i, # Log of fractional isotopic abundance for level 2
-            'gflog':GFLOGi, # log(gf)
-            'xj':XJi, # angular momentum of first level
-            'xjp':XJPi, # angular momentum of second level
-            'code':CODEi, # numeric code for line species
-            'elo':ELOi, # lower energy level
-            'gf':GFi, # log(gf) -> unlogged with shifts applied
-            'gs':GSi, # log damping constant 
-            'gr':GRi, # log damping constant 
-            'gw':GWi, # log damping constant 
-            'dwl':DWLi, # shift in wl
-            'dgflog':DGFLOGi, # shift in log(gf)
-            'dgammar':DGAMMARi, # shift in dampling constants 
-            'dgammas':DGAMMASi, # shift in dampling constants
-            'dgammaw':DGAMMAWi, # shift in dampling constants
-            'dwliso':DWLISOi, # shift in isotopic wl shift
-            'isoshift':ISOSHIFTi, # isotopic shift
-            'extra3':EXTRA3i, # extra information
-        })
+        output = {
+            'wl': WLi, 'e': Ei, 'ep': EPi,
+            'label': label,          # <-- decoded
+            'labelx': LABELx,
+            'labelp': labelp,        # <-- decoded
+            'labelpx': LABELPx,
+            'ishift': ISHIFTi, 'ishiftp': ISHIFTPi,
+            'ixfixfp': IXFIXFPi, 'linesize': LINESIZEi, 'auto': AUTOi,
+            'other1x': OTHER1x, 'other2x': OTHER2x,
+            'wlvac': WLVACi, 'center': CENTERi, 'concen': CONCENi,
+            'nelion': NELIONi, 'gammar': GAMMARi, 'gammas': GAMMASi, 'gammaw': GAMMAWi,
+            'ref': ref,              # <-- decoded
+            'refx': REFx,
+            'nblo': NBLOi, 'nbup': NBUPi, 'iso1': ISO1i, 'x1': X1i,
+            'iso2': ISO2i, 'x2': X2i, 'gflog': GFLOGi, 'xj': XJi, 'xjp': XJPi,
+            'code': CODEi, 'elo': ELOi, 'gf': GFi, 'gs': GSi, 'gr': GRi, 'gw': GWi,
+            'dwl': DWLi, 'dgflog': DGFLOGi, 'dgammar': DGAMMARi, 'dgammas': DGAMMASi,
+            'dgammaw': DGAMMAWi, 'dwliso': DWLISOi, 'isoshift': ISOSHIFTi, 'extra3': EXTRA3i,
+        }
         return output
+
+        # n = int(self.nlines12)
+
+        # # initialize variables for ctypes to fill 
+        # WLi       = np.zeros(self.nlines12,dtype=np.float64)
+        # Ei        = np.zeros(self.nlines12,dtype=np.float64)
+        # EPi       = np.zeros(self.nlines12,dtype=np.float64)
+
+        # # commented out and replace the following 5 lines
+        # LABELi   = np.empty((10, n), dtype=np.uint8)
+        # LABELPi  = np.empty((10, n), dtype=np.uint8)
+        # REFi     = np.empty((5,  n), dtype=np.uint8)
+        # IXFIXFPi = np.empty((n,),   dtype=np.uint8)
+        # AUTOi    = np.empty((n,),   dtype=np.uint8)
+
+        # # LABELi    = np.zeros((self.nlines12,10),dtype='str')
+        # LABELx    = np.zeros((2,self.nlines12),dtype=np.float64)
+        # # LABELPi   = np.zeros((self.nlines12,10),dtype='str')
+        # LABELPx   = np.zeros((2,self.nlines12),dtype=np.float64)
+
+        # # OTHER1i   = np.zeros((self.nlines12,10),dtype='str')
+        # # OTHER2i   = np.zeros((self.nlines12,10),dtype='str')
+
+        # ISHIFTi   = np.zeros(self.nlines12,dtype=np.int32)
+        # ISHIFTPi  = np.zeros(self.nlines12,dtype=np.int32)
+        # # IXFIXFPi  = np.zeros(self.nlines12,dtype='str')
+        # LINESIZEi = np.zeros(self.nlines12,dtype=np.int32)
+        # # AUTOi     = np.zeros(self.nlines12,dtype='str')
+
+        # OTHER1x   = np.zeros((2,self.nlines12),dtype=np.float64)
+        # OTHER2x   = np.zeros((2,self.nlines12),dtype=np.float64)
+
+        # WLVACi    = np.zeros(self.nlines12,dtype=np.float64)
+        # CENTERi   = np.zeros(self.nlines12,dtype=np.float64)
+        # CONCENi   = np.zeros(self.nlines12,dtype=np.float64)
+        # NELIONi   = np.zeros(self.nlines12,dtype=np.int32)
+        # GAMMARi   = np.zeros(self.nlines12,dtype=np.float32)
+        # GAMMASi   = np.zeros(self.nlines12,dtype=np.float32)
+        # GAMMAWi   = np.zeros(self.nlines12,dtype=np.float32)
+        # # REFi      = np.zeros((self.nlines12,5),dtype='str')
+        # REFx      = np.zeros(self.nlines12,dtype=np.float32)
+        # NBLOi     = np.zeros(self.nlines12,dtype=np.int32)
+        # NBUPi     = np.zeros(self.nlines12,dtype=np.int32)
+        # ISO1i     = np.zeros(self.nlines12,dtype=np.int32)
+        # X1i       = np.zeros(self.nlines12,dtype=np.float32)
+        # ISO2i     = np.zeros(self.nlines12,dtype=np.int32)
+        # X2i       = np.zeros(self.nlines12,dtype=np.float32)
+        # GFLOGi    = np.zeros(self.nlines12,dtype=np.float32)
+        # XJi       = np.zeros(self.nlines12,dtype=np.float32)
+        # XJPi      = np.zeros(self.nlines12,dtype=np.float32)
+        # CODEi     = np.zeros(self.nlines12,dtype=np.float32)
+        # ELOi      = np.zeros(self.nlines12,dtype=np.float32)
+        # GFi       = np.zeros(self.nlines12,dtype=np.float32)
+        # GSi       = np.zeros(self.nlines12,dtype=np.float32)
+        # GRi       = np.zeros(self.nlines12,dtype=np.float32)
+        # GWi       = np.zeros(self.nlines12,dtype=np.float32)
+        # DWLi      = np.zeros(self.nlines12,dtype=np.float32)
+        # DGFLOGi   = np.zeros(self.nlines12,dtype=np.float32)
+        # DGAMMARi  = np.zeros(self.nlines12,dtype=np.float32)
+        # DGAMMASi  = np.zeros(self.nlines12,dtype=np.float32)
+        # DGAMMAWi  = np.zeros(self.nlines12,dtype=np.float32)
+        # DWLISOi   = np.zeros(self.nlines12,dtype=np.float32)
+        # ISOSHIFTi = np.zeros(self.nlines12,dtype=np.int32)
+        # EXTRA3i   = np.zeros(self.nlines12,dtype=np.float32)
+
+        # self.rfort.readfile14_20(
+        #     c_char_p(sb_i), 
+        #     c_int(self.nlines12),
+        #     WLi.ctypes.data_as(c_double_p),    
+        #     Ei.ctypes.data_as(c_double_p),    
+        #     EPi.ctypes.data_as(c_double_p),    
+
+        #     # pass LABELi and LABELPi as pointers
+                        
+        #     # LABELi.ctypes.data_as(c_char_p),
+        #     LABELi.ctypes.data_as(POINTER(c_char)),
+        #     LABELx.ctypes.data_as(c_double_p),  
+        #     # LABELPi.ctypes.data_as(c_char_p),
+        #     LABELPi.ctypes.data_as(POINTER(c_char)),
+        #     LABELPx.ctypes.data_as(c_double_p),  
+
+        #     # OTHER1i.ctypes.data_as(c_int_p),
+        #     # OTHER2i.ctypes.data_as(c_char_p),
+
+        #     ISHIFTi.ctypes.data_as(c_int_p),
+        #     ISHIFTPi.ctypes.data_as(c_int_p),
+        #     # IXFIXFPi.ctypes.data_as(c_char_p),
+        #     IXFIXFPi.ctypes.data_as(POINTER(c_char)),
+        #     LINESIZEi.ctypes.data_as(c_int_p),
+        #     # AUTOi.ctypes.data_as(c_char_p),
+        #     AUTOi.ctypes.data_as(POINTER(c_char)),
+
+        #     OTHER1x.ctypes.data_as(c_double_p),    
+        #     OTHER2x.ctypes.data_as(c_double_p),  
+              
+        #     WLVACi.ctypes.data_as(c_double_p),    
+        #     CENTERi.ctypes.data_as(c_double_p),    
+        #     CONCENi.ctypes.data_as(c_double_p),    
+        #     NELIONi.ctypes.data_as(c_int_p),    
+        #     GAMMARi.ctypes.data_as(c_float_p),    
+        #     GAMMASi.ctypes.data_as(c_float_p),    
+        #     GAMMAWi.ctypes.data_as(c_float_p),    
+        #     # REFi.ctypes.data_as(c_char_p),     
+        #     REFi.ctypes.data_as(POINTER(c_char)),
+        #     REFx.ctypes.data_as(c_float_p),    
+        #     NBLOi.ctypes.data_as(c_int_p),    
+        #     NBUPi.ctypes.data_as(c_int_p),    
+        #     ISO1i.ctypes.data_as(c_int_p),    
+        #     X1i.ctypes.data_as(c_float_p),    
+        #     ISO2i.ctypes.data_as(c_int_p),    
+        #     X2i.ctypes.data_as(c_float_p),    
+        #     GFLOGi.ctypes.data_as(c_float_p),    
+        #     XJi.ctypes.data_as(c_float_p),    
+        #     XJPi.ctypes.data_as(c_float_p),    
+        #     CODEi.ctypes.data_as(c_float_p),    
+        #     ELOi.ctypes.data_as(c_float_p),    
+        #     GFi.ctypes.data_as(c_float_p),    
+        #     GSi.ctypes.data_as(c_float_p),    
+        #     GRi.ctypes.data_as(c_float_p),    
+        #     GWi.ctypes.data_as(c_float_p),    
+        #     DWLi.ctypes.data_as(c_float_p),    
+        #     DGFLOGi.ctypes.data_as(c_float_p),    
+        #     DGAMMARi.ctypes.data_as(c_float_p),    
+        #     DGAMMASi.ctypes.data_as(c_float_p),    
+        #     DGAMMAWi.ctypes.data_as(c_float_p),    
+        #     DWLISOi.ctypes.data_as(c_float_p),    
+        #     ISOSHIFTi.ctypes.data_as(c_int_p),    
+        #     EXTRA3i.ctypes.data_as(c_float_p),
+        #     )
+
+        # # convert ctype char into python string
+        # x = np.array([''.join(LABELi[i,:].tobytes('F').decode('ascii')) for i in range(self.nlines12)])
+        # x = ''.join(x)
+        # LABELi = np.array(list(map(''.join, zip(*[iter(x)]*10))))
+
+        # x = np.array([''.join(LABELPi[i,:].tobytes('F').decode('ascii')) for i in range(self.nlines12)])
+        # x = ''.join(x)
+        # LABELPi = np.array(list(map(''.join, zip(*[iter(x)]*10))))
+
+        # # x = np.array([''.join(REFi[i,:].tobytes('F').decode('ascii')) for i in range(self.nlines12)])
+        # # x = ''.join(x)
+        # # REFi = np.array(list(map(''.join, zip(*[iter(x)]*5))))
+
+        # # IXFIXFPi = np.array([IXFIXFPi[ii].tobytes('F').decode('ascii') for ii in range(self.nlines12)])
+        # # AUTOi = np.array([AUTOi[ii].tobytes('F').decode('ascii') for ii in range(self.nlines12)])
+
+        # # for ii in range(10):
+        # #     print(ISHIFTi[ii], ISHIFTPi[ii],IXFIXFPi[ii],LINESIZEi[ii],AUTOi[ii])
+
+        # # x = np.array([''.join(OTHER1i[i,:].tobytes('F').decode('ascii')) for i in range(self.nlines12)])
+        # # x = ''.join(x)
+        # # OTHER1i = np.array(list(map(''.join, zip(*[iter(x)]*10))))
+
+        # # x = np.array([''.join(OTHER2i[i,:].tobytes('F').decode('ascii')) for i in range(self.nlines12)])
+        # # x = ''.join(x)
+        # # OTHER2i = np.array(list(map(''.join, zip(*[iter(x)]*10))))
+
+        # # for ii in range(10):
+        # #     print(OTHER2i[ii])
+
+
+        # # OTHER1x = np.array([[x for x in ISHIFTi],[x for x in ISHIFTPi]])
+
+        # output = ({
+        #     'wl':WLi, # input wavelength
+        #     'e':Ei, # first energy level
+        #     'ep':EPi, # second energy level
+        #     'label':LABELi, # first level label
+        #     'labelx':LABELx, # unformatted first level label
+        #     'labelp':LABELPi, # second level label
+        #     'labelpx':LABELPx, # unformatted second level label
+        #     # 'other1':OTHER1i, # Other1 info
+        #     # 'other2':OTHER2i, # Other2 info
+        #     'ishift':ISHIFTi,
+        #     'ishiftp':ISHIFTPi,
+        #     'ixfixfp':IXFIXFPi,
+        #     'linesize':LINESIZEi,
+        #     'auto':AUTOi,
+        #     'other1x':OTHER1x, # Other1 info unformatted
+        #     'other2x':OTHER2x, # Other2 info unformatted
+        #     'wlvac':WLVACi, # wavelength in vacuum
+        #     'center':CENTERi, # Intensity at center nu
+        #     'concen':CONCENi, # Continuum at central nu
+        #     'nelion':NELIONi, # Index for specific element
+        #     'gammar':GAMMARi, # unlogged and shifted Gamma R
+        #     'gammas':GAMMASi, # unlogged and shifted Gamma S
+        #     'gammaw':GAMMAWi, # unlogged and shifted Gamma W
+        #     'ref':REFi, # Reference for line
+        #     'refx':REFx, # Unformatted reference for line
+        #     'nblo':NBLOi, # Departure coeff for lower level
+        #     'nbup':NBUPi, # Departure coeff for upper level
+        #     'iso1':ISO1i, # Isotopic number for level 1
+        #     'x1':X1i, # Log of fractional isotopic abundance for level 1
+        #     'iso2':ISO2i, # Isotopic number for level 2
+        #     'x2':X2i, # Log of fractional isotopic abundance for level 2
+        #     'gflog':GFLOGi, # log(gf)
+        #     'xj':XJi, # angular momentum of first level
+        #     'xjp':XJPi, # angular momentum of second level
+        #     'code':CODEi, # numeric code for line species
+        #     'elo':ELOi, # lower energy level
+        #     'gf':GFi, # log(gf) -> unlogged with shifts applied
+        #     'gs':GSi, # log damping constant 
+        #     'gr':GRi, # log damping constant 
+        #     'gw':GWi, # log damping constant 
+        #     'dwl':DWLi, # shift in wl
+        #     'dgflog':DGFLOGi, # shift in log(gf)
+        #     'dgammar':DGAMMARi, # shift in dampling constants 
+        #     'dgammas':DGAMMASi, # shift in dampling constants
+        #     'dgammaw':DGAMMAWi, # shift in dampling constants
+        #     'dwliso':DWLISOi, # shift in isotopic wl shift
+        #     'isoshift':ISOSHIFTi, # isotopic shift
+        #     'extra3':EXTRA3i, # extra information
+        # })
+        # return output
 
     def readfort19(self,f19path):
 
